@@ -1,0 +1,12 @@
+{
+  "name": "eye-tracking",
+  "version": "0.0.1",
+  "dependencies": {
+    "bridjs": "^0.5.6",
+    "express": "^4.15.3",
+    "log4js": "^1.1.1",
+    "myclass": "^1.0.2",
+    "socket.io": "^2.0.3"
+  },
+  "devDependencies": {}
+}

@@ -1,0 +1,9 @@
+<div appGazeCursor></div>
+
+<div class="text-container">
+  <div class="text" *ngIf="text">
+      <span appWord *ngFor="let word of text" class="text-unread-word">
+        {{word}}
+      </span>
+  </div>
+</div>

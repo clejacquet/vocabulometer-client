@@ -1,0 +1,27 @@
+.text-container {
+  width: 900px;
+  margin: auto;
+}
+
+.text {
+  font-family: 'Raleway', sans-serif;
+  font-size: 2em;
+  line-height: 140%;
+}
+
+.text-unread-word {
+  color: black;
+}
+
+.text-read-word {
+  color: red
+}
+
+#gaze-cursor {
+  background-color: rgba(255, 2, 2, 0.5);
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  border-radius: 32px;
+  z-index: 1;
+}
