@@ -1,0 +1,15 @@
+.text-unread-word {
+  color: black;
+}
+
+.text-read-word {
+  color: red
+}
+
+.text-read-word-inactive {
+  color: black;
+}
+
+.text-read-word-active {
+  color: red;
+}

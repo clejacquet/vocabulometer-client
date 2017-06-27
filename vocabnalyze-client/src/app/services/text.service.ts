@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { texts } from './text.mockup';
 import { Http } from '@angular/http';
 
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/toPromise';
 
 
@@ -11,8 +11,13 @@ export class TextService {
   constructor(private http: Http) {}
 
   getText(): Promise<string> {
-    const text_id = Math.floor(Math.random() * texts.length);
-    return this.loadText(text_id);
+    return this.loadText(0);
+  }
+
+  getMockupText(): Promise<string> {
+    return this.http.get('/assets/Sleeping Beauty.txt')
+      .map((res: any) => res.text())
+      .toPromise();
   }
 
   private loadText(id: number): Promise<string> {

@@ -1,0 +1,14 @@
+.settings-pane {
+  width: calc(100% - 40px);
+  padding: 20px;
+  background-color: #414141;
+  border-radius: 3px;
+  margin-bottom: 10px;
+}
+
+.param-control-group {
+  width: 350px;
+  margin: auto;
+  padding: 20px;
+  overflow: auto;
+}

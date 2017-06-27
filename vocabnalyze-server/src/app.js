@@ -10,7 +10,7 @@ const app = express();
 module.exports = (cb) => {
 	// HTTP UTILS MIDDLEWARES LOADING
 
-	const publicDirectory = '../vocabnalyze-client/dist';
+	const publicDirectory = '../../vocabnalyze-client/dist';
 
 	app.use(favicon(path.join(__dirname, publicDirectory, 'favicon.ico')));
 	app.use(logger('dev'));

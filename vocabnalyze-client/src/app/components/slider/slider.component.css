@@ -1,0 +1,27 @@
+.slider {
+  margin-left: 30px;
+  float: left;
+  width: 150px;
+}
+
+.slider-cursor {
+  position: relative;
+  left: 0;
+  top: -6px;
+  width: 18px;
+  height: 18px;
+  border-radius: 12px;
+  background-color: white;
+  border: 3px solid grey;
+}
+
+.slider-bar {
+  position: relative;
+  left: 3px;
+  top: 10px;
+  width: 100%;
+  height: 4px;
+  border: 2px solid #cccccc;
+  border-radius: 2px;
+  background-color: white;
+}

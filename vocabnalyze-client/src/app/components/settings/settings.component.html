@@ -1,0 +1,8 @@
+<div class="settings-pane">
+  <div class="param-control-group" *ngFor="let control of controls">
+    <app-spinner [title]="control.title"
+                 [unit]="control.unit"
+                 [valueHandler]="control.value"></app-spinner>
+    <app-slider></app-slider>
+  </div>
+</div>

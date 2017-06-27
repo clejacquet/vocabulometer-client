@@ -1,0 +1,18 @@
+<app-gaze-cursor></app-gaze-cursor>
+
+<div id="side-pane">
+  <div id="side-pane-title">
+    Settings
+  </div>
+
+  <app-settings></app-settings>
+  <app-debug></app-debug>
+</div>
+
+<div class="text-container">
+  <div class="text" *ngIf="text"
+       [style.font-size]="settings.fontSizeValue.normalizedValue() + 'em'"
+       [style.line-height]="settings.lineSpaceValue.normalizedValue() + '%'">
+      <app-word *ngFor="let word of text" [word]="word" [readWordsHandler]="readWordsHandler"></app-word>
+  </div>
+</div>

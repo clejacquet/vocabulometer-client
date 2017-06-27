@@ -65,10 +65,6 @@ export class GazeService {
     this.subscribers.push(cb);
   };
 
-  getPosition(): number[] {
-    return [this.mean_x, this.mean_y];
-  }
-
   private addNewCoordinates(leftX, leftY, rightX, rightY): void {
     const old_mean_x = this.mean_x;
     const old_mean_y = this.mean_y;
