@@ -21,3 +21,41 @@
 .title-text + .title-text {
   margin-left: 16px;
 }
+
+.debug-mouse-mode-button {
+  position: relative;
+  display: block;
+  margin: 20px auto 0 auto;
+  height: 96px;
+  width: 216px;
+}
+
+.debug-mouse-mode-button-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 3px;
+  border: 1px solid #212121;
+  background: #515151 url("/assets/mouse.png") no-repeat 50% 30%;
+}
+
+.debug-mouse-mode-button-title {
+  position: relative;
+  top: 60px;
+  color: #e4e4e4;
+  margin: 10px 0 18px 8px;
+  font-family: 'Raleway', sans-serif;
+  font-size: 1em;
+}
+
+.debug-mouse-mode-button-img > img {
+  margin: 19px;
+}
+
+.debug-mouse-mode-button > input {
+  display: none;
+}
+
+.debug-mouse-mode-button > input:checked + .debug-mouse-mode-button-img {
+  background-color: #717171;
+}

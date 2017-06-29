@@ -1,8 +1,20 @@
-export class ParameterHandler<T> {
+export abstract class ParameterHandler<T, U = T> {
+  static buildDefault<T>(value: T): ParameterHandler<T> {
+    return new DefaultParameterHandler(value);
+  }
+
   constructor(public value: T) {}
+
+  public abstract compute(): U;
 }
 
-export class ParameterRangeHandler extends ParameterHandler<number> {
+class DefaultParameterHandler<T> extends ParameterHandler<T> {
+  compute(): T {
+    return this.value;
+  }
+}
+
+export class ParameterRangeHandler extends DefaultParameterHandler<number> {
   constructor(value: number, public min: number, public max: number, public step: number) {
     super(value);
   }

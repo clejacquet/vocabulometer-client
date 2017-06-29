@@ -3,4 +3,15 @@
     <label class="title-text"> RETICULE VISIBLE <input type="checkbox" [(ngModel)]="reticleHandler.value" name="reticule-visible"/></label>
     <label class="title-text"> SHOWING READ WORDS <input type="checkbox" [(ngModel)]="readWordsHandler.value" name="read-words-visible"/></label>
   </div>
+
+  <div>
+    <label class="debug-mouse-mode-button">
+      <input type="checkbox" [(ngModel)]="mouseModeHandler.value" />
+      <span class="debug-mouse-mode-button-img">
+        <span class="debug-mouse-mode-button-title">
+          Mouse Mode {{(mouseModeHandler.value) ? 'Active' : 'Inactive'}}
+        </span>
+      </span>
+    </label>
+  </div>
 </div>

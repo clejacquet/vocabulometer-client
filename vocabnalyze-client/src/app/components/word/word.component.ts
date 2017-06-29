@@ -1,8 +1,8 @@
 import { AfterViewInit, Component, ElementRef, Input } from '@angular/core';
 import { Circle, MeasurementService } from '../../services/measurement.service';
 import { VocabService } from '../../services/vocab.service';
-import { GazeService } from '../../services/gaze.service';
 import { ParameterHandler } from '../parameter-control';
+import { GazeService } from '../../services/gaze.service';
 
 @Component({
   selector: 'app-word',

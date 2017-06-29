@@ -9,11 +9,11 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
 import { SliderComponent } from './components/slider/slider.component';
 import { DebugComponent } from './components/debug/debug.component';
 import { WordComponent } from './components/word/word.component';
+import { GazeCursorComponent } from './components/gaze-cursor/gaze-cursor.component';
 
-import { GazeService } from './services/gaze.service';
 import { MeasurementService } from './services/measurement.service';
 import { VocabService } from './services/vocab.service';
-import { GazeCursorComponent } from './components/gaze-cursor/gaze-cursor.component';
+import { GazeService } from './services/gaze.service';
 
 
 @NgModule({

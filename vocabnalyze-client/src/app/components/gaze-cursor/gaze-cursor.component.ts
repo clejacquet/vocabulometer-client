@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef } from '@angular/core';
-import { GazeService } from '../../services/gaze.service';
 import { ParameterHandler } from '../parameter-control';
+import { GazeService } from '../../services/gaze.service';
 
 @Component({
   selector: 'app-gaze-cursor',
@@ -16,7 +16,6 @@ export class GazeCursorComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.circleEl = this.el.nativeElement.firstChild;
-
 
     this.gazeService.subscribe((coords) => {
       if (coords.type === 'position') {

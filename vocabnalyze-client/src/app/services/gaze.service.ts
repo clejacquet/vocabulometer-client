@@ -1,10 +1,12 @@
+import { GazeSourceEmitter } from '../gaze/gaze-source-emitter';
 import { Injectable } from '@angular/core';
-import * as io from 'socket.io-client';
+import { GazeSourceTarget } from '../gaze/gaze-source-target';
+import { GazeMouseSourceEmitter } from '../gaze/gaze-mouse-source-emitter';
+import { GazeRemoteSourceEmitter } from '../gaze/gaze-remote-source-emitter';
+import { ParameterHandler } from '../components/parameter-control';
 
 @Injectable()
-export class GazeService {
-  private subscribers: any[] = [];
-
+export class GazeService implements GazeSourceTarget {
   private  mean_x = 0;
   private  mean_y = 0;
 
@@ -27,6 +29,13 @@ export class GazeService {
   private VARIANCE_THRESHOLD = 50;
   private FIXATION_MIN_DURATION = 100; // minimum duration of a fixation in milliseconds
 
+  private gazeSourceEmitters: GazeSourceEmitter[] = [
+    new GazeRemoteSourceEmitter('http://localhost:3000/'),
+    new GazeMouseSourceEmitter()
+  ];
+
+  private usedProviderHandler: ParameterHandler<boolean>;
+
   // Detects eyes blinking
   // Returns :
   // 0 : no blinking
@@ -47,74 +56,27 @@ export class GazeService {
     return 0;
   }
 
-  start(): void {
-    const socket = io('http://localhost:3000');
-    socket.on('coordinates', (xl, yl, xr, yr) => {
-      this.update(xl, yl, xr, yr);
+  start(usedProviderHandler: ParameterHandler<boolean>): void {
+    this.usedProviderHandler = usedProviderHandler;
+
+    this.gazeSourceEmitters.forEach((gse) => {
+      gse.start(this);
     });
+  }
 
-    const updateRoutine = () => {
-      socket.emit('updateRequest');
-      setTimeout(updateRoutine, 8);
-    };
-
-    updateRoutine();
-  };
-
-  subscribe(cb): void {
-    this.subscribers.push(cb);
-  };
-
-  private addNewCoordinates(leftX, leftY, rightX, rightY): void {
-    const old_mean_x = this.mean_x;
-    const old_mean_y = this.mean_y;
-
-    const old_var1 = this.var1;
-    const old_var2 = this.var2;
-
-    this.updateArrays(leftX, leftY, rightX, rightY);
-    this.updateCursor();
-
-    this.subscribers.forEach((cb) => {
-      cb({
-        type: 'position',
-        x: this.mean_x,
-        y: this.mean_y,
-        var_x: this.var1,
-        var_y: this.var2
-      });
-    });
-
-    if (this.var1 + this.var2 > this.VARIANCE_THRESHOLD) {
-      const d = new Date();
-      const t = d.getTime();
-
-      if (t - this.clearBufferTime > this.FIXATION_MIN_DURATION) {
-        this.subscribers.forEach((cb) => {
-          cb({
-            type: 'fixation',
-            x: old_mean_x,
-            y: old_mean_y,
-            var_x: old_var1,
-            var_y: old_var2
-          });
-        });
-      }
-
-      this.clearBufferTime = t;
-
-      this.bufferX.length = 0;
-      this.bufferY.length = 0;
-
-      this.X_it = 0;
-      this.Y_it = 0;
-
-      this.updateArrays(leftX, leftY, rightX, rightY);
-
+  onMessage(emitter: GazeSourceEmitter, msg: any, cb: Function): void {
+    if (this.gazeSourceEmitters[(this.usedProviderHandler.value) ? 1 : 0] === emitter) {
+      this.update(msg.lx, msg.ly, msg.rx, msg.ry, cb);
     }
   }
 
-  private update(leftX, leftY, rightX, rightY): void {
+  subscribe(cb: Function): void {
+    this.gazeSourceEmitters.forEach((gse) => {
+      gse.subscribe(cb);
+    })
+  }
+
+  private update(leftX: number, leftY: number, rightX: number, rightY: number, cb: Function): void {
     const blinkValue = GazeService.eyeBlink(leftX, leftY, rightX, rightY);
 
     // Filtering eyes blinking
@@ -140,7 +102,52 @@ export class GazeService {
       rightX = rightX * screen.width - xoffset;
       rightY = rightY * screen.height - yoffset;
 
-      this.addNewCoordinates(leftX, leftY, rightX, rightY);
+      this.addNewCoordinates(leftX, leftY, rightX, rightY, cb);
+    }
+  }
+
+  private addNewCoordinates(leftX, leftY, rightX, rightY, cb): void {
+    const old_mean_x = this.mean_x;
+    const old_mean_y = this.mean_y;
+
+    const old_var1 = this.var1;
+    const old_var2 = this.var2;
+
+    this.updateArrays(leftX, leftY, rightX, rightY);
+    this.updateCursor();
+
+    cb({
+      type: 'position',
+      x: this.mean_x,
+      y: this.mean_y,
+      var_x: this.var1,
+      var_y: this.var2
+    });
+
+    if (this.var1 + this.var2 > this.VARIANCE_THRESHOLD) {
+      const d = new Date();
+      const t = d.getTime();
+
+      if (t - this.clearBufferTime > this.FIXATION_MIN_DURATION) {
+        cb({
+          type: 'fixation',
+          x: old_mean_x,
+          y: old_mean_y,
+          var_x: old_var1,
+          var_y: old_var2
+        });
+      }
+
+      this.clearBufferTime = t;
+
+      this.bufferX.length = 0;
+      this.bufferY.length = 0;
+
+      this.X_it = 0;
+      this.Y_it = 0;
+
+      this.updateArrays(leftX, leftY, rightX, rightY);
+
     }
   }
 

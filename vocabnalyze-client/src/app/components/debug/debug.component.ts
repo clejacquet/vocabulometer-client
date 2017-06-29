@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {ParameterHandler} from '../parameter-control';
+import { Component, OnInit } from '@angular/core';
+import { ParameterHandler } from '../parameter-control';
 
 @Component({
   selector: 'app-debug',
@@ -9,10 +9,12 @@ import {ParameterHandler} from '../parameter-control';
 export class DebugComponent implements OnInit {
   reticleHandler: ParameterHandler<boolean>;
   readWordsHandler: ParameterHandler<boolean>;
+  mouseModeHandler: ParameterHandler<boolean>;
 
   constructor() {
-    this.reticleHandler = new ParameterHandler(true);
-    this.readWordsHandler = new ParameterHandler(true);
+    this.reticleHandler = ParameterHandler.buildDefault(false);
+    this.readWordsHandler = ParameterHandler.buildDefault(false);
+    this.mouseModeHandler = ParameterHandler.buildDefault(false);
   }
 
   ngOnInit() {

@@ -13,6 +13,8 @@
   <div class="text" *ngIf="text"
        [style.font-size]="settings.fontSizeValue.normalizedValue() + 'em'"
        [style.line-height]="settings.lineSpaceValue.normalizedValue() + '%'">
-      <app-word *ngFor="let word of text" [word]="word" [readWordsHandler]="readWordsHandler"></app-word>
+      <app-word *ngFor="let word of text"
+                [word]="word"
+                [readWordsHandler]="readWordsHandler"></app-word>
   </div>
 </div>

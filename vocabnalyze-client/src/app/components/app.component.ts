@@ -2,12 +2,15 @@ import {
   AfterViewInit,
   Component, OnInit, ViewChild
 } from '@angular/core';
+
 import { TextService } from '../services/text.service';
-import { GazeService } from '../services/gaze.service';
+
 import { SettingsComponent } from './settings/settings.component';
 import { DebugComponent } from './debug/debug.component';
 import { GazeCursorComponent } from './gaze-cursor/gaze-cursor.component';
+
 import { ParameterHandler } from './parameter-control';
+import { GazeService } from '../services/gaze.service';
 
 @Component({
   selector: 'app-root',
@@ -23,7 +26,8 @@ export class AppComponent implements OnInit, AfterViewInit {
   @ViewChild(DebugComponent) debug: DebugComponent;
   @ViewChild(GazeCursorComponent) gazeCursor: GazeCursorComponent;
 
-  constructor(private textService: TextService, private gazeService: GazeService) {}
+  constructor(private textService: TextService,
+              private gazeService: GazeService) {}
 
   ngOnInit(): void {
     // Loading the text
@@ -38,9 +42,11 @@ export class AppComponent implements OnInit, AfterViewInit {
           .catch(error2 => console.log(error2));
       });
 
-    this.gazeService.start();
+
+
+    this.gazeService.start(this.debug.mouseModeHandler);
     this.gazeCursor.handler = this.debug.reticleHandler;
-    this.readWordsHandler = this.debug.readWordsHandler
+    this.readWordsHandler = this.debug.readWordsHandler;
   }
 
   ngAfterViewInit(): void {
