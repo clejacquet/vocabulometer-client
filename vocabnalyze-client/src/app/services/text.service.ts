@@ -10,19 +10,15 @@ import 'rxjs/add/operator/toPromise';
 export class TextService {
   constructor(private http: Http) {}
 
-  getText(): Promise<string> {
-    return this.loadText(0);
-  }
-
-  getMockupText(): Promise<string> {
-    return this.http.get('/assets/Sleeping Beauty.txt')
-      .map((res: any) => res.text())
+  getText(): Promise<any> {
+    return this.http.get('/api/texts/' + '595afc646d8f2a4ffc4b8bf8')
+      .map((res: any) => res.json().text)
       .toPromise();
   }
 
-  private loadText(id: number): Promise<string> {
-    return this.http.get('/api/texts/' + id)
-                    .map((res: any) => res.json().text)
-                    .toPromise();
+  getMockupText(): Promise<any> {
+    return this.http.get('/assets/SleepingBeauty.json')
+      .map((res: any) => res.json())
+      .toPromise();
   }
 }

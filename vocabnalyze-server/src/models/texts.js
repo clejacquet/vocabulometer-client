@@ -1,7 +1,10 @@
-module.exports = (mongoose) => {
+module.exports = (mongoose, models) => {
 	const textSchema = mongoose.Schema({
 		id: Number,
-		text: String
+		text: {
+			title: String,
+			body: [mongoose.Schema.Types.Mixed]
+		}
 	});
 
 	return mongoose.model('Text', textSchema);

@@ -7,6 +7,8 @@ import { ParameterHandler } from '../parameter-control';
   styleUrls: ['./debug.component.css']
 })
 export class DebugComponent implements OnInit {
+  paneClasses: any;
+
   reticleHandler: ParameterHandler<boolean>;
   readWordsHandler: ParameterHandler<boolean>;
   mouseModeHandler: ParameterHandler<boolean>;
@@ -18,6 +20,9 @@ export class DebugComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.paneClasses = {
+      'debug-pane': true,
+      'closed-pane': true
+    }
   }
 }

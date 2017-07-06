@@ -1,4 +1,4 @@
-<div class="debug-pane">
+<div [ngClass]="paneClasses">
   <div>
     <label class="title-text"> RETICULE VISIBLE <input type="checkbox" [(ngModel)]="reticleHandler.value" name="reticule-visible"/></label>
     <label class="title-text"> SHOWING READ WORDS <input type="checkbox" [(ngModel)]="readWordsHandler.value" name="read-words-visible"/></label>
@@ -15,3 +15,7 @@
     </label>
   </div>
 </div>
+
+<!--<button class="pane-toggle-button">-->
+  <!--<img src="assets/settings.png" />-->
+<!--</button>-->

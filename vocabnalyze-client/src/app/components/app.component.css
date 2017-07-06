@@ -7,21 +7,78 @@
   font-family: 'Raleway', sans-serif;
 }
 
+.text-title {
+  display: block;
+  margin-top: 40px;
+  margin-bottom: 10px;
+  font-family: 'Raleway', sans-serif;
+  font-size: 4em;
+}
+
 #side-pane-title {
   color: #e4e4e4;
-  margin: 10px 0 18px 8px;
+  margin: 18px 0 22px 8px;
   font-family: 'Raleway', sans-serif;
   font-size: 1.2em;
   text-align: center;
 }
 
-#side-pane {
+.side-pane-button input {
+  display: none;
+  width: 100%;
+  height: 100%;
+}
+
+.side-pane-inner-button {
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  top: 15px;
+  left: calc(100% - 15px - 32px);
+  background: url("/assets/close.png") no-repeat center;
+  background-size: 32px 32px;
+  overflow: hidden;
+}
+
+.side-pane-inner-button input {
+  display: none;
+  width: 100%;
+  height: 100%;
+}
+
+.side-pane-button {
+  width: 64px;
+  height: 64px;
   position: fixed;
+  top: 12px;
+  right: 12px;
+  background: url("/assets/settings.png") no-repeat center;
+  background-size: 64px 64px;
+  z-index: 1;
+}
+
+#side-pane {
   width: 430px;
-  padding: 10px 15px 10px 15px;
-  right: 0;
+  position: fixed;
   top: 0;
   bottom: 0;
   background-color: #2c2c2c;
-  z-index: 1;
+  z-index: 2;
+}
+
+.side-pane-container {
+  position: relative;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+
+.opened-pane {
+  width: 430px;
+}
+
+.closed-pane {
+  width: 0;
 }

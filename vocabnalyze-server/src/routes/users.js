@@ -36,4 +36,17 @@ router.post('/', (req, res, next) => {
 	});
 });
 
+router.get('/:uid/similartexts', (req, res, next) => {
+	req.models.users.getSimilarTexts(req.body.uid, (err, result) => {
+		if (err) {
+			return next(err);
+		}
+
+		res.status(200);
+		res.json({
+			texts: result
+		});
+	});
+});
+
 module.exports = router;

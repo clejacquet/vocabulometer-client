@@ -10,10 +10,9 @@ module.exports = (cb) => {
 	db.once('open', () => {
 		mongoose.connection.db.eval('db.loadServerScripts()');
 
-		const models = {
-			texts: require('./models/texts')(mongoose),
-			users: require('./models/users')(mongoose)
-		};
+		const models = {};
+		models.texts = require('./models/texts')(mongoose, models);
+		models.users = require('./models/users')(mongoose, models);
 
 		cb(models);
 	});

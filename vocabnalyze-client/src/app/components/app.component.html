@@ -1,20 +1,28 @@
 <app-gaze-cursor></app-gaze-cursor>
 
-<div id="side-pane">
-  <div id="side-pane-title">
-    Settings
+<div id="side-pane" [@widthTransition]="(paneClasses) ? 'open' : 'closed'">
+  <div class="side-pane-container">
+    <div id="side-pane-title">
+      Settings
+    </div>
+    <label class="side-pane-inner-button"><input type="checkbox" [(ngModel)]="paneClasses" /></label>
+    <app-settings></app-settings>
+    <app-debug></app-debug>
   </div>
-
-  <app-settings></app-settings>
-  <app-debug></app-debug>
 </div>
 
-<div class="text-container">
-  <div class="text" *ngIf="text"
+<label class="side-pane-button"><input type="checkbox" [(ngModel)]="paneClasses" /></label>
+
+<div *ngIf="text" class="text-container">
+  <span class="text-title">{{text.title}}</span>
+
+  <div  class="text"
        [style.font-size]="settings.fontSizeValue.normalizedValue() + 'em'"
        [style.line-height]="settings.lineSpaceValue.normalizedValue() + '%'">
-      <app-word *ngFor="let word of text"
-                [word]="word"
-                [readWordsHandler]="readWordsHandler"></app-word>
+
+    <p *ngFor="let paragraph of text.body">
+      <app-word *ngFor="let sequence of paragraph" [readWordsHandler]="readWordsHandler" [word]="sequence[0]">{{sequence[1]}}</app-word>
+    </p>
+
   </div>
 </div>

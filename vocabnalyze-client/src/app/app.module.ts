@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
@@ -14,6 +15,7 @@ import { GazeCursorComponent } from './components/gaze-cursor/gaze-cursor.compon
 import { MeasurementService } from './services/measurement.service';
 import { VocabService } from './services/vocab.service';
 import { GazeService } from './services/gaze.service';
+import { ParserService } from './services/parser.service';
 
 
 @NgModule({
@@ -28,6 +30,7 @@ import { GazeService } from './services/gaze.service';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     HttpModule,
     FormsModule
   ],
@@ -35,7 +38,8 @@ import { GazeService } from './services/gaze.service';
   providers: [
     GazeService,
     MeasurementService,
-    VocabService
+    VocabService,
+    ParserService
   ]
 })
 export class AppModule { }
