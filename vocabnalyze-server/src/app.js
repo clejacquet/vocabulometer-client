@@ -3,9 +3,15 @@ const path = require('path');
 const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
+const cookieSession = require('cookie-session');
 const bodyParser = require('body-parser');
 
 const app = express();
+
+
+const authPath = [
+	'/text'
+];
 
 module.exports = (cb) => {
 	// HTTP UTILS MIDDLEWARES LOADING
@@ -17,8 +23,17 @@ module.exports = (cb) => {
 	app.use(bodyParser.json());
 	app.use(bodyParser.urlencoded({ extended: true }));
 	app.use(cookieParser());
-	app.use(express.static(path.join(__dirname, publicDirectory)));
+	app.use(cookieSession({
+		name: 'session',
+		secret: 'efe5s3fs5f4e5s5c55e5segrgrg2s3',
+		maxAge: 24 * 60 * 60 * 1000
+	}));
 
+	app.use((req, res, next) => {
+		next();
+	});
+
+	app.use(express.static(path.join(__dirname, publicDirectory)));
 
   // MODELS LOADING
 
@@ -28,13 +43,30 @@ module.exports = (cb) => {
 			next();
 		});
 
+		// PASSPORT LOADING
+
+		const passport = require('./passport')(models);
+		app.use(passport.initialize());
+		app.use(passport.session());
+
+
+		// AUTH PROTECTION
+
+		app.use((req, res, next) => {
+			if (authPath.includes(req.path) && !req.isAuthenticated()) {
+				return res.redirect('/');
+			}
+
+			next();
+		});
+
 
     // ROUTES LOADING
 
 		const router = express.Router();
 
-		const users = require('./routes/users');
-		const texts = require('./routes/texts');
+		const users = require('./routes/users')(passport);
+		const texts = require('./routes/texts')(passport);
 
 		router.use('/users', users);
 		router.use('/texts', texts);
@@ -44,10 +76,8 @@ module.exports = (cb) => {
     // ERROR MIDDLEWARE LOADING
 
     // catch 404 and forward to error handler
-		app.use((req, res, next) => {
-			const err = new Error('Not Found');
-			err.status = 404;
-			next(err);
+		app.use((req, res) => {
+			res.sendFile(path.join(__dirname, publicDirectory, '/index.html'));
 		});
 
     // error handler

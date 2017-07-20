@@ -13,3 +13,7 @@
 .text-read-word-active {
   color: red;
 }
+
+.text-important-word {
+  font-weight: bold;
+}

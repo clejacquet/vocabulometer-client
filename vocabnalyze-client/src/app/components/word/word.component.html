@@ -1,1 +1,3 @@
-<span [class]="((read) ? 'text-read-word' : 'text-unread-word' ) + ' ' + ((readWordsHandler.value) ? '' : 'text-read-word-inactive')">{{word}}</span><ng-content></ng-content>
+<span [class]="((read) ? 'text-read-word' : 'text-unread-word' ) + ' ' +
+               ((readWordsHandler.value) ? '' : 'text-read-word-inactive') + ' ' +
+               ((!isStopWord && readWordsHandler.value) ? 'text-important-word' : '')">{{word}}</span><ng-content></ng-content>

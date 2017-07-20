@@ -10,9 +10,11 @@ import 'rxjs/add/operator/toPromise';
 export class TextService {
   constructor(private http: Http) {}
 
-  getText(): Promise<any> {
-    return this.http.get('/api/texts/' + '595afc646d8f2a4ffc4b8bf8')
-      .map((res: any) => res.json().text)
+  getText(textId): Promise<any> {
+    return this.http.get('/api/texts/' + textId)
+      .map((res: any) => {
+        return res.json().text;
+      })
       .toPromise();
   }
 

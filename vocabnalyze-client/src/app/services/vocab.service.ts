@@ -6,8 +6,8 @@ export class VocabService {
 
   constructor(private http: Http) {}
 
-  saveWord(word: String): Promise<boolean> {
-    return this.http.post('/api/users/5947ee5fdc63dabbe8bbe083/word/', {
+  saveWord(userId: string, word: string): Promise<boolean> {
+    return this.http.post('/api/users/' + userId + '/word/', {
       word: word
     })
       .map((res: any) => res.json().status === 'success')

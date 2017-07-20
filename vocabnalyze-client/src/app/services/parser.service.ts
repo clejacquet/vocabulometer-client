@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class ParserService {
-  stopWords = [
+  static StopWords = [
     'a',
     'about',
     'above',
@@ -182,10 +182,6 @@ export class ParserService {
     const text = textDoc.reduce((acc, token) => {
       switch (token.token) {
         case 'WORD':
-          if (this.stopWords.includes(token.value.toLowerCase())) {
-            acc[1][acc[1].length - 1] += ' ' + token.value;
-            return acc
-          }
           acc[0].push(token.value);
           acc[1].push('');
           return acc;

@@ -3,19 +3,25 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './components/app.component';
+import { TextComponent } from './components/text/text.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { SliderComponent } from './components/slider/slider.component';
 import { DebugComponent } from './components/debug/debug.component';
 import { WordComponent } from './components/word/word.component';
 import { GazeCursorComponent } from './components/gaze-cursor/gaze-cursor.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
+import { IndexComponent } from './components/index/index.component';
+import { GraphComponent } from './components/graph/graph.component';
 
 import { MeasurementService } from './services/measurement.service';
 import { VocabService } from './services/vocab.service';
 import { GazeService } from './services/gaze.service';
 import { ParserService } from './services/parser.service';
+import { AuthService } from './services/auth.service';
 
 
 @NgModule({
@@ -26,20 +32,33 @@ import { ParserService } from './services/parser.service';
     SliderComponent,
     DebugComponent,
     GazeCursorComponent,
-    WordComponent
+    WordComponent,
+    TextComponent,
+    NotFoundComponent,
+    IndexComponent,
+    GraphComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     HttpModule,
-    FormsModule
+    FormsModule,
+    RouterModule.forRoot([
+      { path: '', component: IndexComponent },
+      { path: 'text/:id', component: TextComponent },
+      { path: 'graph', component: GraphComponent },
+      { path: '404', component: NotFoundComponent },
+
+      { path: '**', redirectTo: '/404' }
+    ])
   ],
   bootstrap: [AppComponent],
   providers: [
     GazeService,
     MeasurementService,
     VocabService,
-    ParserService
+    ParserService,
+    AuthService
   ]
 })
 export class AppModule { }

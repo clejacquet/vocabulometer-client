@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+mongoose.Promise = require('bluebird');
 
 module.exports = (cb) => {
 	const connectionString = 'mongodb://localhost/vocabnalyze';
@@ -13,6 +14,7 @@ module.exports = (cb) => {
 		const models = {};
 		models.texts = require('./models/texts')(mongoose, models);
 		models.users = require('./models/users')(mongoose, models);
+		models.toObjectID = id => mongoose.Types.ObjectId(id);
 
 		cb(models);
 	});

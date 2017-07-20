@@ -1,5 +1,5 @@
 module.exports = (mongoose, models) => {
-	const textSchema = mongoose.Schema({
+	const textSchema = new mongoose.Schema({
 		id: Number,
 		text: {
 			title: String,

@@ -1,28 +1,25 @@
-<app-gaze-cursor></app-gaze-cursor>
+<div class="app-navbar">
+  <a class="home-link" routerLink="/"></a>
+  <div class="user-button">
 
-<div id="side-pane" [@widthTransition]="(paneClasses) ? 'open' : 'closed'">
-  <div class="side-pane-container">
-    <div id="side-pane-title">
-      Settings
+
+    <div *ngIf="userHandler.value; else logbutton">
+      <div class="graph-link">
+        <a routerLink="/graph"><img src="/assets/graph.png" /></a>
+      </div>
+      <img src="/assets/user.png" />
+      <span>
+        {{userHandler.value.name}}
+      </span>
     </div>
-    <label class="side-pane-inner-button"><input type="checkbox" [(ngModel)]="paneClasses" /></label>
-    <app-settings></app-settings>
-    <app-debug></app-debug>
+
+    <ng-template #logbutton>
+      <img src="/assets/user.png" />
+      <span>Log in</span>
+    </ng-template>
   </div>
 </div>
 
-<label class="side-pane-button"><input type="checkbox" [(ngModel)]="paneClasses" /></label>
-
-<div *ngIf="text" class="text-container">
-  <span class="text-title">{{text.title}}</span>
-
-  <div  class="text"
-       [style.font-size]="settings.fontSizeValue.normalizedValue() + 'em'"
-       [style.line-height]="settings.lineSpaceValue.normalizedValue() + '%'">
-
-    <p *ngFor="let paragraph of text.body">
-      <app-word *ngFor="let sequence of paragraph" [readWordsHandler]="readWordsHandler" [word]="sequence[0]">{{sequence[1]}}</app-word>
-    </p>
-
-  </div>
+<div class="app-content">
+  <router-outlet></router-outlet>
 </div>
