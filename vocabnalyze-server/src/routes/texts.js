@@ -1,9 +1,25 @@
 const express = require('express');
 const router = express.Router();
 const fs = require('fs');
-const Lexer = require('lex');
 
 module.exports = (passport) => {
+	router.get('/', passport.isLoggedIn, (req, res, next) => {
+		req.models.texts.find({}, ['text'], {
+			sort: {
+				'text.title': 1
+			}
+		}, (err, result) => {
+			if (err) {
+				return next(err);
+			}
+
+			res.status(200);
+			res.json({
+				texts: result
+			});
+		})
+	});
+
 	router.get('/:id', passport.isLoggedIn, (req, res, next) => {
 		req.models.texts.findOne({ _id: req.params.id }, (err, result) => {
 			if (err) {
@@ -11,10 +27,7 @@ module.exports = (passport) => {
 			}
 
 			if (!result) {
-				res.status(404);
-				return res.json({
-					error: 'Not Found'
-				});
+				return next(new Error('Not Found'));
 			}
 
 			res.status(200);
@@ -24,69 +37,41 @@ module.exports = (passport) => {
 		});
 	});
 
-	router.post('/', (req, res, next) => {
-		const lexer = new Lexer((char) => {
-			next('Error while analyzing \'' + char + '\'');
-		});
-
-		let quotationZone = false;
-
-		lexer
-			.addRule(/\.\.\./, lexeme => { return { token: 'TRIPLE POINT', value: lexeme } })
-			.addRule(/\./, lexeme => { return  { token: 'POINT', value: lexeme } })
-			.addRule(/,/, lexeme => { return  { token: 'COMMA', value: lexeme } })
-			.addRule(/'/, lexeme => { return  { token: 'APOSTROPHE', value: lexeme } })
-			.addRule(/"/, lexeme => {
-				const val = { token: ((quotationZone) ? 'OPEN' : 'CLOSE') + ' QUOTATION', value: lexeme };
-				quotationZone = !quotationZone;
-				return val;
-			})
-			.addRule(/:/, lexeme => { return  { token: 'COLON', value: lexeme } })
-			.addRule(/;/, lexeme => { return  { token: 'SEMI-COLON', value: lexeme } })
-			.addRule(/\?/, lexeme => { return  { token: 'QUESTION', value: lexeme } })
-			.addRule(/!/, lexeme => { return  { token: 'EXCLAMATION', value: lexeme } })
-			.addRule(/-/, lexeme => { return  { token: 'DASH', value: lexeme } })
-			.addRule(/\(/, lexeme => { return  { token: 'OPEN PARENTHESE', value: lexeme } })
-			.addRule(/\)/, lexeme => { return { token: 'CLOSE PARENTHESE', value: lexeme } })
-			.addRule(/\[/, lexeme => { return { token: 'OPEN BRACKET', value: lexeme } })
-			.addRule(/]/, lexeme => { return { token: 'CLOSE BRACKET', value: lexeme } })
-			.addRule(/[0-9]+/, lexeme => { return { token: 'NUMBER', value: lexeme } })
-			.addRule(/[a-zA-ZÀ-ÿ'-]+/, lexeme => { return { token: 'WORD', value: lexeme } })
-			.addRule(/\n/, lexeme => { return { token: 'RETURN', value: lexeme } })
-			.addRule(/\s/, lexeme => { return { token: 'SPACE', value: lexeme } })
-			.addRule(/./, lexeme => { return { token: 'UNDEFINED', value: lexeme } });
-
-		lexer.setInput(req.body.text);
-
-		let results = [];
-
-		let result;
-		while (result = lexer.lex()) {
-			results.push(result);
-		}
-
-		results = results
-			.filter(token => !(token.token === 'SPACE' || token.token === 'UNDEFINED'))
-			.reduce((acc, token) => {
-				try {
-					if (token.token === 'RETURN') {
-						acc.push([]);
-					} else {
-						acc[acc.length - 1].push(token);
-					}
-				} catch (err) {
-					console.error(err);
-				}
-
-				return acc;
-			}, [[]]);
-
-		req.models.texts.create({
-			text: {
-				title: req.body.title,
-				body: results
+	router.put('/:id/text', passport.isLoggedIn, (req, res, next) => {
+		req.models.texts.loadAndModifyText(req.params.id, req.body.text, (err, result) => {
+			if (err) {
+				return next(err);
 			}
-		}, (err) => {
+
+			res.status(200);
+			res.json(result);
+		})
+	});
+
+	router.put('/:id/title', passport.isLoggedIn, (req, res, next) => {
+		req.models.texts.modifyTitle(req.params.id, req.body.title, (err, result) => {
+			if (err) {
+				return next(err);
+			}
+
+			res.status(200);
+			res.json(result);
+		})
+	});
+
+	router.delete('/:id', passport.isLoggedIn, (req, res, next) => {
+		req.models.texts.deleteOne({ _id: req.params.id }, (err, result) => {
+			if (err) {
+				return next(err);
+			}
+
+			res.status(200);
+			res.json(result);
+		});
+	});
+
+	router.post('/', (req, res, next) => {
+		req.models.texts.loadAndCreateText(req.body.title, req.body.text, (err, results) => {
 			if (err) {
 				return next(err);
 			}
@@ -95,8 +80,6 @@ module.exports = (passport) => {
 				text: results
 			});
 		});
-
-
 	});
 
 	return router;

@@ -14,25 +14,30 @@ import { ParserService } from '../../services/parser.service';
 export class WordComponent implements AfterViewInit {
   @Input() word: string;
   @Input() readWordsHandler: ParameterHandler<boolean>;
+  @Input() saveCb;
+  @Input() registerCb;
 
   userHandler: ParameterHandler<any>;
   read: boolean;
+  saved: boolean;
   isStopWord: boolean;
 
   constructor(private el: ElementRef,
               private gazeService: GazeService,
               private vocabService: VocabService) {
     this.read = false;
+    this.saved = false;
     this.userHandler = AuthService.userHandler;
   }
 
   ngAfterViewInit(): void {
-    this.isStopWord = ParserService.StopWords.includes(this.word);
+    this.isStopWord = ParserService.StopWords.includes(this.word.toLowerCase());
+    this.registerCb(this);
 
     this.gazeService.subscribe((coords) => {
       if (coords.type === 'fixation') {
         const rect = this.el.nativeElement.getBoundingClientRect();
-        const circle = new Circle(coords.x, coords.y, 32);
+        const circle = new Circle(coords.x, coords.y, 41);
 
         if (MeasurementService.intersectRectCircle(rect, circle)) {
           this.setToReadStatus();
@@ -41,23 +46,34 @@ export class WordComponent implements AfterViewInit {
     });
   }
 
+  save(): void {
+    if (this.saved) {
+      return;
+    }
+
+    this.saved = true;
+
+    if (this.isStopWord) {
+      return;
+    }
+
+    if (this.userHandler.value) {
+      this.vocabService.saveWord(this.userHandler.value._id, this.word.toLowerCase())
+        .then(result => (result) ?
+          console.log('Word \'' + this.word + '\' saved') :
+          console.error('Error while saving word \'' + this.word + '\''))
+        .catch(error => console.error(error));
+    } else {
+      console.log('Can`t save the word \'' + this.word + '\'');
+    }
+  }
+
   private setToReadStatus(): void {
     if (this.read) {
       return;
     }
 
     this.read = true;
-
-    if (!this.isStopWord) {
-      if (this.userHandler.value) {
-        this.vocabService.saveWord(this.userHandler.value._id, this.word.toLowerCase())
-          .then(result => (result) ?
-            console.log('Word \'' + this.word + '\' saved') :
-            console.error('Error while saving word \'' + this.word + '\''))
-          .catch(error => console.error(error));
-      } else {
-        console.log('Can`t save the word \'' + this.word + '\'');
-      }
-    }
+    this.saveCb(this);
   }
 }

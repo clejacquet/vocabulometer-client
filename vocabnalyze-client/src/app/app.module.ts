@@ -22,6 +22,9 @@ import { VocabService } from './services/vocab.service';
 import { GazeService } from './services/gaze.service';
 import { ParserService } from './services/parser.service';
 import { AuthService } from './services/auth.service';
+import { AdminComponent } from './components/admin/admin.component';
+import { TextStructureComponent } from './components/text-structure/text-structure.component';
+import { HelpComponent } from './components/help/help.component';
 
 
 @NgModule({
@@ -36,7 +39,10 @@ import { AuthService } from './services/auth.service';
     TextComponent,
     NotFoundComponent,
     IndexComponent,
-    GraphComponent
+    GraphComponent,
+    AdminComponent,
+    TextStructureComponent,
+    HelpComponent
   ],
   imports: [
     BrowserModule,
@@ -47,6 +53,9 @@ import { AuthService } from './services/auth.service';
       { path: '', component: IndexComponent },
       { path: 'text/:id', component: TextComponent },
       { path: 'graph', component: GraphComponent },
+      { path: 'admin', component: AdminComponent },
+      { path: 'admin/texts/:id', component: TextStructureComponent },
+      { path: 'help', component: HelpComponent },
       { path: '404', component: NotFoundComponent },
 
       { path: '**', redirectTo: '/404' }

@@ -3,7 +3,13 @@ const router = express.Router();
 
 module.exports = (passport) => {
 	router.post('/:uid/word', (req, res, next) => {
-		const word = req.body.word.replace(/[^a-zA-Z0-9-]/g, "").toLowerCase();
+		const word = req.body.word.replace(/[^a-zA-Z0-9-']/g, "").toLowerCase();
+		if (word === '') {
+			res.status(400);
+			return res.json({
+				status: 'empty'
+			});
+		}
 
 		req.models.users.addWord(word, req.params.uid, (err, result) => {
 			if (err) {
@@ -41,8 +47,8 @@ module.exports = (passport) => {
 			});
 		});
 
-	router.all('/auth/logout', (req, res) => {
-		req.session.destroy();
+	router.post('/auth/logout', (req, res, next) => {
+		req.logOut();
 		res.status(200).end();
 	});
 

@@ -178,7 +178,7 @@ export class ParserService {
     'yourselves'
     ];
 
-  parse(textDoc): any {
+  parseToHTML(textDoc): any {
     const text = textDoc.reduce((acc, token) => {
       switch (token.token) {
         case 'WORD':
@@ -186,9 +186,9 @@ export class ParserService {
           acc[1].push('');
           return acc;
 
-        case 'NUMBER': acc[1][acc[1].length - 1] += token.value; return acc;
-        case 'POINT': acc[1][acc[1].length - 1] +=  '. '; return acc;
-        case 'COMMA': acc[1][acc[1].length - 1] +=  ', '; return acc;
+        case 'NUMBER': acc[1][acc[1].length - 1] += ' ' + token.value; return acc;
+        case 'POINT': acc[1][acc[1].length - 1] += '.'; return acc;
+        case 'COMMA': acc[1][acc[1].length - 1] += ','; return acc;
         case 'APOSTROPHE': acc[1][acc[1].length - 1] +=  '\''; return acc;
         case 'OPEN QUOTATION': acc[1][acc[1].length - 1] +=  '"'; return acc;
         case 'CLOSE QUOTATION': acc[1][acc[1].length - 1] +=  '" '; return acc;
@@ -209,5 +209,30 @@ export class ParserService {
     return [['', text[1][0]]]
       .concat(text[0].slice(0, text[0].length - 1).map((e, i) => [e, text[1][i + 1]]))
       .concat([[text[0][text[0].length - 1], text[1][text[1].length - 1]]]);
+  }
+
+  parse(textDoc): string {
+    return textDoc.reduce((acc, token) => {
+      switch (token.token) {
+        case 'WORD': return acc + ' ' + token.value;
+        case 'NUMBER': return acc + ' ' + token.value;
+        case 'POINT': return acc + '.';
+        case 'COMMA': return acc + ',';
+        case 'APOSTROPHE': return acc + '\'';
+        case 'OPEN QUOTATION': return acc + '"';
+        case 'CLOSE QUOTATION': return acc + '" ';
+        case 'COLON': return acc + ': ';
+        case 'SEMI-COLON': return acc + ' ;';
+        case 'QUESTION': return acc + '?';
+        case 'EXCLAMATION': return acc + '!';
+        case 'DASH': return acc + ' - ';
+        case 'TRIPLE POINT': return acc + '...';
+        case 'OPEN PARENTHESE': return acc + ' (';
+        case 'CLOSE PARENTHESE': return acc + ')';
+        case 'OPEN BRACKET': return acc + '[';
+        case 'CLOSE BRACKET': return acc + '] ';
+        default: return acc;
+      }
+    }, '').trim();
   }
 }

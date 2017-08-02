@@ -1,12 +1,15 @@
-.spinner-input {
+.spinner-input input {
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
   font-size: 1em;
   padding: 0 10px;
   border: 1px inset #ffffff;
   width: 80px;
-  height: 28px;
+  height: 32px;
   text-align: right;
+}
+
+.spinner-input {
   float: left;
 }
 
@@ -16,18 +19,19 @@
   font-family: 'Source Sans Pro', sans-serif;
   font-weight: 700;
   float: left;
+  width: 100px;
+  line-height: 32px;
 }
 
 .spinner-text-unit {
   width: 30px;
   margin-left: 4px;
-  line-height: 30px;
+  line-height: 32px;
 }
 
 
 .button-incdec {
   float: left;
-  clear: left;
   display: inline;
   padding: 0;
   margin: 0;
@@ -35,7 +39,7 @@
 
 .button-incdec > button {
   width: 32px;
-  height: 15px;
+  height: 16px;
   background-color: white;
   padding: 0;
   border: 1px inset #ffffff;

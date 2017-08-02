@@ -49,5 +49,9 @@
 }
 
 .app-content {
-  margin-top: 78px;
+  margin-top: 120px;
+}
+
+.logout-button {
+  margin: 11px;
 }

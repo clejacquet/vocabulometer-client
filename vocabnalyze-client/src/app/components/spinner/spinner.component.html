@@ -3,7 +3,7 @@
   <button class="button-inc" [disabled]="valueHandler.isMax()">+</button>
   <button class="button-dec" [disabled]="valueHandler.isMin()">-</button>
 </div>
-<label>
-  <input class="spinner-input" type="text" name="spinner" [(ngModel)]="valueHandler.value"/>
+<label class="spinner-input">
+  <input type="text" name="spinner" [(ngModel)]="valueHandler.value"/>
 </label>
 <span class="spinner-text spinner-text-unit"> {{unit}}</span>

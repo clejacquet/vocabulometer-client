@@ -9,7 +9,7 @@ import {ParameterControl, ParameterRangeHandler} from '../parameter-control';
 export class SettingsComponent implements OnInit {
   controls: ParameterControl[];
   lineSpaceValue = new ParameterRangeHandler(140, 100, 300, 10);
-  fontSizeValue = new ParameterRangeHandler(2, 0.5, 10, 0.25);
+  fontSizeValue = new ParameterRangeHandler(2.25, 0.5, 10, 0.25);
 
   constructor() {
     this.controls = [

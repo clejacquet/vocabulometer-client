@@ -3,7 +3,11 @@
 }
 
 .text-read-word {
-  color: red
+  color: red;
+}
+
+.text-saved-word {
+  color: grey;
 }
 
 .text-read-word-inactive {

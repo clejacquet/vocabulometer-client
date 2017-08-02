@@ -26,7 +26,9 @@ module.exports = (cb) => {
 	app.use(cookieSession({
 		name: 'session',
 		secret: 'efe5s3fs5f4e5s5c55e5segrgrg2s3',
-		maxAge: 24 * 60 * 60 * 1000
+		maxAge: 24 * 60 * 60 * 1000,
+		resave: false,
+		saveUnitialized: false
 	}));
 
 	app.use((req, res, next) => {
@@ -75,7 +77,7 @@ module.exports = (cb) => {
 
     // ERROR MIDDLEWARE LOADING
 
-    // catch 404 and forward to error handler
+    // catch 404
 		app.use((req, res) => {
 			res.sendFile(path.join(__dirname, publicDirectory, '/index.html'));
 		});
@@ -83,6 +85,7 @@ module.exports = (cb) => {
     // error handler
 		app.use((err, req, res, next) => {
 			// set locals, only providing error in development
+			console.error(err);
 			res.locals.message = err.message;
 			res.locals.error = req.app.get('env') === 'development' ? err : {};
 

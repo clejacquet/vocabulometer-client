@@ -3,20 +3,19 @@
   <div class="user-button">
 
 
-    <div *ngIf="userHandler.value; else logbutton">
+    <div *ngIf="userHandler.value">
       <div class="graph-link">
         <a routerLink="/graph"><img src="/assets/graph.png" /></a>
+      </div>
+      <div class="graph-link">
+        <a routerLink="/admin"><img src="/assets/database.png" /></a>
       </div>
       <img src="/assets/user.png" />
       <span>
         {{userHandler.value.name}}
       </span>
+      <button class="logout-button" (click)="onLogOut()">Log out</button>
     </div>
-
-    <ng-template #logbutton>
-      <img src="/assets/user.png" />
-      <span>Log in</span>
-    </ng-template>
   </div>
 </div>
 

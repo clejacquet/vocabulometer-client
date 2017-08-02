@@ -119,7 +119,7 @@ module.exports = (mongoose, models) => {
 							_id: "$_id._id",
 							title: "$_id.title",
 							score: {
-								$divide: [ { $size: { $setIntersection: [ "$words", values.values ] } }, { $size: { $setUnion: [ "$words", values.values ] } } ]
+								$divide: [ { $size: { $setIntersection: [ "$words", values.values ] } }, { $size: "$words" } ]
 							}
 						}
 					},
