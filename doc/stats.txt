@@ -1,6 +1,0 @@
-- mots par jour -- DONE
-- nouveaux mots lus par jour -- DONE
-
-- nouveaux mots vu les plus récemment -- DONE
-- textes connus les plus difficiles 
-- textes connus les plus faciles
