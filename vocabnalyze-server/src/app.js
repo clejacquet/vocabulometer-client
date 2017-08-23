@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const cors = require('cors');
 const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
@@ -20,6 +21,7 @@ module.exports = (cb) => {
 
 	app.use(favicon(path.join(__dirname, publicDirectory, 'favicon.ico')));
 	app.use(logger('dev'));
+	app.use(cors({credentials: true}));
 	app.use(bodyParser.json());
 	app.use(bodyParser.urlencoded({ extended: true }));
 	app.use(cookieParser());
@@ -84,6 +86,11 @@ module.exports = (cb) => {
 
     // error handler
 		app.use((err, req, res, next) => {
+			if (err.status === 401) {
+				res.status(401);
+				return res.json(err.inner);
+			}
+
 			// set locals, only providing error in development
 			console.error(err);
 			res.locals.message = err.message;

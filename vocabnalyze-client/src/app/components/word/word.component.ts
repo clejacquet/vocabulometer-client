@@ -5,6 +5,7 @@ import { ParameterHandler } from '../parameter-control';
 import { GazeService } from '../../services/gaze.service';
 import { AuthService } from '../../services/auth.service';
 import { ParserService } from '../../services/parser.service';
+import { GazeCursorComponent } from '../gaze-cursor/gaze-cursor.component';
 
 @Component({
   selector: 'app-word',
@@ -37,7 +38,7 @@ export class WordComponent implements AfterViewInit {
     this.gazeService.subscribe((coords) => {
       if (coords.type === 'fixation') {
         const rect = this.el.nativeElement.getBoundingClientRect();
-        const circle = new Circle(coords.x, coords.y, 41);
+        const circle = new Circle(coords.x, coords.y, GazeCursorComponent.GazeCursorRadius);
 
         if (MeasurementService.intersectRectCircle(rect, circle)) {
           this.setToReadStatus();

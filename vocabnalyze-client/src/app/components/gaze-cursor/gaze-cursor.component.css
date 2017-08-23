@@ -1,13 +1,11 @@
 .gaze-cursor-active {
   background-color: rgba(255, 2, 2, 0.5);
   position: absolute;
-  width: 82px;
-  height: 82px;
-  border-radius: 41px;
   z-index: 1;
 }
 
 .gaze-cursor-inactive {
   width: 0;
   height: 0;
+  display: none;
 }

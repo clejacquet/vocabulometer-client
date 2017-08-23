@@ -39,8 +39,8 @@ eyeTracker.connect();
 io.on('connection', function (socket) {
     socket.on('updateRequest', function (msg) {
     		if (left && right) {
-					io.emit('coordinates', left.x, left.y, right.x, right.y);
-				}
+				io.emit('gaze', left.x, left.y, right.x, right.y);
+			}
     });
 });
 

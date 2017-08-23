@@ -4,6 +4,7 @@ import { GazeSourceTarget } from '../gaze/gaze-source-target';
 import { GazeMouseSourceEmitter } from '../gaze/gaze-mouse-source-emitter';
 import { GazeRemoteSourceEmitter } from '../gaze/gaze-remote-source-emitter';
 import { ParameterHandler } from '../components/parameter-control';
+import { HostService } from './host.service';
 
 @Injectable()
 export class GazeService implements GazeSourceTarget {
@@ -30,7 +31,7 @@ export class GazeService implements GazeSourceTarget {
   private FIXATION_MIN_DURATION = 100; // minimum duration of a fixation in milliseconds
 
   private gazeSourceEmitters: GazeSourceEmitter[] = [
-    new GazeRemoteSourceEmitter('http://localhost:3000/'),
+    new GazeRemoteSourceEmitter(HostService.urlGaze('/')),
     new GazeMouseSourceEmitter()
   ];
 
@@ -56,6 +57,10 @@ export class GazeService implements GazeSourceTarget {
     return 0;
   }
 
+  static toWindowCoords(x, y) {
+    return [x, y];
+  }
+
   start(usedProviderHandler: ParameterHandler<boolean>): void {
     this.usedProviderHandler = usedProviderHandler;
 
@@ -66,7 +71,7 @@ export class GazeService implements GazeSourceTarget {
 
   onMessage(emitter: GazeSourceEmitter, msg: any, cb: Function): void {
     if (this.gazeSourceEmitters[(this.usedProviderHandler.value) ? 1 : 0] === emitter) {
-      this.update(msg.lx, msg.ly, msg.rx, msg.ry, cb);
+      this.update(msg.scope, msg.lx, msg.ly, msg.rx, msg.ry, cb);
     }
   }
 
@@ -76,7 +81,7 @@ export class GazeService implements GazeSourceTarget {
     })
   }
 
-  private update(leftX: number, leftY: number, rightX: number, rightY: number, cb: Function): void {
+  private update(scope: string, leftX: number, leftY: number, rightX: number, rightY: number, cb: Function): void {
     const blinkValue = GazeService.eyeBlink(leftX, leftY, rightX, rightY);
 
     // Filtering eyes blinking
@@ -93,14 +98,21 @@ export class GazeService implements GazeSourceTarget {
         }
       }
 
-      const xoffset = window.outerWidth - window.innerWidth;
-      const yoffset = window.outerHeight - window.innerHeight;
+      if (scope === 'screen') {
+        [leftX, leftY] = GazeService.toWindowCoords(leftX, leftY);
+        // [rightX, rightY] = GazeService.toWindowCoords(rightX, rightY);
 
-      leftX = leftX * screen.width - xoffset;
-      leftY = leftY * screen.height - yoffset;
+        const xoffset = window.outerWidth - window.innerWidth;
+        const yoffset = window.outerHeight - window.innerHeight;
 
-      rightX = rightX * screen.width - xoffset;
-      rightY = rightY * screen.height - yoffset;
+        leftX = leftX * screen.width - xoffset;
+        leftY = leftY * screen.height - yoffset;
+
+        rightX = rightX * screen.width - xoffset;
+        rightY = rightY * screen.height - yoffset;
+
+        console.log(leftX + ' / ' + leftY);
+      }
 
       this.addNewCoordinates(leftX, leftY, rightX, rightY, cb);
     }
@@ -147,7 +159,6 @@ export class GazeService implements GazeSourceTarget {
       this.Y_it = 0;
 
       this.updateArrays(leftX, leftY, rightX, rightY);
-
     }
   }
 

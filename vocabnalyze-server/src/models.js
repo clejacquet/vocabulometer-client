@@ -9,12 +9,12 @@ module.exports = (cb) => {
 	db.on('error', console.error.bind(console, 'connection error:'));
 
 	db.once('open', () => {
-		mongoose.connection.db.eval('db.loadServerScripts()');
-
 		const models = {};
+
+		models.toObjectID = id => mongoose.Types.ObjectId(id);
+
 		models.texts = require('./models/texts')(mongoose, models);
 		models.users = require('./models/users')(mongoose, models);
-		models.toObjectID = id => mongoose.Types.ObjectId(id);
 
 		cb(models);
 	});

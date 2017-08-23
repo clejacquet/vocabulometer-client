@@ -2,8 +2,26 @@ const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const LocalStrategy = require('passport-local');
 
+const authenticate = require('express-jwt')({secret : 'efe5s3fs5f4e5s5c55e5segrgrg2s3'});
+
 const GOOGLE_CONSUMER_KEY = '776219373924-g37o5k82bcjc2lac1tb0068kkeidv1hc.apps.googleusercontent.com';
 const GOOGLE_CONSUMER_SECRET = 'k1MLbfGe70et6KIrrx5pgDpm';
+
+function deserialize(req, res, next) {
+	req.models.users
+		.findOne({ name: req.user.id })
+		.select({
+			name: 1,
+			_id: 1
+		})
+		.exec((err, result) => {
+			if (err) {
+				return next(err);
+			}
+			req.user = result;
+			next();
+		});
+}
 
 module.exports = (models) => {
 	passport.serializeUser(function(user, done) {
@@ -55,12 +73,12 @@ module.exports = (models) => {
 	}));
 
 	passport.isLoggedIn = (req, res, next) => {
-		// if user is authenticated in the session, carry on
-		if (req.isAuthenticated())
-			return next();
-		// if they aren't redirect them to the home page
-		res.status(401).json({
-			error: 'Not logged'
+		authenticate(req, res, (err) => {
+			if (err) {
+				return next(err);
+			}
+
+			deserialize(req, res, next);
 		});
 	};
 

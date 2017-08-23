@@ -121,6 +121,24 @@ module.exports = (mongoose, models) => {
 		});
 	};
 
+	textSchema.statics.getSample = function (cb) {
+		this.aggregate([
+			{
+				$sample: { size: 1 }
+			}
+		], (err, result) => {
+			if (err) {
+				return cb(err);
+			}
+
+			if (result.length > 0) {
+				cb(null, result[0]._id);
+			} else {
+				cb();
+			}
+		});
+	};
+
 	return mongoose.model('Text', textSchema);
 };
 

@@ -1,0 +1,13 @@
+<div class="container" id="text-structure-content">
+  <form *ngIf="text">
+    <div class="form-group">
+      <label for="title-input">Title</label>
+      <input type="text" placeholder="Enter the title here" class="form-control" id="title-input" name="title-input" [(ngModel)]="text.title">
+    </div>
+    <div class="form-group">
+      <label for="text-input">Text</label>
+      <textarea rows="18" placeholder="Enter the text here" class="form-control" id="text-input" name="text-input" [(ngModel)]="text.body"></textarea>
+    </div>
+    <button class="btn btn-default" (click)="onTextSave()">Save</button>
+  </form>
+</div>

@@ -1,5 +1,9 @@
 const express = require('express');
 const router = express.Router();
+const jwt = require('jsonwebtoken');
+
+
+
 
 module.exports = (passport) => {
 	router.post('/:uid/word', (req, res, next) => {
@@ -40,10 +44,19 @@ module.exports = (passport) => {
 
 
 	router.post('/auth/local',
-		passport.authenticate('local'),
+		passport.authenticate('local', { session: false }),
+		(req, res, next) => {
+			req.token = jwt.sign({
+				id: req.user.name,
+			}, 'efe5s3fs5f4e5s5c55e5segrgrg2s3', {
+				expiresIn: '7d'
+			});
+			next();
+		},
 		(req, res) => {
 			res.json({
-				user: req.user
+				user: req.user,
+				token: req.token
 			});
 		});
 

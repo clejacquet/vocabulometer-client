@@ -1,0 +1,7 @@
+#admin-content table {
+  width: 100%;
+}
+
+#admin-content textarea {
+  resize: vertical;
+}

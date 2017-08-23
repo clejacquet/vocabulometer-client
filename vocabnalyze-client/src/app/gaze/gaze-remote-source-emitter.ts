@@ -1,9 +1,7 @@
-import { Injectable } from '@angular/core';
 import { GazeSourceEmitter } from './gaze-source-emitter';
 import { GazeSourceTarget } from './gaze-source-target';
 import * as io from 'socket.io-client';
 
-@Injectable()
 export class GazeRemoteSourceEmitter extends GazeSourceEmitter {
   constructor(private url: string) {
     super();
@@ -11,12 +9,27 @@ export class GazeRemoteSourceEmitter extends GazeSourceEmitter {
 
   start(target: GazeSourceTarget): void {
     const socket = io(this.url);
-    socket.on('coordinates', (lx, ly, rx, ry) => {
+    socket.on('gaze', (lx, ly, rx, ry) => {
       target.onMessage(this, {
+        scope: 'screen',
+        type: 'gaze',
         lx: lx,
         ly: ly,
         rx: rx,
         ry: ry
+      }, (res) => {
+        this.notify(res);
+      });
+    });
+
+    socket.on('fixation', (x, y) => {
+      target.onMessage(this, {
+        scope: 'screen',
+        type: 'fixation',
+        lx: x,
+        ly: y,
+        rx: x,
+        ry: y
       }, (res) => {
         this.notify(res);
       });

@@ -8,6 +8,8 @@ import { GazeService } from '../../services/gaze.service';
   styleUrls: ['./gaze-cursor.component.css']
 })
 export class GazeCursorComponent implements AfterViewInit {
+  static readonly GazeCursorRadius = 41;
+
   handler: ParameterHandler<boolean>;
 
   private circleEl: HTMLDivElement;
@@ -19,8 +21,11 @@ export class GazeCursorComponent implements AfterViewInit {
 
     this.gazeService.subscribe((coords) => {
       if (coords.type === 'position') {
-        this.circleEl.style.left = (coords.x + window.pageXOffset) + 'px';
-        this.circleEl.style.top = (coords.y + window.pageYOffset) + 'px';
+        this.circleEl.style.left = (coords.x - GazeCursorComponent.GazeCursorRadius + window.pageXOffset) + 'px';
+        this.circleEl.style.top = (coords.y - GazeCursorComponent.GazeCursorRadius + window.pageYOffset) + 'px';
+        this.circleEl.style.borderRadius = GazeCursorComponent.GazeCursorRadius + 'px';
+        this.circleEl.style.width = GazeCursorComponent.GazeCursorRadius * 2 + 'px';
+        this.circleEl.style.height = GazeCursorComponent.GazeCursorRadius * 2 + 'px';
       }
     });
   }

@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { HostService } from './host.service';
+import { AuthHttpService } from './auth-http.service';
 
 @Injectable()
 export class VocabService {
 
-  constructor(private http: Http) {}
+  constructor(private authHttp: AuthHttpService) {}
 
   saveWord(userId: string, word: string): Promise<boolean> {
-    return this.http.post('/api/users/' + userId + '/word/', {
+    return this.authHttp.post(HostService.url('/api/users/' + userId + '/word/'), {
       word: word
     })
       .map((res: any) => res.json().status === 'success')

@@ -1,20 +1,22 @@
-<div class="app-navbar">
-  <a class="home-link" routerLink="/"></a>
-  <div class="user-button">
-
-
-    <div *ngIf="userHandler.value">
-      <div class="graph-link">
-        <a routerLink="/graph"><img src="/assets/graph.png" /></a>
+<div class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <div class="user-button">
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a routerLink="/"><img src="/assets/home.png" /></a></li>
+            <li *ngIf="userHandler.value"><a routerLink="/graph"><img src="/assets/graph.png" /></a></li>
+            <li *ngIf="userHandler.value"><a routerLink="/admin"><img src="/assets/database.png" /></a></li>
+            <li *ngIf="userHandler.value">
+              <div class="user-nav">
+                <img src="/assets/user.png" />
+                <span>{{userHandler.value.name}}</span>
+                <button class="logout-button" (click)="onLogOut()">Log out</button>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
-      <div class="graph-link">
-        <a routerLink="/admin"><img src="/assets/database.png" /></a>
-      </div>
-      <img src="/assets/user.png" />
-      <span>
-        {{userHandler.value.name}}
-      </span>
-      <button class="logout-button" (click)="onLogOut()">Log out</button>
     </div>
   </div>
 </div>

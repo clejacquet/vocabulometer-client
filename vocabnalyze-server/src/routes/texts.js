@@ -2,13 +2,26 @@ const express = require('express');
 const router = express.Router();
 const fs = require('fs');
 
+function getTextOnPage(model, page, cb) {
+	let skip, limit;
+	if (!isNaN(page)) {
+		skip = page * 20;
+		limit = 20;
+	}
+
+	model.find({}, ['text.title'], {
+		sort: {
+			'text.title': 1
+		},
+		skip: skip,
+		limit: limit
+	}, cb);
+}
+
 module.exports = (passport) => {
 	router.get('/', passport.isLoggedIn, (req, res, next) => {
-		req.models.texts.find({}, ['text'], {
-			sort: {
-				'text.title': 1
-			}
-		}, (err, result) => {
+		const page = parseInt(req.query.page);
+		getTextOnPage(req.models.texts, page, (err, result) => {
 			if (err) {
 				return next(err);
 			}
@@ -17,7 +30,40 @@ module.exports = (passport) => {
 			res.json({
 				texts: result
 			});
-		})
+		});
+	});
+
+	router.get('/last', passport.isLoggedIn, (req, res, next) => {
+		req.models.texts.count((err2, count) => {
+			if (err2) {
+				return next(err2);
+			}
+
+			const page = Math.ceil(count / 20) - 1;
+			getTextOnPage(req.models.texts, page, (err, result) => {
+				if (err) {
+					return next(err);
+				}
+
+				res.status(200);
+				res.json({
+					page: page,
+					texts: result
+				});
+			});
+		});
+	});
+
+	router.get('/sample', (req, res, next) => {
+		req.models.texts.getSample((err, sample) => {
+			if (err) {
+				return next(err);
+			}
+
+			res.json({
+				sample: sample
+			});
+		});
 	});
 
 	router.get('/:id', passport.isLoggedIn, (req, res, next) => {

@@ -1,0 +1,39 @@
+#graph-section {
+  margin: auto;
+  text-align: center;
+}
+
+#graph-section h2 {
+  font-family: 'Raleway', sans-serif;
+  font-size: 2em;
+}
+
+.graph-div {
+  margin: auto;
+  width: 600px;
+  height: 400px;
+}
+
+#recent-new-words-read {
+  text-align: center;
+  margin-top: 32px;
+  margin-bottom: 32px;
+}
+
+.word-item {
+  font-size: 1.5em;
+  font-weight: bold;
+  font-family: 'Raleway', sans-serif;
+}
+
+.text-summary {
+  border-radius: 3px;
+  padding: 25px 5px;
+  font-size: 1.7em;
+}
+
+.equal {
+  display: flex;
+  display: -webkit-flex;
+  flex-wrap: wrap;
+}

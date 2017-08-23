@@ -8,10 +8,11 @@ export class GazeMouseSourceEmitter extends GazeSourceEmitter {
 
   start(target: GazeSourceTarget): void {
     window.addEventListener('mousemove', (e) => {
-      const x = (e.screenX - 1920) / window.screen.width;
-      const y = e.screenY / window.screen.height;
+      const x = e.clientX;
+      const y = e.clientY;
 
       target.onMessage(this, {
+        scope: 'client',
         lx: x,
         ly: y,
         rx: x,

@@ -25,6 +25,8 @@ import { AuthService } from './services/auth.service';
 import { AdminComponent } from './components/admin/admin.component';
 import { TextStructureComponent } from './components/text-structure/text-structure.component';
 import { HelpComponent } from './components/help/help.component';
+import { HostService } from './services/host.service';
+import { AuthHttpService } from './services/auth-http.service';
 
 
 @NgModule({
@@ -42,7 +44,7 @@ import { HelpComponent } from './components/help/help.component';
     GraphComponent,
     AdminComponent,
     TextStructureComponent,
-    HelpComponent
+    HelpComponent,
   ],
   imports: [
     BrowserModule,
@@ -51,6 +53,7 @@ import { HelpComponent } from './components/help/help.component';
     FormsModule,
     RouterModule.forRoot([
       { path: '', component: IndexComponent },
+      { path: 'text', component: TextComponent },
       { path: 'text/:id', component: TextComponent },
       { path: 'graph', component: GraphComponent },
       { path: 'admin', component: AdminComponent },
@@ -67,7 +70,9 @@ import { HelpComponent } from './components/help/help.component';
     MeasurementService,
     VocabService,
     ParserService,
-    AuthService
+    AuthService,
+    HostService,
+    AuthHttpService
   ]
 })
 export class AppModule { }
