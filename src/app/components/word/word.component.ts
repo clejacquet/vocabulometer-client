@@ -1,11 +1,16 @@
 import { AfterViewInit, Component, ElementRef, Input } from '@angular/core';
 import { Circle, MeasurementService } from '../../services/measurement.service';
+
 import { VocabService } from '../../services/vocab.service';
-import { ParameterHandler } from '../parameter-control';
 import { GazeService } from '../../services/gaze.service';
 import { AuthService } from '../../services/auth.service';
 import { ParserService } from '../../services/parser.service';
+
 import { GazeCursorComponent } from '../gaze-cursor/gaze-cursor.component';
+
+import { ParameterHandler } from '../parameter-control';
+import { Paragraph } from '../text/text.component';
+
 
 @Component({
   selector: 'app-word',
@@ -15,8 +20,7 @@ import { GazeCursorComponent } from '../gaze-cursor/gaze-cursor.component';
 export class WordComponent implements AfterViewInit {
   @Input() word: string;
   @Input() readWordsHandler: ParameterHandler<boolean>;
-  @Input() saveCb;
-  @Input() registerCb;
+  @Input() paragraph: Paragraph;
 
   userHandler: ParameterHandler<any>;
   read: boolean;
@@ -33,7 +37,7 @@ export class WordComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.isStopWord = ParserService.StopWords.includes(this.word.toLowerCase());
-    this.registerCb(this);
+    this.paragraph.registerCb(this);
 
     this.gazeService.subscribe((coords) => {
       if (coords.type === 'fixation') {
@@ -75,6 +79,6 @@ export class WordComponent implements AfterViewInit {
     }
 
     this.read = true;
-    this.saveCb(this);
+    this.paragraph.saveCb();
   }
 }

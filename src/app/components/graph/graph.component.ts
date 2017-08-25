@@ -13,6 +13,8 @@ export class GraphComponent implements OnInit {
   newRecentWords: any[];
   easyTexts: any[];
   hardTexts: any[];
+  wordsReadLoaded = false;
+  newWordsReadLoaded = false;
 
   constructor(private stats: StatsService) { }
 
@@ -21,6 +23,8 @@ export class GraphComponent implements OnInit {
       if (err) {
         return console.error(err);
       }
+
+      this.wordsReadLoaded = true;
 
       const week = this.stats.lastWeek(days);
 
@@ -40,6 +44,8 @@ export class GraphComponent implements OnInit {
       if (err) {
         return console.error(err);
       }
+
+      this.newWordsReadLoaded = true;
 
       const week = this.stats.lastWeek(days);
 

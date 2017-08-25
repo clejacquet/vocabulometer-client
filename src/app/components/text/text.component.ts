@@ -14,6 +14,38 @@ import { ParameterHandler } from '../parameter-control';
 import { GazeService } from '../../services/gaze.service';
 import { ParserService } from '../../services/parser.service';
 
+
+export class Paragraph {
+  private readCount = 0;
+  private words = [];
+
+  public constructor(public sequences: any[]) {
+
+  }
+
+  public registerCb(word) { // registerCb stores the parameter 'word' that will be saved after that 75% of the paragraph is read
+    this.words.push(word);     // it is called by every non stop-word of the paragraph
+  }
+
+  public saveCb() { // At each call of saveCB, it increments the counter of read words in the paragraph, and...
+    this.readCount += 1;
+
+    if (this.readCount >= 0.75 * this.sequences.length) { // ... if 75% of the paragraph is read...
+      this.words.forEach(word => word.save()); // ...we save all the read words
+    }
+  }
+}
+
+export class Text {
+  public title: string;
+  public body: Paragraph[];
+
+  public constructor(title: string, paragraphs: any[]) {
+    this.title = title;
+    this.body = paragraphs.map(paragraph => new Paragraph(paragraph))
+  }
+}
+
 @Component({
   selector: 'app-text',
   templateUrl: './text.component.html',
@@ -33,7 +65,7 @@ import { ParserService } from '../../services/parser.service';
   ]
 })
 export class TextComponent implements OnInit, OnDestroy {
-  text: any;
+  text: Text;
   readWordsHandler: ParameterHandler<boolean>;
   paneClasses: any;
 
@@ -93,26 +125,9 @@ export class TextComponent implements OnInit, OnDestroy {
   }
 
   private initText(text) {
-    this.text = {
-      title: text.title,
-      body: text.body.map(paragraph => {
-        const sequences = this.parser.parseToHTML(paragraph);
-        const words = [];
-        let readCount = 0;
-        return {
-          sequences: sequences,
-          registerCb: (word) => {
-            words.push(word);
-          },
-          saveCb: () => {
-            readCount += 1;
+    const title = text.title;
+    const paragraphs = text.body.map(paragraph => this.parser.parseToHTML(paragraph));
 
-            if (readCount >= 0.75 * sequences.length) {
-              words.forEach(word => word.save());
-            }
-          }
-        }
-      })
-    };
+    this.text = new Text(title, paragraphs);
   }
 }

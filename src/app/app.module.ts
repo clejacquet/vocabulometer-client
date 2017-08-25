@@ -27,6 +27,7 @@ import { TextStructureComponent } from './components/text-structure/text-structu
 import { HelpComponent } from './components/help/help.component';
 import { HostService } from './services/host.service';
 import { AuthHttpService } from './services/auth-http.service';
+import { LoaderComponent } from './components/loader/loader.component';
 
 
 @NgModule({
@@ -45,6 +46,7 @@ import { AuthHttpService } from './services/auth-http.service';
     AdminComponent,
     TextStructureComponent,
     HelpComponent,
+    LoaderComponent,
   ],
   imports: [
     BrowserModule,

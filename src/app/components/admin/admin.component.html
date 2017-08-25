@@ -15,7 +15,7 @@
     </form>
 
     <h1>Texts</h1>
-    <table *ngIf="texts">
+    <table *ngIf="texts; else showloader">
       <tr>
         <th>Title</th>
       </tr>
@@ -36,5 +36,8 @@
         </td>
       </tr>
     </table>
+    <ng-template #showloader>
+      <app-loader></app-loader>
+    </ng-template>
   </div>
 </div>
