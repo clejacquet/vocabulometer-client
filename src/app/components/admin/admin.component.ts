@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { TextService } from '../../services/text.service';
-import { Router } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
+import { isNull } from 'util';
 
 @Component({
   selector: 'app-admin',
@@ -10,6 +11,7 @@ import { Router } from '@angular/router';
 })
 export class AdminComponent implements OnInit {
   texts: any[];
+  pageNumbers: number[];
 
   @ViewChild('titleinput')
   private titleInput: ElementRef;
@@ -17,24 +19,49 @@ export class AdminComponent implements OnInit {
   @ViewChild('textinput')
   private textInput: ElementRef;
 
-  private page: number;
+  page: number;
+  lastPage: number;
+  private routeSub: any;
 
   constructor(private textService: TextService,
-              private router: Router) { }
+              private router: Router,
+              private route: ActivatedRoute) { }
 
   private refreshTexts() {
-    this.textService.getTextsOnPage(this.page, (err, texts) => {
+    this.textService.getTextsOnPage(this.page, (err, texts, lastPage) => {
       if (err) {
         return console.error(err);
       }
 
+      this.lastPage = lastPage;
+      this.pageNumbers = this.computePageNumbers(lastPage);
       this.texts = texts;
-    })
+    });
+  }
+
+  private computePageNumbers(lastPage) {
+    if (isNull(lastPage)) {
+      return [];
+    }
+
+    const pageNumbers = [];
+    for (let i = Math.max(0, this.page - 2) ; i <= Math.min(this.page + 2, lastPage); i++) {
+      pageNumbers.push(i);
+    }
+
+    return pageNumbers;
   }
 
   ngOnInit() {
-    this.page = null;
-    this.refreshTexts();
+    this.routeSub = this.route.params.subscribe(params => {
+      this.page = parseInt(params['id'], 10) - 1;
+
+      if (isNaN(this.page)) {
+        this.page = 0;
+      }
+
+      this.refreshTexts();
+    });
   }
 
   onSettingsClick(textId) {
@@ -68,5 +95,14 @@ export class AdminComponent implements OnInit {
 
       this.refreshTexts();
     })
+  }
+
+  onPageChange(page: number) {
+    if (page < 0 || page > this.lastPage) {
+      return;
+    }
+
+    this.page = page;
+    this.refreshTexts();
   }
 }

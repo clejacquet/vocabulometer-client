@@ -22,25 +22,18 @@ export class TextService {
   }
 
   getTextsOnPage(page, cb) {
-    const requestOptions = new RequestOptions();
-
-    const params = new URLSearchParams();
-    params.set('page', page);
-
-    requestOptions.params = params;
-
-    this.authHttp.get(HostService.url('/api/texts'), requestOptions)
-      .map((res: any) => res.json().texts)
+    this.authHttp.get(HostService.url('/api/texts'), { page: page })
+      .map((res: any) => res.json())
       .toPromise()
-      .then(result => cb(null, result))
+      .then(result => cb(null, result.texts, result.lastPage))
       .catch(err => cb(err));
   }
 
   getTextsOnLastPage(cb) {
     this.authHttp.get(HostService.url('/api/texts/last'))
-      .map((res: any) => res.json().texts)
+      .map((res: any) => res.json())
       .toPromise()
-      .then(result => cb(null, result))
+      .then(result => cb(null, result.texts, result.lastPage))
       .catch(err => cb(err));
   }
 

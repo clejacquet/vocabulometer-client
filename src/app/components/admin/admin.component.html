@@ -15,27 +15,56 @@
     </form>
 
     <h1>Texts</h1>
-    <table *ngIf="texts; else showloader">
-      <tr>
-        <th>Title</th>
-      </tr>
-      <tr *ngFor="let text of texts">
-        <td>
-          <a [routerLink]="['/text', text._id]">{{text.text.title}}</a>
-        </td>
-        <td>
-          <div class="btn-group" role="group">
-            <button type="button" class="btn btn-default" (click)="onSettingsClick(text._id)">
-              <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-            </button>
+    <div *ngIf="texts; else showloader">
+      <table>
+        <tr>
+          <th>Title</th>
+        </tr>
+        <tr *ngFor="let text of texts">
+          <td>
+            <a [routerLink]="['/text', text._id]">{{text.text.title}}</a>
+          </td>
+          <td>
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-default" (click)="onSettingsClick(text._id)">
+                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+              </button>
 
-            <button type="button" class="btn btn-default" (click)="onRemoveClick(text._id)">
-              <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-            </button>
-          </div>
-        </td>
-      </tr>
-    </table>
+              <button type="button" class="btn btn-default" (click)="onRemoveClick(text._id)">
+                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </table>
+
+      <nav aria-label="Page navigation">
+        <ul class="pagination">
+          <li [class]="(page == 0) ? 'disabled' : ''">
+            <a (click)="onPageChange(0)" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          <li [class]="(page == 0) ? 'disabled' : ''">
+            <a (click)="onPageChange(page - 1)" aria-label="Previous">
+              <span aria-hidden="true">&lsaquo;</span>
+            </a>
+          </li>
+          <li [class]="(pageNumber === page) ? 'active' : ''" *ngFor="let pageNumber of pageNumbers"><a (click)="onPageChange(pageNumber)">{{pageNumber + 1}}</a></li>
+          <li [class]="(page == lastPage) ? 'disabled' : ''">
+            <a (click)="onPageChange(page + 1)" aria-label="Next">
+              <span aria-hidden="true">&rsaquo;</span>
+            </a>
+          </li>
+          <li [class]="(page == lastPage) ? 'disabled' : ''">
+            <a (click)="onPageChange(lastPage)" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
     <ng-template #showloader>
       <app-loader></app-loader>
     </ng-template>

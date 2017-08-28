@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, RequestOptions, Headers } from '@angular/http';
+import { Http, RequestOptions, Headers, URLSearchParams } from '@angular/http';
 
 @Injectable()
 export class AuthHttpService {
@@ -9,9 +9,14 @@ export class AuthHttpService {
   get(url, params = {}) {
     const token = localStorage.getItem('token');
 
-    const options = new RequestOptions({
-      params: new URLSearchParams(Object.keys(params).map((key) => key + '=' + params[key]).join('&'))
+    const urlParams =  new URLSearchParams();
+    Object.keys(params).forEach((key) => {
+      console.log(key + '=' + params[key]);
+      urlParams.set(key, params[key]);
     });
+
+    const options = new RequestOptions();
+    options.params = urlParams;
 
     if (token) {
       const header: Headers = new Headers();

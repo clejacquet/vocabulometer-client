@@ -59,6 +59,7 @@ import { LoaderComponent } from './components/loader/loader.component';
       { path: 'text/:id', component: TextComponent },
       { path: 'graph', component: GraphComponent },
       { path: 'admin', component: AdminComponent },
+      { path: 'admin/:id', component: AdminComponent },
       { path: 'admin/texts/:id', component: TextStructureComponent },
       { path: 'help', component: HelpComponent },
       { path: '404', component: NotFoundComponent },
