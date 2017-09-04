@@ -11,8 +11,6 @@ declare const Plotly: any;
 })
 export class GraphComponent implements OnInit {
   newRecentWords: any[];
-  easyTexts: any[];
-  hardTexts: any[];
   wordsReadLoaded = false;
   newWordsReadLoaded = false;
 
@@ -67,22 +65,6 @@ export class GraphComponent implements OnInit {
       }
 
       this.newRecentWords = words;
-    });
-
-    this.stats.easyTexts((err, texts) => {
-      if (err) {
-        return console.error(err);
-      }
-
-      this.easyTexts = texts;
-    });
-
-    this.stats.hardTexts((err, texts) => {
-      if (err) {
-        return console.error(err);
-      }
-
-      this.hardTexts = texts;
     });
   }
 }

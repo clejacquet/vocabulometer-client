@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-import { URLSearchParams, RequestOptions } from '@angular/http';
-
 import { AuthHttpService } from './auth-http.service';
 import { HostService } from './host.service';
 
@@ -23,14 +21,6 @@ export class TextService {
 
   getTextsOnPage(page, cb) {
     this.authHttp.get(HostService.url('/api/texts'), { page: page })
-      .map((res: any) => res.json())
-      .toPromise()
-      .then(result => cb(null, result.texts, result.lastPage))
-      .catch(err => cb(err));
-  }
-
-  getTextsOnLastPage(cb) {
-    this.authHttp.get(HostService.url('/api/texts/last'))
       .map((res: any) => res.json())
       .toPromise()
       .then(result => cb(null, result.texts, result.lastPage))

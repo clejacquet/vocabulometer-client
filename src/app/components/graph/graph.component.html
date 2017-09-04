@@ -1,16 +1,22 @@
-
 <div class="container" id="graph-section">
+  <h1>Statistics & Graphs</h1>
+  <hr>
+
   <h2>Words read this last week</h2>
   <div [style.display]="(wordsReadLoaded) ? 'block' : 'none'" class="graph-div" id="words-read"></div>
   <div *ngIf="!wordsReadLoaded">
     <app-loader></app-loader>
   </div>
 
+  <hr>
+
   <h2>New words encountered this last week</h2>
   <div [style.display]="(newWordsReadLoaded) ? 'block' : 'none'" class="graph-div" id="new-words-read"></div>
   <div *ngIf="!newWordsReadLoaded">
     <app-loader></app-loader>
   </div>
+
+  <hr>
 
   <h2>New recently read words</h2>
   <div *ngIf="newRecentWords; else newRecentWordsLoader">
@@ -25,36 +31,6 @@
     </div>
   </div>
   <ng-template #newRecentWordsLoader>
-    <app-loader></app-loader>
-  </ng-template>
-
-
-  <h2>Easy texts for you</h2>
-  <div *ngIf="easyTexts; else easyTextsLoader">
-    <div class="row equal">
-      <div class="col-md-4" *ngFor="let text of easyTexts">
-        <div class="text-summary">
-          <a [routerLink]="['/text', text._id]">{{text.title}} ({{(text.score * 100).toFixed()}}%)</a>
-        </div>
-      </div>
-    </div>
-  </div>
-  <ng-template #easyTextsLoader>
-    <app-loader></app-loader>
-  </ng-template>
-
-
-  <h2>Hard texts for you</h2>
-  <div *ngIf="hardTexts; else hardTextsLoader">
-    <div class="row equal">
-      <div class="col-md-4" *ngFor="let text of hardTexts">
-        <div class="text-summary">
-          <a [routerLink]="['/text', text._id]">{{text.title}} ({{(text.score * 100).toFixed()}}%)</a>
-        </div>
-      </div>
-    </div>
-  </div>
-  <ng-template #hardTextsLoader>
     <app-loader></app-loader>
   </ng-template>
 

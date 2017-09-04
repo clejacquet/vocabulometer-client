@@ -28,6 +28,7 @@ import { HelpComponent } from './components/help/help.component';
 import { HostService } from './services/host.service';
 import { AuthHttpService } from './services/auth-http.service';
 import { LoaderComponent } from './components/loader/loader.component';
+import { RecommendationComponent } from './components/recommendation/recommendation.component';
 
 
 @NgModule({
@@ -47,6 +48,7 @@ import { LoaderComponent } from './components/loader/loader.component';
     TextStructureComponent,
     HelpComponent,
     LoaderComponent,
+    RecommendationComponent,
   ],
   imports: [
     BrowserModule,
@@ -61,6 +63,7 @@ import { LoaderComponent } from './components/loader/loader.component';
       { path: 'admin', component: AdminComponent },
       { path: 'admin/:id', component: AdminComponent },
       { path: 'admin/texts/:id', component: TextStructureComponent },
+      { path: 'recommendation', component: RecommendationComponent },
       { path: 'help', component: HelpComponent },
       { path: '404', component: NotFoundComponent },
 

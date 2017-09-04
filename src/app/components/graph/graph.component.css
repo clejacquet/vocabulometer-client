@@ -3,6 +3,12 @@
   text-align: center;
 }
 
+#graph-section h1 {
+  font-family: 'Raleway', sans-serif;
+  font-size: 3em;
+  font-weight: bold;
+}
+
 #graph-section h2 {
   font-family: 'Raleway', sans-serif;
   font-size: 2em;
@@ -24,12 +30,6 @@
   font-size: 1.5em;
   font-weight: bold;
   font-family: 'Raleway', sans-serif;
-}
-
-.text-summary {
-  border-radius: 3px;
-  padding: 25px 5px;
-  font-size: 1.7em;
 }
 
 .equal {

@@ -6,6 +6,7 @@
           <ul class="nav navbar-nav">
             <li><a routerLink="/"><img src="/assets/home.png" /></a></li>
             <li *ngIf="userHandler.value"><a routerLink="/graph"><img src="/assets/graph.png" /></a></li>
+            <li *ngIf="userHandler.value"><a routerLink="/recommendation"><img src="/assets/recommendation.png" /></a></li>
             <li *ngIf="userHandler.value"><a routerLink="/admin"><img src="/assets/database.png" /></a></li>
             <li *ngIf="userHandler.value">
               <div class="user-nav">
