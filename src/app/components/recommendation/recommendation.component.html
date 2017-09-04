@@ -1,0 +1,61 @@
+<div id="recommendation-section" class="container">
+  <h1>Recommendations</h1>
+  <hr>
+
+  <h2>Texts recommended for you</h2>
+
+  <div *ngIf="texts; else recommendationLoader">
+    <ul class="recommendation-list list-unstyled">
+      <li *ngFor="let text of texts"><a [routerLink]="['/text/', text._id]">{{text.title + ' (' + text.score.toFixed(2) + ')'}}</a></li>
+    </ul>
+    <p>
+      * Those texts are supposed to be the easiest for you to read because your vocabulary is close to them. The number
+      shown in front of each title indicates how strongly fixed are the text words in your memory, based on your
+      previous readings
+    </p>
+  </div>
+  <ng-template #recommendationLoader>
+    <app-loader></app-loader>
+    <p class="waiting-msg">Sorry, computing recommendations is a long task! Thank you for waiting!</p>
+  </ng-template>
+
+  <hr>
+
+  <h2>Easy texts for you</h2>
+  <div *ngIf="easyTexts; else easyTextsLoader">
+    <div class="row equal">
+      <div class="col-md-4" *ngFor="let text of easyTexts">
+        <div class="text-summary">
+          <a [routerLink]="['/text', text._id]">{{text.title}} ({{(text.score * 100).toFixed()}}%)</a>
+        </div>
+      </div>
+    </div>
+    <p>
+      * A percentage of 50% means that you know 50% of the words used in the text
+    </p>
+  </div>
+  <ng-template #easyTextsLoader>
+    <app-loader></app-loader>
+    <p class="waiting-msg">Sorry, computing recommendations is a long task! Thank you for waiting!</p>
+  </ng-template>
+
+  <hr>
+
+  <h2>Hard texts for you</h2>
+  <div *ngIf="hardTexts; else hardTextsLoader">
+    <div class="row equal">
+      <div class="col-md-4" *ngFor="let text of hardTexts">
+        <div class="text-summary">
+          <a [routerLink]="['/text', text._id]">{{text.title}} ({{(text.score * 100).toFixed()}}%)</a>
+        </div>
+      </div>
+    </div>
+    <p>
+      * A percentage of 50% means that you know 50% of the words used in the text
+    </p>
+  </div>
+  <ng-template #hardTextsLoader>
+    <app-loader></app-loader>
+    <p class="waiting-msg">Sorry, computing recommendations is a long task! Thank you for waiting!</p>
+  </ng-template>
+</div>

@@ -1,0 +1,40 @@
+#recommendation-section {
+  text-align: center;
+}
+
+#recommendation-section h1 {
+  font-family: 'Raleway', sans-serif;
+  font-size: 3em;
+  font-weight: bold;
+}
+
+#recommendation-section h2 {
+  font-family: 'Raleway', sans-serif;
+  font-size: 2em;
+}
+
+.recommendation-list {
+  list-style-type: none;
+  font-size: 1.7em;
+  padding-left: 0;
+}
+
+.recommendation-list > li {
+  padding: 3px;
+}
+
+#recommendation-section p {
+  margin-top: 15px;
+  margin-bottom: 55px;
+  font-style: italic;
+}
+
+.text-summary {
+  border-radius: 3px;
+  padding: 25px 5px;
+  font-size: 1.7em;
+}
+
+.waiting-msg {
+  font-size: 1.3em;
+}
