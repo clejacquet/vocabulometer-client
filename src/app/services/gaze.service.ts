@@ -81,17 +81,16 @@ export class GazeService implements GazeSourceTarget {
     })
   }
 
+  private screenToWindow(x, y): number[] {
+    const yoffset = window.outerHeight - window.innerHeight;
+
+    return [x - window.screenX, y - yoffset - window.screenY];
+  }
+
   private update(scope: string, type: string, leftX: number, leftY: number, rightX: number, rightY: number, cb: Function): void {
     if (type === 'fixation') {
       if (scope === 'screen') {
-        const xoffset = window.outerWidth - window.innerWidth;
-        const yoffset = window.outerHeight - window.innerHeight;
-
-        leftX = leftX * screen.width - xoffset;
-        leftY = leftY * screen.height - yoffset;
-
-        rightX = rightX * screen.width - xoffset;
-        rightY = rightY * screen.height - yoffset;
+        [leftX, leftY] = this.screenToWindow(leftX, leftY);
       }
 
       console.log(leftX + ' / ' + leftY);
@@ -120,17 +119,8 @@ export class GazeService implements GazeSourceTarget {
       }
 
       if (scope === 'screen') {
-        [leftX, leftY] = GazeService.toWindowCoords(leftX, leftY);
-        // [rightX, rightY] = GazeService.toWindowCoords(rightX, rightY);
-
-        const xoffset = window.outerWidth - window.innerWidth;
-        const yoffset = window.outerHeight - window.innerHeight;
-
-        leftX = leftX * screen.width - xoffset;
-        leftY = leftY * screen.height - yoffset;
-
-        rightX = rightX * screen.width - xoffset;
-        rightY = rightY * screen.height - yoffset;
+        [leftX, leftY] = this.screenToWindow(leftX, leftY);
+        [rightX, rightY] = this.screenToWindow(rightX, rightY);
       }
 
       this.addNewCoordinates(leftX, leftY, rightX, rightY, cb);
@@ -149,10 +139,8 @@ export class GazeService implements GazeSourceTarget {
 
     cb({
       type: 'position',
-      x: this.mean_x,
-      y: this.mean_y,
-      var_x: this.var1,
-      var_y: this.var2
+      x: leftX,
+      y: leftY
     });
 
     if (this.var1 + this.var2 > this.VARIANCE_THRESHOLD) {
