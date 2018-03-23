@@ -1,16 +1,67 @@
-.app-content {
-  margin-top: 102px;
+html {
+  font-size: 14px;
+}
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
 }
 
-.navbar img {
+.display-5 {
+  font-size: 2.5em;
+  font-weight: 300;
+  line-height: 1.2;
+  font-family: Raleway, sans-serif;
+}
+
+.box-shadow { box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05); }
+
+.app-content {
+  margin-top: 20px;
+}
+
+nav > a {
+  line-height: 4.5em;
+}
+
+.navbar-nav img {
   width: 42px;
   height: 42px;
 }
 
-.user-nav {
-  padding: 15px 15px;
+.active {
+  font-weight: 500;
 }
 
-.user-nav > * {
+.log {
+  float: right;
+}
+
+.user-nav {
+  padding: 5px;
+  border-radius: 37px;
+  background-color: #ececec;
+}
+
+.user-nav > span {
+  margin-left: 20px;
+  font-weight: 500;
+}
+
+.logout-button {
+  padding: 12px;
+  border: none;
+  border-radius: 100%;
+  background: none;
   margin-left: 6px;
+}
+
+.logout-button:hover {
+  background-color: #dadada;
+  cursor: pointer;
+}
+
+.logout-button > img {
+  width: 22px;
+  height: 22px;
 }

@@ -31,9 +31,3 @@
   font-weight: bold;
   font-family: 'Raleway', sans-serif;
 }
-
-.equal {
-  display: flex;
-  display: -webkit-flex;
-  flex-wrap: wrap;
-}

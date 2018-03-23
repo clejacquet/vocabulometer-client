@@ -17,7 +17,7 @@ export class GraphComponent implements OnInit {
   constructor(private stats: StatsService) { }
 
   ngOnInit() {
-    this.stats.wordsRead((err, days) => {
+    this.stats.wordsRead(7, (err, days) => {
       if (err) {
         return console.error(err);
       }
@@ -38,7 +38,7 @@ export class GraphComponent implements OnInit {
       }, {displayModeBar: false});
     });
 
-    this.stats.newWordsRead((err, days) => {
+    this.stats.newWordsRead(7, (err, days) => {
       if (err) {
         return console.error(err);
       }
@@ -59,7 +59,7 @@ export class GraphComponent implements OnInit {
       }, {displayModeBar: false});
     });
 
-    this.stats.newRecentWordsRead((err, words) => {
+    this.stats.newRecentWordsRead(12, (err, words) => {
       if (err) {
         return console.error(err);
       }

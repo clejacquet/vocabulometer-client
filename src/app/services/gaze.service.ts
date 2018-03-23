@@ -31,7 +31,7 @@ export class GazeService implements GazeSourceTarget {
   private FIXATION_MIN_DURATION = 100; // minimum duration of a fixation in milliseconds
 
   private gazeSourceEmitters: GazeSourceEmitter[] = [
-    new GazeRemoteSourceEmitter(HostService.urlGaze('/')),
+    new GazeRemoteSourceEmitter(HostService.urlGaze('/signalr')),
     new GazeMouseSourceEmitter()
   ];
 
@@ -71,7 +71,7 @@ export class GazeService implements GazeSourceTarget {
 
   onMessage(emitter: GazeSourceEmitter, msg: any, cb: Function): void {
     if (this.gazeSourceEmitters[(this.usedProviderHandler.value) ? 1 : 0] === emitter) {
-      this.update(msg.scope, msg.lx, msg.ly, msg.rx, msg.ry, cb);
+      this.update(msg.scope, msg.type, msg.lx, msg.ly, msg.rx, msg.ry, cb);
     }
   }
 
@@ -81,7 +81,28 @@ export class GazeService implements GazeSourceTarget {
     })
   }
 
-  private update(scope: string, leftX: number, leftY: number, rightX: number, rightY: number, cb: Function): void {
+  private update(scope: string, type: string, leftX: number, leftY: number, rightX: number, rightY: number, cb: Function): void {
+    if (type === 'fixation') {
+      if (scope === 'screen') {
+        const xoffset = window.outerWidth - window.innerWidth;
+        const yoffset = window.outerHeight - window.innerHeight;
+
+        leftX = leftX * screen.width - xoffset;
+        leftY = leftY * screen.height - yoffset;
+
+        rightX = rightX * screen.width - xoffset;
+        rightY = rightY * screen.height - yoffset;
+      }
+
+      console.log(leftX + ' / ' + leftY);
+
+      return cb({
+        type: 'fixation',
+        x: leftX,
+        y: leftY
+      });
+    }
+
     const blinkValue = GazeService.eyeBlink(leftX, leftY, rightX, rightY);
 
     // Filtering eyes blinking
@@ -110,8 +131,6 @@ export class GazeService implements GazeSourceTarget {
 
         rightX = rightX * screen.width - xoffset;
         rightY = rightY * screen.height - yoffset;
-
-        console.log(leftX + ' / ' + leftY);
       }
 
       this.addNewCoordinates(leftX, leftY, rightX, rightY, cb);

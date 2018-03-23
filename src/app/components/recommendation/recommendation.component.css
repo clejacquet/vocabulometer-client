@@ -38,3 +38,9 @@
 .waiting-msg {
   font-size: 1.3em;
 }
+
+.equal {
+  display: flex;
+  display: -webkit-flex;
+  flex-wrap: wrap;
+}

@@ -18,48 +18,30 @@ export class StatsService {
 
   constructor(private authHttp: AuthHttpService) {}
 
-  wordsRead(cb): void {
+  wordsRead(limit, cb): void {
     this.authHttp
-      .get(HostService.url('/api/users/current/stats/words_read'))
+      .get(HostService.url('/api/users/current/stats/words_read'), { limit: limit })
       .map(res => res.json())
       .toPromise()
       .then(res => cb(null, res.days))
       .catch(err => cb(err));
   }
 
-  newWordsRead(cb): void {
+  newWordsRead(limit, cb): void {
     this.authHttp
-      .get(HostService.url('/api/users/current/stats/new_words_read'))
+      .get(HostService.url('/api/users/current/stats/new_words_read'), { limit: limit })
       .map(res => res.json())
       .toPromise()
       .then(res => cb(null, res.days))
       .catch(err => cb(err));
   }
 
-  newRecentWordsRead(cb): void {
+  newRecentWordsRead(limit, cb): void {
     this.authHttp
-      .get(HostService.url('/api/users/current/stats/new_recent_words_read'))
+      .get(HostService.url('/api/users/current/stats/new_recent_words_read'), { limit: limit })
       .map(res => res.json())
       .toPromise()
       .then(res => cb(null, res.words))
-      .catch(err => cb(err));
-  }
-
-  easyTexts(cb): void {
-    this.authHttp
-      .get(HostService.url('/api/users/current/stats/easy_texts'))
-      .map(res => res.json())
-      .toPromise()
-      .then(res => cb(null, res.texts))
-      .catch(err => cb(err));
-  }
-
-  hardTexts(cb): void {
-    this.authHttp
-      .get(HostService.url('/api/users/current/stats/hard_texts'))
-      .map(res => res.json())
-      .toPromise()
-      .then(res => cb(null, res.texts))
       .catch(err => cb(err));
   }
 

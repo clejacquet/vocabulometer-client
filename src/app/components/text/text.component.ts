@@ -68,6 +68,7 @@ export class TextComponent implements OnInit, OnDestroy {
   text: Text;
   readWordsHandler: ParameterHandler<boolean>;
   paneClasses: any;
+  paneOffset: number;
 
   private routeSub: any;
   private textId: string;
@@ -100,11 +101,20 @@ export class TextComponent implements OnInit, OnDestroy {
       }
     });
 
+    this.paneOffset = this.computeTop();
+    window.addEventListener('scroll', () => {
+      this.paneOffset = this.computeTop();
+    });
+
     this.paneClasses = true;
   }
 
   ngOnDestroy(): void {
     this.routeSub.unsubscribe();
+  }
+
+  computeTop(): number {
+    return Math.max(0, 108 - window.pageYOffset);
   }
 
   private textCb(err, text) {

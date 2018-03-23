@@ -1,6 +1,7 @@
 <app-gaze-cursor></app-gaze-cursor>
 
-<div id="side-pane" [@widthTransition]="(paneClasses) ? 'open' : 'closed'">
+<img src="/assets/close_hover.png" style="display: none"/>
+<div id="side-pane" [@widthTransition]="(paneClasses) ? 'open' : 'closed'" [style.top]="paneOffset + 'px'">
   <div class="side-pane-container">
     <div id="side-pane-title">
       Settings
@@ -15,6 +16,7 @@
 
 <div *ngIf="text; else textLoader" class="text-container">
   <span class="text-title">{{text.title}}</span>
+  <!--<hr>-->
 
   <div class="text"
        [style.font-size]="settings.fontSizeValue.normalizedValue() + 'em'"

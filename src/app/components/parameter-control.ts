@@ -49,6 +49,5 @@ export class ParameterControl {
   constructor(public title: string,
               public unit: string,
               public value: ParameterRangeHandler) {
-    this.title = this.title.toUpperCase();
   }
 }

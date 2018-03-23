@@ -13,6 +13,7 @@ export class GazeMouseSourceEmitter extends GazeSourceEmitter {
 
       target.onMessage(this, {
         scope: 'client',
+        type: 'gaze',
         lx: x,
         ly: y,
         rx: x,

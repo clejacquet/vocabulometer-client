@@ -1,6 +1,6 @@
 import { GazeSourceEmitter } from './gaze-source-emitter';
 import { GazeSourceTarget } from './gaze-source-target';
-import * as io from 'socket.io-client';
+import { SignalrService } from '../services/signalr.service';
 
 export class GazeRemoteSourceEmitter extends GazeSourceEmitter {
   constructor(private url: string) {
@@ -8,38 +8,38 @@ export class GazeRemoteSourceEmitter extends GazeSourceEmitter {
   }
 
   start(target: GazeSourceTarget): void {
-    const socket = io(this.url);
-    socket.on('gaze', (lx, ly, rx, ry) => {
-      target.onMessage(this, {
-        scope: 'screen',
-        type: 'gaze',
-        lx: lx,
-        ly: ly,
-        rx: rx,
-        ry: ry
-      }, (res) => {
-        this.notify(res);
-      });
+    SignalrService.build(this.url, 'chatHub', {
+      'onGazePoint': (x, y) => {
+        target.onMessage(this, {
+          scope: 'screen',
+          type: 'gaze',
+          lx: x,
+          ly: y,
+          rx: x,
+          ry: y
+        }, (res) => {
+          this.notify(res);
+        });
+      },
+      'onFixation': (x, y) => {
+        target.onMessage(this, {
+          scope: 'screen',
+          type: 'fixation',
+          lx: x,
+          ly: y,
+          rx: x,
+          ry: y
+        }, (res) => {
+          this.notify(res);
+        });
+      }
+    }, (hub) => {
+      const updateRoutine = () => {
+        hub.server.updateRequest();
+        setTimeout(updateRoutine, 8);
+      };
+
+      updateRoutine();
     });
-
-    socket.on('fixation', (x, y) => {
-      target.onMessage(this, {
-        scope: 'screen',
-        type: 'fixation',
-        lx: x,
-        ly: y,
-        rx: x,
-        ry: y
-      }, (res) => {
-        this.notify(res);
-      });
-    });
-
-    const updateRoutine = () => {
-      socket.emit('updateRequest');
-      setTimeout(updateRoutine, 8);
-    };
-
-    updateRoutine();
   };
 }

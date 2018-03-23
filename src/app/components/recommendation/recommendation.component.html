@@ -2,16 +2,20 @@
   <h1>Recommendations</h1>
   <hr>
 
-  <h2>Texts recommended for you</h2>
+  <h2>Revise your vocabulary</h2>
 
-  <div *ngIf="texts; else recommendationLoader">
-    <ul class="recommendation-list list-unstyled">
-      <li *ngFor="let text of texts"><a [routerLink]="['/text/', text._id]">{{text.title + ' (' + text.score.toFixed(2) + ')'}}</a></li>
-    </ul>
+  <div *ngIf="recommendedTexts; else recommendationLoader">
+    <div class="row equal">
+      <div class="col-md-4" *ngFor="let text of recommendedTexts">
+        <div class="text-summary">
+          <a [routerLink]="['/text/', text._id]">{{text.title + ' (' + text.score.toFixed(2) + ')'}}</a>
+        </div>
+      </div>
+    </div>
     <p>
-      * Those texts are supposed to be the easiest for you to read because your vocabulary is close to them. The number
+      * Those texts are supposed to be the best for helping you to revise your vocabulary. The number
       shown in front of each title indicates how strongly fixed are the text words in your memory, based on your
-      previous readings
+      previous readings.
     </p>
   </div>
   <ng-template #recommendationLoader>

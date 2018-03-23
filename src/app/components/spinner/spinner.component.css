@@ -1,11 +1,10 @@
 .spinner-input input {
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
-  font-size: 1em;
   padding: 0 10px;
   border: 1px inset #ffffff;
   width: 80px;
-  height: 32px;
+  height: 40px;
   text-align: right;
 }
 
@@ -15,18 +14,16 @@
 
 .spinner-text {
   color: white;
-  font-size: 0.85em;
-  font-family: 'Source Sans Pro', sans-serif;
-  font-weight: 700;
+  font-family: 'Raleway', sans-serif;
   float: left;
   width: 100px;
-  line-height: 32px;
+  line-height: 40px;
 }
 
 .spinner-text-unit {
   width: 30px;
   margin-left: 4px;
-  line-height: 32px;
+  line-height: 40px;
 }
 
 
@@ -39,10 +36,12 @@
 
 .button-incdec > button {
   width: 32px;
-  height: 16px;
+  height: 20px;
   background-color: white;
   padding: 0;
   border: 1px inset #ffffff;
+  font-weight: bold;
+  color: #333;
 }
 
 .button-incdec > button:active {

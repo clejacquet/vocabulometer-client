@@ -1,31 +1,54 @@
-<div id="index" class="container" style="text-align: center">
-  <div id="index-welcome" class="jumbotron">
-    <h1>Train your English skills with Vocabulometer!</h1>
-
-    <div *ngIf="userHandler.value;else userform">
-      <h2>You don't know this app? Give a try, read <a routerLink="/text">this text</a></h2>
-    </div>
-    <ng-template #userform>
-      <h2>Start reading some English texts by logging in!</h2>
-      <form>
-        <label>Username <input type="text" [(ngModel)]="username" name="username"/></label><br>
-        <label>Password <input type="password" [(ngModel)]="password" name="password"/></label><br>
-        <button (click)="onLog()" (touchstart)="onLog()">Log in</button>
-      </form>
-      <span>(If the provided username does not exist, a new account is created)</span>
-    </ng-template>
-
-    <h2>Learn how to setup your eye-tracker device to work with this website <a routerLink="/help">here.</a></h2>
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+  <h1 id="title" class="display-4">Train your English skills with Vocabulometer!</h1>
+  <div *ngIf="userHandler.value;else userform">
+    You don't know this app? Give a try, read <a routerLink="/text">this text</a>
   </div>
+  <ng-template #userform>
+    Start reading some English texts by logging in!
+    <form>
+      <label>Username <input type="text" [(ngModel)]="username" name="username"/></label><br>
+      <label>Password <input type="password" [(ngModel)]="password" name="password"/></label><br>
+      <button (click)="onLog()" (touchstart)="onLog()">Log in</button>
+    </form>
+    <span>(If the provided username does not exist, a new account is created)</span>
+  </ng-template>
 
+  Learn how to setup your eye-tracker device to work with this website <a routerLink="/help">here.</a>
+</div>
+
+<div class="container">
+  <hr>
+  <!--<div id="index-welcome" class="jumbotron">-->
+    <!--<h1>Train your English skills with Vocabulometer!</h1>-->
+    <!--<div *ngIf="userHandler.value;else userform">-->
+      <!--<h2>You don't know this app? Give a try, read <a routerLink="/text">this text</a></h2>-->
+    <!--</div>-->
+    <!--<ng-template #userform>-->
+      <!--<h2>Start reading some English texts by logging in!</h2>-->
+      <!--<form>-->
+        <!--<label>Username <input type="text" [(ngModel)]="username" name="username"/></label><br>-->
+        <!--<label>Password <input type="password" [(ngModel)]="password" name="password"/></label><br>-->
+        <!--<button (click)="onLog()" (touchstart)="onLog()">Log in</button>-->
+      <!--</form>-->
+      <!--<span>(If the provided username does not exist, a new account is created)</span>-->
+    <!--</ng-template>-->
+
+    <!--<h2>Learn how to setup your eye-tracker device to work with this website <a routerLink="/help">here.</a></h2>-->
+    <!---->
+  <!--</div>-->
+
+  <div class="about text-center">
+    <h2 class="display-5">About the app</h2>
+  </div>
   <p>
     Vocabulometer aims at helping English learners by offering a platform for vocabulary learning and training,
     using an eye-tracker device. Vocabulometer works with the Tobii EyeX and the Tobii 4C.
   </p>
 
-  <div>
+  <div class="img-list">
     <img class="lab-img" src="/assets/imlab_logo.png">
     <img class="lab-img" src="/assets/opu_logo.png">
+    <img class="lab-img" src="/assets/bordeaux.png">
   </div>
 
   <p>

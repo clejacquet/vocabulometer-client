@@ -1,26 +1,81 @@
-<div class="navbar navbar-default navbar-fixed-top">
-  <div class="container">
-    <div class="navbar-header">
-      <div class="user-button">
-        <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li><a routerLink="/"><img src="/assets/home.png" /></a></li>
-            <li *ngIf="userHandler.value"><a routerLink="/graph"><img src="/assets/graph.png" /></a></li>
-            <li *ngIf="userHandler.value"><a routerLink="/recommendation"><img src="/assets/recommendation.png" /></a></li>
-            <li *ngIf="userHandler.value"><a routerLink="/admin"><img src="/assets/database.png" /></a></li>
-            <li *ngIf="userHandler.value">
-              <div class="user-nav">
-                <img src="/assets/user.png" />
-                <span>{{userHandler.value.name}}</span>
-                <button class="logout-button" (click)="onLogOut()">Log out</button>
-              </div>
-            </li>
-          </ul>
-        </div>
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+  <h5 class="my-0 mr-md-auto font-weight-normal">Vocabulometer</h5>
+  <nav class="my-2 my-md-0 mr-md-3">
+    <a class="p-2 text-dark" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >Home</a>
+    <a class="p-2 text-dark" routerLink="/graph" routerLinkActive="active" *ngIf="userHandler.value">Statistics</a>
+    <a class="p-2 text-dark" routerLink="/recommendation" routerLinkActive="active" *ngIf="userHandler.value">Recommendations</a>
+    <a class="p-2 text-dark" routerLink="/admin" routerLinkActive="active" *ngIf="userHandler.value">Texts</a>
+    <div class="p-2 text-dark log" *ngIf="userHandler.value">
+      <div class="user-nav">
+        <!--<img src="/assets/user.png" />-->
+        <span>{{userHandler.value.name}}</span>
+        <button class="logout-button" (click)="onLogOut()">
+          <img src="/assets/logout.png">
+        </button>
       </div>
     </div>
-  </div>
+  </nav>
 </div>
+<!--<nav class="navbar navbar-expand-lg navbar-light bg-light">-->
+    <!--<a class="navbar-brand" href="/">Vocabulometer</a>-->
+    <!--<ul class="navbar-nav mr-auto">-->
+      <!--<li class="nav-item active">-->
+        <!--<a class="nav-link" routerLink="/"><img src="/assets/home.png" /></a>-->
+      <!--</li>-->
+      <!--<li class="nav-item" *ngIf="userHandler.value">-->
+        <!--<a class="nav-link" routerLink="/graph"><img src="/assets/graph.png" /></a>-->
+      <!--</li>-->
+      <!--<li class="nav-item" *ngIf="userHandler.value">-->
+        <!--<a class="nav-link" routerLink="/recommendation"><img src="/assets/recommendation.png" /></a>-->
+      <!--</li>-->
+      <!--<li class="nav-item" *ngIf="userHandler.value">-->
+        <!--<a class="nav-link" routerLink="/admin"><img src="/assets/database.png" /></a>-->
+      <!--</li>-->
+    <!--</ul>-->
+    <!--<ul class="navbar-nav ml-auto">-->
+      <!--<li class="nav-item" *ngIf="userHandler.value">-->
+        <!--<div class="user-nav">-->
+          <!--<img src="/assets/user.png" />-->
+          <!--<span>{{userHandler.value.name}}</span>-->
+          <!--<button class="logout-button" (click)="onLogOut()">-->
+            <!--<img src="/assets/logout.png">-->
+          <!--</button>-->
+        <!--</div>-->
+      <!--</li>-->
+    <!--</ul>-->
+<!--</nav>-->
+
+<!--<nav class="navbar navbar-expand-lg navbar-light bg-light">-->
+  <!--<div class="container">-->
+    <!--<a class="navbar-brand" href="#">Vocabulometer</a>-->
+    <!--<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">-->
+      <!--<span class="navbar-toggler-icon"></span>-->
+    <!--</button>-->
+    <!--<div class="navbar-header">-->
+      <!--<div class="user-button">-->
+        <!--<div class="collapse navbar-collapse">-->
+          <!--<ul class="navbar-nav mr-auto">-->
+            <!--<li class="nav-item"><a class="nav-link" routerLink="/"><img src="/assets/home.png" /></a></li>-->
+            <!--<li class="nav-item" *ngIf="userHandler.value"><a class="nav-link" routerLink="/graph"><img src="/assets/graph.png" /></a></li>-->
+            <!--<li class="nav-item" *ngIf="userHandler.value"><a class="nav-link" routerLink="/recommendation"><img src="/assets/recommendation.png" /></a></li>-->
+            <!--<li class="nav-item" *ngIf="userHandler.value"><a class="nav-link" routerLink="/admin"><img src="/assets/database.png" /></a></li>-->
+          <!--</ul>-->
+          <!--<ul class="navbar-nav ml-auto">-->
+            <!--<li class="nav-item" *ngIf="userHandler.value">-->
+              <!--<div class="user-nav">-->
+                <!--<img src="/assets/user.png" />-->
+                <!--<span>{{userHandler.value.name}}</span>-->
+                <!--<button class="logout-button" (click)="onLogOut()">-->
+                  <!--<img src="/assets/logout.png">-->
+                <!--</button>-->
+              <!--</div>-->
+            <!--</li>-->
+          <!--</ul>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</nav>-->
 
 <div class="app-content">
   <router-outlet></router-outlet>
