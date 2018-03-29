@@ -7,6 +7,8 @@ export class Circle {
 @Injectable()
 export class MeasurementService {
   static intersectRectCircle(rect: ClientRect, circle: Circle): boolean {
+    // console.log(rect);
+    // console.log(circle.x + '/' + circle.y);
     const dx = circle.x - Math.max(rect.left, Math.min(circle.x, rect.left + rect.width));
     const dy = circle.y - Math.max(rect.top, Math.min(circle.y, rect.top + rect.height));
     return (dx * dx + dy * dy) < (circle.radius * circle.radius);

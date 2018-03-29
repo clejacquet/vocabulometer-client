@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { StatsService } from '../../services/stats.service';
+import {Router} from '@angular/router';
 
 declare const Plotly: any;
 
@@ -14,10 +15,14 @@ export class GraphComponent implements OnInit {
   wordsReadLoaded = false;
   newWordsReadLoaded = false;
 
-  constructor(private stats: StatsService) { }
+  constructor(private stats: StatsService, private router: Router) { }
 
   ngOnInit() {
     this.stats.wordsRead(7, (err, days) => {
+      if (this.wordsReadLoaded || this.router.url !== '/graph') {
+        return;
+      }
+
       if (err) {
         return console.error(err);
       }
@@ -39,6 +44,10 @@ export class GraphComponent implements OnInit {
     });
 
     this.stats.newWordsRead(7, (err, days) => {
+      if (this.newWordsReadLoaded || this.router.url !== '/graph') {
+        return;
+      }
+
       if (err) {
         return console.error(err);
       }

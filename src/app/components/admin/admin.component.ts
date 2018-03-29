@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { TextService } from '../../services/text.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import { isNull } from 'util';
@@ -9,7 +9,7 @@ import { isNull } from 'util';
   styleUrls: ['./admin.component.css'],
   providers: [ TextService ]
 })
-export class AdminComponent implements OnInit {
+export class AdminComponent implements OnInit, OnDestroy {
   texts: any[];
   pageNumbers: number[];
 
@@ -62,6 +62,10 @@ export class AdminComponent implements OnInit {
 
       this.refreshTexts();
     });
+  }
+
+  ngOnDestroy() {
+    console.log('destroy admin')
   }
 
   onSettingsClick(textId) {

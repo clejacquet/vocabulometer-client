@@ -84,7 +84,7 @@ export class GazeService implements GazeSourceTarget {
   private screenToWindow(x, y): number[] {
     const yoffset = window.outerHeight - window.innerHeight;
 
-    return [x - window.screenX, y - yoffset - window.screenY];
+    return [(x - window.screenX) / window.devicePixelRatio, (y - yoffset - window.screenY) / window.devicePixelRatio];
   }
 
   private update(scope: string, type: string, leftX: number, leftY: number, rightX: number, rightY: number, cb: Function): void {

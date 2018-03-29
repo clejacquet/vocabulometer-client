@@ -1,7 +1,7 @@
 <div [ngClass]="paneClasses">
   <div>
     <label class="title-text"> RETICULE VISIBLE <input type="checkbox" [(ngModel)]="reticleHandler.value" name="reticule-visible"/></label>
-    <label class="title-text"> SHOWING READ WORDS <input type="checkbox" [(ngModel)]="readWordsHandler.value" name="read-words-visible"/></label>
+    <label class="title-text"> SHOWING READ WORDS <input type="checkbox" [ngModel]="readWordsHandler" (ngModelChange)="readModeChanged()" name="read-words-visible"/></label>
   </div>
 
   <div>

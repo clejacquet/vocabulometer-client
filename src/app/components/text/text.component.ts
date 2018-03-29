@@ -1,53 +1,43 @@
-import {
-  Component, OnDestroy, OnInit, ViewChild
-} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Circle, MeasurementService} from '../../services/measurement.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
+import {GazeCursorComponent} from '../gaze-cursor/gaze-cursor.component';
+import {GazeService} from '../../services/gaze.service';
+import {DebugComponent} from '../debug/debug.component';
+import {SettingsComponent} from '../settings/settings.component';
+import {AuthService} from '../../services/auth.service';
+import {VocabService} from '../../services/vocab.service';
+import {ParserService} from '../../services/parser.service';
+import {TextService} from '../../services/text.service';
+import {ActivatedRoute, Router} from '@angular/router';
 
-import { TextService } from '../../services/text.service';
+class CustomParagraph {
+  private count = 0;
+  private length: number;
 
-import { SettingsComponent } from '../settings/settings.component';
-import { DebugComponent } from '../debug/debug.component';
-import { GazeCursorComponent } from '../gaze-cursor/gaze-cursor.component';
-
-import { ParameterHandler } from '../parameter-control';
-import { GazeService } from '../../services/gaze.service';
-import { ParserService } from '../../services/parser.service';
-
-
-export class Paragraph {
-  private readCount = 0;
-  private words = [];
-
-  public constructor(public sequences: any[]) {
-
+  constructor(private paragraph: HTMLParagraphElement) {
+    this.length = this.paragraph.getElementsByTagName('span').length;
   }
 
-  public registerCb(word) { // registerCb stores the parameter 'word' that will be saved after that 75% of the paragraph is read
-    this.words.push(word);     // it is called by every non stop-word of the paragraph
+  getRect(): ClientRect {
+    return this.paragraph.getBoundingClientRect();
   }
 
-  public saveCb() { // At each call of saveCB, it increments the counter of read words in the paragraph, and...
-    this.readCount += 1;
-
-    if (this.readCount >= 0.75 * this.sequences.length) { // ... if 75% of the paragraph is read...
-      this.words.forEach(word => word.save()); // ...we save all the read words
-    }
+  addReadWordCount(count: number) {
+    this.count += count;
   }
-}
 
-export class Text {
-  public title: string;
-  public body: Paragraph[];
+  shouldSave(): boolean {
+    return this.count >= this.length * 0.75;
+  }
 
-  public constructor(title: string, paragraphs: any[]) {
-    this.title = title;
-    this.body = paragraphs.map(paragraph => new Paragraph(paragraph))
+  getElements(elementClass): Element[] {
+    return Array.from(this.paragraph.getElementsByClassName(elementClass));
   }
 }
 
 @Component({
-  selector: 'app-text',
+  selector: 'app-text-test',
   templateUrl: './text.component.html',
   styleUrls: ['./text.component.css'],
   providers: [TextService],
@@ -65,8 +55,8 @@ export class Text {
   ]
 })
 export class TextComponent implements OnInit, OnDestroy {
-  text: Text;
-  readWordsHandler: ParameterHandler<boolean>;
+  text: string;
+  title: string;
   paneClasses: any;
   paneOffset: number;
 
@@ -79,14 +69,21 @@ export class TextComponent implements OnInit, OnDestroy {
 
   constructor(private textService: TextService,
               private gazeService: GazeService,
+              private vocabService: VocabService,
               private parser: ParserService,
               private route: ActivatedRoute,
-              private router: Router) {}
+              private router: Router) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.gazeService.start(this.debug.mouseModeHandler);
     this.gazeCursor.handler = this.debug.reticleHandler;
-    this.readWordsHandler = this.debug.readWordsHandler;
+
+    this.paneOffset = this.computeTop();
+    window.addEventListener('scroll', () => {
+      this.paneOffset = this.computeTop();
+    });
+
+    this.paneClasses = true;
 
     this.routeSub = this.route.params.subscribe(params => {
       this.textId = params['id'];
@@ -97,47 +94,138 @@ export class TextComponent implements OnInit, OnDestroy {
         });
       } else {
         // Loading the text
-        this.textService.getText(this.textId, (err, result) => this.textCb(err, result));
+        this.textService.getText(this.textId, (err, result) => {
+          if (err) {
+            return console.error(err);
+          }
+
+          this.textCb(err, result)
+        });
       }
     });
-
-    this.paneOffset = this.computeTop();
-    window.addEventListener('scroll', () => {
-      this.paneOffset = this.computeTop();
-    });
-
-    this.paneClasses = true;
   }
 
-  ngOnDestroy(): void {
-    this.routeSub.unsubscribe();
+  ngOnDestroy() {
   }
 
   computeTop(): number {
     return Math.max(0, 108 - window.pageYOffset);
   }
 
-  private textCb(err, text) {
+  private textCb(err, result) {
     if (err) {
-      console.log('Can\'t contact the server (' + err + '), offline mode activated');
-
-      // Use the mockup text instead
-      return this.textService.getMockupText((err2, text2) => {
-        if (err2) {
-          return console.log(err2);
-        }
-
-        this.initText(text2);
-      });
+      console.error(err);
     }
 
-    this.initText(text);
-  }
+    this.text = this.parser.parseToHTML(result.text.body);
+    this.title = result.text.title;
 
-  private initText(text) {
-    const title = text.title;
-    const paragraphs = text.body.map(paragraph => this.parser.parseToHTML(paragraph));
+    const paragraphCount = Array.from(new DOMParser().parseFromString('<div>' + this.text + '</div>', 'application/xml')
+      .getElementsByTagName('p')).length;
 
-    this.text = new Text(title, paragraphs);
+    console.log(paragraphCount);
+
+    const tryLoad = () => {
+      const textNode = window.document.getElementsByClassName('text')[0];
+      if (!textNode) {
+        return setTimeout(tryLoad, 100);
+      }
+
+      if (Array.from(textNode.getElementsByTagName('p')).length < paragraphCount) {
+        return setTimeout(tryLoad, 100);
+      }
+
+      const paragraphs: CustomParagraph[] = Array
+        .from(textNode.getElementsByTagName('p'))
+        .map((paragraph) => new CustomParagraph(paragraph));
+
+      this.debug.subscribe((readMode) => {
+        if (!readMode) {
+          paragraphs.forEach((paragraph) => {
+            paragraph.getElements('text-unread-stopword').forEach((element) => element.className = 'text-unread-stopword-inactive');
+            paragraph.getElements('text-read-stopword').forEach((element) => element.className = 'text-read-stopword-inactive');
+            paragraph.getElements('text-saved-stopword').forEach((element) => element.className = 'text-saved-stopword-inactive');
+            paragraph.getElements('text-unread-word').forEach((element) => element.className = 'text-unread-word-inactive');
+            paragraph.getElements('text-read-word').forEach((element) => element.className = 'text-read-word-inactive');
+            paragraph.getElements('text-saved-word').forEach((element) => element.className = 'text-saved-word-inactive');
+          });
+        } else {
+          paragraphs.forEach((paragraph) => {
+            paragraph.getElements('text-unread-stopword-inactive').forEach((element) => element.className = 'text-unread-stopword');
+            paragraph.getElements('text-read-stopword-inactive').forEach((element) => element.className = 'text-read-stopword');
+            paragraph.getElements('text-saved-stopword-inactive').forEach((element) => element.className = 'text-saved-stopword');
+            paragraph.getElements('text-unread-word-inactive').forEach((element) => element.className = 'text-unread-word');
+            paragraph.getElements('text-read-word-inactive').forEach((element) => element.className = 'text-read-word');
+            paragraph.getElements('text-saved-word-inactive').forEach((element) => element.className = 'text-saved-word');
+          });
+        }
+      });
+
+      this.gazeService.subscribe((coords) => {
+        if (coords.type === 'fixation') {
+          const circle = new Circle(coords.x, coords.y, GazeCursorComponent.GazeCursorRadius);
+
+          const collided_paragraphs = paragraphs.filter((paragraph) => {
+            const is_intersected = MeasurementService.intersectRectCircle(paragraph.getRect(), circle);
+            return is_intersected && !paragraph.shouldSave();
+          });
+
+          collided_paragraphs.forEach((p) => {
+            const elementStopWordsUnread = p.getElements('text-unread-stopword' + ((!this.debug.readWordsHandler) ? '-inactive' : ''));
+            const elementStopWordsRead = p.getElements('text-read-stopword' + ((!this.debug.readWordsHandler) ? '-inactive' : ''));
+            const elementWordsUnread = p.getElements('text-unread-word' + ((!this.debug.readWordsHandler) ? '-inactive' : ''));
+            const elementWordsRead = p.getElements('text-read-word' + ((!this.debug.readWordsHandler) ? '-inactive' : ''));
+
+            const elementStopWordsNowRead =
+              elementStopWordsUnread.filter((element) => MeasurementService.intersectRectCircle(element.getBoundingClientRect(), circle));
+
+            const elementWordsNowRead =
+              elementWordsUnread.filter((element) => MeasurementService.intersectRectCircle(element.getBoundingClientRect(), circle));
+
+            elementStopWordsNowRead.forEach((element) => {
+              element.className = 'text-read-stopword' + ((!this.debug.readWordsHandler) ? '-inactive' : '');
+            });
+
+            elementWordsNowRead.forEach((element) => {
+              element.className = 'text-read-word' + ((!this.debug.readWordsHandler) ? '-inactive' : '');
+            });
+
+            p.addReadWordCount(elementStopWordsNowRead.length + elementWordsNowRead.length);
+            if (p.shouldSave()) {
+              elementStopWordsUnread.forEach((element) => {
+                element.className = 'text-saved-stopword' + ((!this.debug.readWordsHandler) ? '-inactive' : '');
+              });
+
+              elementWordsUnread.forEach((element) => {
+                element.className = 'text-saved-word' + ((!this.debug.readWordsHandler) ? '-inactive' : '');
+              });
+
+              elementStopWordsRead.forEach((element) => {
+                element.className = 'text-saved-stopword' + ((!this.debug.readWordsHandler) ? '-inactive' : '');
+              });
+
+              elementWordsRead.forEach((element) => {
+                element.className = 'text-saved-word' + ((!this.debug.readWordsHandler) ? '-inactive' : '');
+              });
+
+              const toSaveWords = elementWordsRead.concat(elementWordsUnread).map((element) => element.innerHTML.trim().toLowerCase());
+
+              // ...we save all the read words
+              if (AuthService.userHandler.value) {
+                this.vocabService.saveWords(AuthService.userHandler.value._id, toSaveWords)
+                  .then(result => (result) ?
+                    toSaveWords.forEach((word) => console.log('Word \'' + word + '\' saved')) :
+                    console.error('Error while saving words'))
+                  .catch(error => console.error(error));
+              } else {
+                console.log('Can`t save words');
+              }
+            }
+          });
+        }
+      });
+    };
+
+    tryLoad();
   }
 }

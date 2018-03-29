@@ -6,29 +6,28 @@ import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './components/app.component';
-import { TextComponent } from './components/text/text.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { SliderComponent } from './components/slider/slider.component';
 import { DebugComponent } from './components/debug/debug.component';
-import { WordComponent } from './components/word/word.component';
 import { GazeCursorComponent } from './components/gaze-cursor/gaze-cursor.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { IndexComponent } from './components/index/index.component';
 import { GraphComponent } from './components/graph/graph.component';
+import { LoaderComponent } from './components/loader/loader.component';
+import { RecommendationComponent } from './components/recommendation/recommendation.component';
+import { TextComponent } from './components/text/text.component';
+import { AdminComponent } from './components/admin/admin.component';
+import { TextStructureComponent } from './components/text-structure/text-structure.component';
+import { HelpComponent } from './components/help/help.component';
 
 import { MeasurementService } from './services/measurement.service';
 import { VocabService } from './services/vocab.service';
 import { GazeService } from './services/gaze.service';
 import { ParserService } from './services/parser.service';
 import { AuthService } from './services/auth.service';
-import { AdminComponent } from './components/admin/admin.component';
-import { TextStructureComponent } from './components/text-structure/text-structure.component';
-import { HelpComponent } from './components/help/help.component';
 import { HostService } from './services/host.service';
 import { AuthHttpService } from './services/auth-http.service';
-import { LoaderComponent } from './components/loader/loader.component';
-import { RecommendationComponent } from './components/recommendation/recommendation.component';
 
 
 @NgModule({
@@ -39,8 +38,6 @@ import { RecommendationComponent } from './components/recommendation/recommendat
     SliderComponent,
     DebugComponent,
     GazeCursorComponent,
-    WordComponent,
-    TextComponent,
     NotFoundComponent,
     IndexComponent,
     GraphComponent,
@@ -49,6 +46,7 @@ import { RecommendationComponent } from './components/recommendation/recommendat
     HelpComponent,
     LoaderComponent,
     RecommendationComponent,
+    TextComponent
   ],
   imports: [
     BrowserModule,

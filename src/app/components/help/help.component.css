@@ -1,0 +1,13 @@
+.dl-div {
+  float: left;
+  margin: 15px;
+  line-height: 100%;
+}
+
+.dl-div a > button > p {
+  font-size: 0.8em;
+  margin-top: 10px;
+  margin-bottom: 0;
+  text-align: center;
+  color: #555555;
+}

@@ -11,7 +11,6 @@ export class AuthHttpService {
 
     const urlParams =  new URLSearchParams();
     Object.keys(params).forEach((key) => {
-      console.log(key + '=' + params[key]);
       urlParams.set(key, params[key]);
     });
 

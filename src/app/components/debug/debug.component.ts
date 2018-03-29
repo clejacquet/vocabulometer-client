@@ -8,15 +8,17 @@ import { ParameterHandler } from '../parameter-control';
 })
 export class DebugComponent implements OnInit {
   paneClasses: any;
+  readModeSubscribers: any[] = [];
 
   reticleHandler: ParameterHandler<boolean>;
-  readWordsHandler: ParameterHandler<boolean>;
   mouseModeHandler: ParameterHandler<boolean>;
+  readWordsHandler: boolean;
 
   constructor() {
     this.reticleHandler = ParameterHandler.buildDefault(false);
-    this.readWordsHandler = ParameterHandler.buildDefault(false);
     this.mouseModeHandler = ParameterHandler.buildDefault(false);
+
+    this.readWordsHandler = false;
   }
 
   ngOnInit() {
@@ -24,5 +26,18 @@ export class DebugComponent implements OnInit {
       'debug-pane': true,
       'closed-pane': true
     }
+  }
+
+  subscribe(cb) {
+    this.readModeSubscribers.push(cb);
+  }
+
+  clearSubscribers() {
+    this.readModeSubscribers = []
+  }
+
+  readModeChanged() {
+    this.readWordsHandler = !this.readWordsHandler;
+    this.readModeSubscribers.forEach((sub) => sub(this.readWordsHandler));
   }
 }

@@ -16,52 +16,70 @@
     <button class="btn btn-default" (click)="onTextAdd()">Add</button>
   </form>
 
-  <hr>
 
-  <h2>Texts</h2>
+  <h2 id="admin-text-title">Texts</h2>
   <div *ngIf="texts; else showloader">
-    <table>
+    <table class="table">
       <tr>
         <th>Title</th>
+        <th></th>
       </tr>
       <tr *ngFor="let text of texts">
         <td>
           <a [routerLink]="['/text', text._id]">{{text.text.title}}</a>
         </td>
-        <td>
-          <div class="btn-group" role="group">
-            <button type="button" class="btn btn-default" (click)="onSettingsClick(text._id)">
-              <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-            </button>
+        <td class="settings-buttons">
+          <button type="button" (click)="onSettingsClick(text._id)">
+            <span class="button-settings"><img src="assets/glyphicons/glyphicons-137-cogwheel.png"/></span>
+          </button>
 
-            <button type="button" class="btn btn-default" (click)="onRemoveClick(text._id)">
-              <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-            </button>
-          </div>
+          <button type="button" (click)="onRemoveClick(text._id)">
+            <span class="button-remove"><img src="assets/glyphicons/glyphicons-208-remove.png"/></span>
+          </button>
         </td>
       </tr>
     </table>
 
+    <!--<nav aria-label="Page navigation">-->
+      <!--<ul class="pagination">-->
+        <!--<li class="page-item">-->
+          <!--<a class="page-link" href="#" aria-label="Previous">-->
+            <!--<span aria-hidden="true">&laquo;</span>-->
+            <!--<span class="sr-only">Previous</span>-->
+          <!--</a>-->
+        <!--</li>-->
+        <!--<li class="page-item"><a class="page-link" href="#">1</a></li>-->
+        <!--<li class="page-item"><a class="page-link" href="#">2</a></li>-->
+        <!--<li class="page-item"><a class="page-link" href="#">3</a></li>-->
+        <!--<li class="page-item">-->
+          <!--<a class="page-link" href="#" aria-label="Next">-->
+            <!--<span aria-hidden="true">&raquo;</span>-->
+            <!--<span class="sr-only">Next</span>-->
+          <!--</a>-->
+        <!--</li>-->
+      <!--</ul>-->
+    <!--</nav>-->
+
     <nav aria-label="Page navigation">
       <ul class="pagination">
-        <li [class]="(page == 0) ? 'disabled' : ''">
-          <a (click)="onPageChange(0)" aria-label="Previous">
+        <li [class]="'page-item ' + ((page == 0) ? 'disabled' : '')">
+          <a class="page-link" (click)="onPageChange(0)" aria-label="Previous">
             <span aria-hidden="true">&laquo;</span>
           </a>
         </li>
-        <li [class]="(page == 0) ? 'disabled' : ''">
-          <a (click)="onPageChange(page - 1)" aria-label="Previous">
+        <li [class]="'page-item ' + ((page == 0) ? 'disabled' : '')">
+          <a class="page-link" (click)="onPageChange(page - 1)" aria-label="Previous">
             <span aria-hidden="true">&lsaquo;</span>
           </a>
         </li>
-        <li [class]="(pageNumber === page) ? 'active' : ''" *ngFor="let pageNumber of pageNumbers"><a (click)="onPageChange(pageNumber)">{{pageNumber + 1}}</a></li>
-        <li [class]="(page == lastPage) ? 'disabled' : ''">
-          <a (click)="onPageChange(page + 1)" aria-label="Next">
+        <li [class]="'page-item ' + ((pageNumber === page) ? 'active' : '')" *ngFor="let pageNumber of pageNumbers"><a class="page-link" (click)="onPageChange(pageNumber)">{{pageNumber + 1}}</a></li>
+        <li [class]="'page-item ' + ((page == lastPage) ? 'disabled' : '')">
+          <a class="page-link" (click)="onPageChange(page + 1)" aria-label="Next">
             <span aria-hidden="true">&rsaquo;</span>
           </a>
         </li>
-        <li [class]="(page == lastPage) ? 'disabled' : ''">
-          <a (click)="onPageChange(lastPage)" aria-label="Next">
+        <li [class]="'page-item ' + ((page == lastPage) ? 'disabled' : '')">
+          <a class="page-link" (click)="onPageChange(lastPage)" aria-label="Next">
             <span aria-hidden="true">&raquo;</span>
           </a>
         </li>

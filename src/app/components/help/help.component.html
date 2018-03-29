@@ -1,7 +1,74 @@
 <div class="container">
-  <p>
-    Download the <a href="/assets/vocabulometer-provider.exe">provider.exe</a>.
 
-    Then, launch it and you're done! You can go back to the <a routerLink="/">Home page</a> and start reading a text.
+  <ul>
+    <li><a href="/help#requirements">Requirements</a></li>
+    <li><a href="/help#download">Download</a></li>
+    <li><a href="/help#browser-compat">Browser compatibility</a></li>
+    <li><a href="/help#known-issues">Known issues</a></li>
+  </ul>
+
+  <h2 id="requirements">Requirements</h2>
+  <hr>
+
+  <h4>Only Windows</h4>
+  <p>Sorry, Linux or MacOS can't be used, as the website is powered by the Tobii API, only compatible with Windows.</p>
+
+  <h4>A Tobii Eye-Tracker installed</h4>
+
+  <p>In order to use this app a Tobii Eye-Tracker is required. So far the following models have been tested and work with this website:</p>
+  <ul>
+    <li>Tobii EyeX</li>
+    <li>Tobii 4C</li>
+  </ul>
+  <p>Installation of the drivers and calibration must have been done beforehand.</p>
+
+  <h2 id="download">Download</h2>
+  <hr>
+
+  <div class="dl-div">
+    <a href="/assets/vocabulometer-provider.exe">
+      <button type="button" class="btn btn-light">
+        <img src="/assets/download.png">
+        <p>vocabulometer-provider.exe</p>
+      </button>
+    </a>
+  </div>
+  <div class="dl-div">
+    <p>
+      Download the <a href="/assets/vocabulometer-provider.exe">provider.exe</a>.
+    </p>
+    <p>
+      Then, launch it and you're done! You can go back to the <a routerLink="/">Home page</a> and start reading a text.
+    </p>
+  </div>
+  <div style="clear: both"></div>
+
+  <h2 id="browser-compat">Browser compatibility</h2>
+  <hr>
+
+  The following browsers have been tested and are compatible with Vocabulometer:
+  <ul>
+    <li>Google Chrome v65.0+</li>
+    <li>Mozilla Firefox v59.0+</li>
+    <li>Microsoft Edge v41+ (Animations not working)</li>
+  </ul>
+
+  <h2 id="known-issues">Known issues</h2>
+  <hr>
+
+  <h4>1. Windows zoom level at boot</h4>
+  <p>
+    If your computer booted on Windows with a zoom level <strong>higher than 100%</strong> (e.g. 125%, 150%...) then the
+    reading detection will fail. However, booting at zoom level 100% and then changing to 125% or more works.
   </p>
+
+  <h4>2. Browser zoom level</h4>
+
+  <p>
+    The browser zoom level should not be changed and stay at the default <strong>100%</strong> value.
+  </p>
+
+  <h4>3. Download bar open</h4>
+
+  <p>On some browsers (such as Google Chrome) if the download bar is open the analysis is a bit less accurate.</p>
 </div>

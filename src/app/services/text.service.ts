@@ -29,7 +29,7 @@ export class TextService {
 
   getText(textId, cb): void {
     this.authHttp.get(HostService.url('/api/texts/' + textId))
-      .map((res: any) => res.json().text )
+      .map((res: any) => res.json() )
       .toPromise()
       .then(result => cb(null, result))
       .catch(err => cb(err));
