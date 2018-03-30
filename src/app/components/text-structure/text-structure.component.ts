@@ -26,13 +26,13 @@ export class TextStructureComponent implements OnInit {
       this.textId = params['id'];
 
       // Loading the text
-      this.textService.getText(this.textId, (err, text) => {
+      this.textService.getText(this.textId, (err, result) => {
         if (err) {
           return console.error(err);
         }
 
-        this.oldTitle = text.title;
-        this.oldText = text.body.map(paragraph => this.parser.parse(paragraph));
+        this.oldTitle = result.text.title;
+        this.oldText = this.parser.parse(result.text.body);
 
         this.text = {
           title: this.oldTitle,

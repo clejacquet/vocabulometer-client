@@ -3,18 +3,23 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class ParserService {
   parse(textDoc): string {
-    return textDoc;
+    console.log(textDoc);
+    return textDoc
+      .map((paragraph) => paragraph.raw)
+      .join('\r\n');
   }
 
   parseToHTML(textDoc): any {
-    return textDoc.map((paragraph) => {
-      return this.surroundWords(
-        paragraph.raw,
-        paragraph.allWords,
-        paragraph.nonStopWords,
-        'text-unread-word-inactive',
-        'text-unread-stopword-inactive');
-    }).join('\r\n');
+    return textDoc
+      .map((paragraph) => {
+        return this.surroundWords(
+          paragraph.raw,
+          paragraph.allWords,
+          paragraph.nonStopWords,
+          'text-unread-word-inactive',
+          'text-unread-stopword-inactive');
+      })
+      .join('\r\n');
   }
 
   private surroundWords(text, words, nonStopWords, classWord, classStopWord) {

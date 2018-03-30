@@ -123,8 +123,6 @@ export class TextComponent implements OnInit, OnDestroy {
     const paragraphCount = Array.from(new DOMParser().parseFromString('<div>' + this.text + '</div>', 'application/xml')
       .getElementsByTagName('p')).length;
 
-    console.log(paragraphCount);
-
     const tryLoad = () => {
       const textNode = window.document.getElementsByClassName('text')[0];
       if (!textNode) {
