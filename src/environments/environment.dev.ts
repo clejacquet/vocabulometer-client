@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  serverUrl: 'http://vocabulometer.herokuapp.com',
+  serverUrl: 'http://vocabulometer-dev.herokuapp.com',
   gazeUrl: 'http://localhost:8080'
 };

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { TextService } from '../../services/text.service';
 import { ActivatedRoute } from '@angular/router';
 import {ParserService} from '../../services/parser.service';
@@ -9,7 +9,7 @@ import {ParserService} from '../../services/parser.service';
   styleUrls: ['./text-structure.component.css'],
   providers: [TextService]
 })
-export class TextStructureComponent implements OnInit {
+export class TextStructureComponent implements OnInit, OnDestroy {
   text: any;
 
   private routeSub: any;
@@ -40,6 +40,10 @@ export class TextStructureComponent implements OnInit {
         }
       })
     });
+  }
+
+  ngOnDestroy() {
+    this.routeSub.unsubscribe();
   }
 
   onTextSave() {

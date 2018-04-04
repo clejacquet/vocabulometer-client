@@ -13,7 +13,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 
 class CustomParagraph {
   private count = 0;
-  private length: number;
+  private readonly length: number;
 
   constructor(private paragraph: HTMLParagraphElement) {
     this.length = this.paragraph.getElementsByTagName('span').length;
@@ -67,6 +67,10 @@ export class TextComponent implements OnInit, OnDestroy {
   @ViewChild(DebugComponent) debug: DebugComponent;
   @ViewChild(GazeCursorComponent) gazeCursor: GazeCursorComponent;
 
+  static computeTop(): number {
+    return Math.max(0, 108 - window.pageYOffset);
+  }
+
   constructor(private textService: TextService,
               private gazeService: GazeService,
               private vocabService: VocabService,
@@ -78,9 +82,9 @@ export class TextComponent implements OnInit, OnDestroy {
     this.gazeService.start(this.debug.mouseModeHandler);
     this.gazeCursor.handler = this.debug.reticleHandler;
 
-    this.paneOffset = this.computeTop();
+    this.paneOffset = TextComponent.computeTop();
     window.addEventListener('scroll', () => {
-      this.paneOffset = this.computeTop();
+      this.paneOffset = TextComponent.computeTop();
     });
 
     this.paneClasses = true;
@@ -90,7 +94,9 @@ export class TextComponent implements OnInit, OnDestroy {
 
       if (!this.textId) {
         this.textService.getSample((err, result) => {
-          this.router.navigate(['/text/', result]);
+          this.router
+            .navigate(['/text/', result])
+            .catch((err1) => console.log(err1));
         });
       } else {
         // Loading the text
@@ -106,10 +112,7 @@ export class TextComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-  }
-
-  computeTop(): number {
-    return Math.max(0, 108 - window.pageYOffset);
+    this.routeSub.unsubscribe();
   }
 
   private textCb(err, result) {
@@ -211,7 +214,7 @@ export class TextComponent implements OnInit, OnDestroy {
               // ...we save all the read words
               if (AuthService.userHandler.value) {
                 this.vocabService.saveWords(AuthService.userHandler.value._id, toSaveWords)
-                  .then(result => (result) ?
+                  .then(result1 => (result1) ?
                     toSaveWords.forEach((word) => console.log('Word \'' + word + '\' saved')) :
                     console.error('Error while saving words'))
                   .catch(error => console.error(error));

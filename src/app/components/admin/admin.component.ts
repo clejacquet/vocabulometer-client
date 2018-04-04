@@ -65,11 +65,13 @@ export class AdminComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    console.log('destroy admin')
+    this.routeSub.unsubscribe();
   }
 
   onSettingsClick(textId) {
-    this.router.navigate(['/admin/texts/', textId]);
+    this.router
+      .navigate(['/admin/texts/', textId])
+      .catch((err) => console.log(err));
   }
 
   onRemoveClick(textId) {
@@ -85,20 +87,20 @@ export class AdminComponent implements OnInit, OnDestroy {
       if (status) {
         this.refreshTexts();
       }
-    })
+    });
   }
 
   onTextAdd() {
     const title = this.titleInput.nativeElement.value;
     const text = this.textInput.nativeElement.value;
 
-    this.textService.addText(title, text, (err, result) => {
+    this.textService.addText(title, text, (err) => {
       if (err) {
         console.error(err);
       }
 
       this.refreshTexts();
-    })
+    });
   }
 
   onPageChange(page: number) {

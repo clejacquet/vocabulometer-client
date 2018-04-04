@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "project": {
-    "name": "vocabnalyze"
+    "name": "vocabulometer"
   },
   "apps": [
     {
@@ -24,7 +24,8 @@
       "scripts": [],
       "environmentSource": "environments/environment.ts",
       "environments": {
-        "dev": "environments/environment.ts",
+        "local": "environments/environment.ts",
+        "dev": "environments/environment.dev.ts",
         "prod": "environments/environment.prod.ts"
       }
     }
