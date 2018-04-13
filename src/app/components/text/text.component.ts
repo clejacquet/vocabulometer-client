@@ -36,6 +36,19 @@ class CustomParagraph {
   }
 }
 
+const changeClassBuilder = elem => {
+  return (src, dst) => elem.getElements(src).forEach((element) => element.className = dst)
+};
+
+const classPairs = [
+  ['text-unread-stopword', 'text-unread-stopword-inactive'],
+  ['text-read-stopword', 'text-read-stopword-inactive'],
+  ['text-saved-stopword', 'text-saved-stopword-inactive'],
+  ['text-unread-word', 'text-unread-word-inactive'],
+  ['text-read-word', 'text-read-word-inactive'],
+  ['text-saved-word', 'text-saved-word-inactive']
+];
+
 @Component({
   selector: 'app-text-test',
   templateUrl: './text.component.html',
@@ -74,7 +87,6 @@ export class TextComponent implements OnInit, OnDestroy {
   constructor(private textService: TextService,
               private gazeService: GazeService,
               private vocabService: VocabService,
-              private parser: ParserService,
               private route: ActivatedRoute,
               private router: Router) { }
 
@@ -120,8 +132,16 @@ export class TextComponent implements OnInit, OnDestroy {
       console.error(err);
     }
 
-    this.text = this.parser.parseToHTML(result.text.body);
-    this.title = result.text.title;
+    this.text = ParserService.parseToHTML(result.body);
+    this.title = result.title;
+
+    const lemmaTable = {};
+    result.body
+      .forEach(paragraph => {
+        paragraph.words
+          .filter(word => word.lemma != null)
+          .forEach(word => lemmaTable[word.raw] = word.lemma);
+      });
 
     const paragraphCount = Array.from(new DOMParser().parseFromString('<div>' + this.text + '</div>', 'application/xml')
       .getElementsByTagName('p')).length;
@@ -141,25 +161,13 @@ export class TextComponent implements OnInit, OnDestroy {
         .map((paragraph) => new CustomParagraph(paragraph));
 
       this.debug.subscribe((readMode) => {
-        if (!readMode) {
-          paragraphs.forEach((paragraph) => {
-            paragraph.getElements('text-unread-stopword').forEach((element) => element.className = 'text-unread-stopword-inactive');
-            paragraph.getElements('text-read-stopword').forEach((element) => element.className = 'text-read-stopword-inactive');
-            paragraph.getElements('text-saved-stopword').forEach((element) => element.className = 'text-saved-stopword-inactive');
-            paragraph.getElements('text-unread-word').forEach((element) => element.className = 'text-unread-word-inactive');
-            paragraph.getElements('text-read-word').forEach((element) => element.className = 'text-read-word-inactive');
-            paragraph.getElements('text-saved-word').forEach((element) => element.className = 'text-saved-word-inactive');
-          });
-        } else {
-          paragraphs.forEach((paragraph) => {
-            paragraph.getElements('text-unread-stopword-inactive').forEach((element) => element.className = 'text-unread-stopword');
-            paragraph.getElements('text-read-stopword-inactive').forEach((element) => element.className = 'text-read-stopword');
-            paragraph.getElements('text-saved-stopword-inactive').forEach((element) => element.className = 'text-saved-stopword');
-            paragraph.getElements('text-unread-word-inactive').forEach((element) => element.className = 'text-unread-word');
-            paragraph.getElements('text-read-word-inactive').forEach((element) => element.className = 'text-read-word');
-            paragraph.getElements('text-saved-word-inactive').forEach((element) => element.className = 'text-saved-word');
-          });
-        }
+        const srcIndex = (readMode) ? 1 : 0;
+        const dstIndex = (readMode) ? 0 : 1;
+
+        paragraphs.forEach((paragraph) => {
+          const changeClass = changeClassBuilder(paragraph);
+          classPairs.forEach(pair => changeClass(pair[srcIndex], pair[dstIndex]));
+        });
       });
 
       this.gazeService.subscribe((coords) => {
@@ -209,13 +217,15 @@ export class TextComponent implements OnInit, OnDestroy {
                 element.className = 'text-saved-word' + ((!this.debug.readWordsHandler) ? '-inactive' : '');
               });
 
-              const toSaveWords = elementWordsRead.concat(elementWordsUnread).map((element) => element.innerHTML.trim().toLowerCase());
+              const toSaveWords = elementWordsRead
+                .concat(elementWordsUnread)
+                .map((element) => lemmaTable[element.innerHTML.trim()]);
 
               // ...we save all the read words
               if (AuthService.userHandler.value) {
                 this.vocabService.saveWords(AuthService.userHandler.value._id, toSaveWords)
                   .then(result1 => (result1) ?
-                    toSaveWords.forEach((word) => console.log('Word \'' + word + '\' saved')) :
+                    toSaveWords.forEach(word => console.log('Word \'' + word + '\' saved')) :
                     console.error('Error while saving words'))
                   .catch(error => console.error(error));
               } else {

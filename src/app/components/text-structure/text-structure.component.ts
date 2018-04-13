@@ -18,7 +18,6 @@ export class TextStructureComponent implements OnInit, OnDestroy {
   private oldText: string;
 
   constructor(private textService: TextService,
-              private parser: ParserService,
               private route: ActivatedRoute) { }
 
   ngOnInit() {
@@ -31,8 +30,8 @@ export class TextStructureComponent implements OnInit, OnDestroy {
           return console.error(err);
         }
 
-        this.oldTitle = result.text.title;
-        this.oldText = this.parser.parse(result.text.body);
+        this.oldTitle = result.title;
+        this.oldText = ParserService.parse(result.body);
 
         this.text = {
           title: this.oldTitle,

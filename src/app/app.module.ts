@@ -29,6 +29,13 @@ import { AuthService } from './services/auth.service';
 import { HostService } from './services/host.service';
 import { AuthHttpService } from './services/auth-http.service';
 
+import {enableProdMode} from '@angular/core';
+import {environment} from '../environments/environment';
+
+if (environment.production) {
+  enableProdMode();
+}
+
 
 @NgModule({
   declarations: [

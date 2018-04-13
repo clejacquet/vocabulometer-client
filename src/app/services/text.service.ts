@@ -12,7 +12,7 @@ export class TextService {
   constructor(private authHttp: AuthHttpService) {}
 
   addText(title, text, cb) {
-    this.authHttp.post(HostService.url('/api/texts'), { title: title, body: text, source: 'user' })
+    this.authHttp.post(HostService.url('/api/texts'), { texts: [{ title: title, body: text, source: 'user' }]})
       .map((res: any) => res.json().result)
       .toPromise()
       .then(result => cb(null, result))
