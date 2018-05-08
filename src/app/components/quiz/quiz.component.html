@@ -1,0 +1,26 @@
+<div class="container" id="quiz-content" *ngIf="currentQuestion !== undefined">
+  <div id="question-caption">Question {{currentQuestionId + 1}} / {{quiz.length}}</div>
+
+  <form>
+    <div id="question-sentence">{{currentQuestion.question}}</div>
+    <div class="form-check" *ngFor="let answer of currentQuestion.answers; let i = index">
+      <input class="form-check-input" type="radio" name="answer" id="{{'answer' + i}}" value="{{i}}">
+      <label class="form-check-label" for="{{'answer' + i}}">
+        {{answer}}
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="answer" id="dont-know-radio" value="{{currentQuestion.answers.length}}" checked>
+      <label class="form-check-label" for="dont-know-radio">
+        <span class="dont-know-answer">I don't know</span>
+      </label>
+    </div>
+    <button type="submit" class="btn btn-primary" (click)="onNext()">{{currentQuestionId + 1 === quiz.length ? 'Submit' : 'Next'}}</button>
+  </form>
+
+  <div id="quiz-result" *ngIf="quizResult !== undefined">
+    Result: {{quizResult}} / {{quiz.length}} correct answers <br>
+    You know approximately {{quizResult * (14000 / quiz.length)}} family words <br>
+    CEFR vocabulary level: {{cefrLevel}}
+  </div>
+</div>

@@ -1,0 +1,31 @@
+#question-caption {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+#question-sentence {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}
+
+#quiz-content > form {
+  border: solid 1px #aaaaaa;
+  border-radius: 4px;
+  padding: 18px 25px;
+}
+
+#quiz-content > form > .form-check {
+  margin-bottom: 6px;
+}
+
+#quiz-content {
+  max-width: 600px;
+}
+
+#quiz-content button {
+  margin-top: 12px;
+}
+
+.dont-know-answer {
+  font-style: italic;
+}

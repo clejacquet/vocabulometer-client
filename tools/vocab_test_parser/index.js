@@ -22,11 +22,12 @@ function loadTest(cb) {
           cb(err);
         }
 
-        const sections = _.flatten(data
-          .split('\r\n\r\n')
+        const sections = data
+          .replace(/\r/g, '')
+          .split('\n\n')
           .map((section) => {
             return section
-              .split('\r\n')
+              .split('\n')
               .reduce((acc, cur) => {
                 if (acc[acc.length - 1].length >= 5) {
                   acc.push([]);
@@ -39,8 +40,8 @@ function loadTest(cb) {
               .map((question) => ({
                 question: question[0],
                 answers: question.slice(1)
-              }));
-          }), 1);
+              }))
+          });
 
         cb(undefined, sections);
       });
@@ -52,11 +53,16 @@ function loadTest(cb) {
           cb(err);
         }
 
-        const answers = data
-          .split('\r\n')
-          .map((answer) => parseInt(answer));
+        const sections = data
+          .replace(/\r/g, '')
+          .split('\n\n')
+          .map((section) => {
+            return section
+              .split('\n')
+              .map((answer) => parseInt(answer));
+          });
 
-        cb(undefined, answers);
+        cb(undefined, sections);
       });
     }
   ], (err, data) => {
@@ -64,12 +70,15 @@ function loadTest(cb) {
       return cb(err);
     }
 
-    const questions = _.zip(...data)
-      .map((pair) => new Question({
-        question: pair[0].question,
-        answers: pair[0].answers,
-        correct: pair[1]
-      }));
+    const questions = _.flatten(_.zip(...data)
+      .map((section) => {
+        return _.sample(_.zip(...section)
+          .map((pair) => new Question({
+            question: pair[0].question,
+            answers: pair[0].answers,
+            correct: pair[1]
+          })), 4);
+      }), 1);
 
     cb(undefined, questions);
   });
@@ -80,6 +89,7 @@ loadTest((err, questions) => {
     return console.error(err);
   }
 
-  console.log(questions[0].solve(1));
+  console.log(questions);
+  console.log(questions.length);
 });
 
