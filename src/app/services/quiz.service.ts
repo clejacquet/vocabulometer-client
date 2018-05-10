@@ -3,14 +3,18 @@ import { Injectable } from '@angular/core';
 import * as async from 'async';
 import * as _ from 'underscore';
 import {Http} from '@angular/http';
+import {HostService} from './host.service';
+import {AuthHttpService} from './auth-http.service';
 
 export class Question {
-  public readonly answers: String[];
-  public readonly question: String;
+  public readonly answers: string[];
+  public readonly question: string;
+  public readonly word: string;
   public readonly correct: Number;
 
   constructor(question) {
     this.question = question.question;
+    this.word = question.question.match(/^([^:]*):/)[1];
     this.answers = question.answers;
     this.correct = question.correct;
   }
@@ -23,9 +27,17 @@ export class Question {
 @Injectable()
 export class QuizService {
 
-  constructor(private http: Http) {}
+  constructor(private authHttp: AuthHttpService, private http: Http) {}
 
-  public loadTest(cb) {
+  public saveResult(result, cb) {
+    this.authHttp.post(HostService.url('/api/users/current/quiz_result'), { result: result })
+      .map((res: any) => res.json().status)
+      .toPromise()
+      .then(status => cb(null, status === 'success'))
+      .catch(err => cb(err));
+  }
+
+  public loadTest(cb: (err: any, quiz?: Question[]) => any) {
     async.parallel([
       (cb1) => {
         this.http.get('/assets/test.txt', {})

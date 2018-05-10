@@ -1,4 +1,16 @@
 <div class="container" id="quiz-content" *ngIf="currentQuestion !== undefined">
+  <h2>English Vocabulary Test</h2>
+
+  <p>
+    A quiz item involves a word in capital letters and a sentence to provide a context. Try to pick the
+    correct meaning for the given word among the four possible options.
+  </p>
+
+  <p>
+    The goal is not to get the highest score possible but to get the score that corresponds to your actual level.
+    <strong>Therefore if you have no idea or are doubtful about the correct answer please pick "<em>I don't know</em>".</strong>
+  </p>
+
   <div id="question-caption">Question {{currentQuestionId + 1}} / {{quiz.length}}</div>
 
   <form>
@@ -21,6 +33,20 @@
   <div id="quiz-result" *ngIf="quizResult !== undefined">
     Result: {{quizResult}} / {{quiz.length}} correct answers <br>
     You know approximately {{quizResult * (14000 / quiz.length)}} family words <br>
-    CEFR vocabulary level: {{cefrLevel}}
+    CEFR vocabulary level: {{cefrLevel}} <br>
+
+    <div class="submit-button">
+      <button type="submit" class="btn btn-primary" (click)="saveResult()">Save and return to Home page</button>
+    </div>
+
+
+    <div id="wrong-answers">
+      Here are the words for which you provided a wrong answer:
+      <div class="row">
+        <div class="col-sm-3" *ngFor="let word of wrongAnswers">
+          {{word}}
+        </div>
+      </div>
+    </div>
   </div>
 </div>

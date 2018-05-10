@@ -32,6 +32,7 @@ import { AuthHttpService } from './services/auth-http.service';
 import {enableProdMode} from '@angular/core';
 import {environment} from '../environments/environment';
 import { QuizComponent } from './components/quiz/quiz.component';
+import { SetLevelComponent } from './components/set-level/set-level.component';
 
 if (environment.production) {
   enableProdMode();
@@ -55,7 +56,8 @@ if (environment.production) {
     LoaderComponent,
     RecommendationComponent,
     TextComponent,
-    QuizComponent
+    QuizComponent,
+    SetLevelComponent
   ],
   imports: [
     BrowserModule,
@@ -71,6 +73,7 @@ if (environment.production) {
       { path: 'admin/:id', component: AdminComponent },
       { path: 'admin/texts/:id', component: TextStructureComponent },
       { path: 'recommendation', component: RecommendationComponent },
+      { path: 'level', component: SetLevelComponent },
       { path: 'quiz', component: QuizComponent },
       { path: 'help', component: HelpComponent },
       { path: '404', component: NotFoundComponent },

@@ -8,8 +8,6 @@
     After, give a try, read <a routerLink="/text">this text</a>
   </div>
 
-  <!--Learn how to setup your eye-tracker device to work with this website <a routerLink="/help">here.</a>-->
-
   <ng-template #userform>
     After, start reading some English texts by logging in!
     <form>
@@ -23,24 +21,6 @@
 
 <div class="container">
   <hr>
-  <!--<div id="index-welcome" class="jumbotron">-->
-    <!--<h1>Train your English skills with Vocabulometer!</h1>-->
-    <!--<div *ngIf="userHandler.value;else userform">-->
-      <!--<h2>You don't know this app? Give a try, read <a routerLink="/text">this text</a></h2>-->
-    <!--</div>-->
-    <!--<ng-template #userform>-->
-      <!--<h2>Start reading some English texts by logging in!</h2>-->
-      <!--<form>-->
-        <!--<label>Username <input type="text" [(ngModel)]="username" name="username"/></label><br>-->
-        <!--<label>Password <input type="password" [(ngModel)]="password" name="password"/></label><br>-->
-        <!--<button (click)="onLog()" (touchstart)="onLog()">Log in</button>-->
-      <!--</form>-->
-      <!--<span>(If the provided username does not exist, a new account is created)</span>-->
-    <!--</ng-template>-->
-
-    <!--<h2>Learn how to setup your eye-tracker device to work with this website <a routerLink="/help">here.</a></h2>-->
-    <!---->
-  <!--</div>-->
 
   <div class="about text-center">
     <h2 class="display-5">About the app</h2>
@@ -64,4 +44,30 @@
   <p>
     Eye gaze analysis algorithms and some texts are taken from a prototype built by University of Bordeaux students.
   </p>
+</div>
+
+<div id="myModal" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Welcome to Vocabulometer!</h5>
+      </div>
+      <div class="modal-body">
+        <p>Hello! This is your first time in Vocabulometer, so we need to know a bit more about you before letting you
+          use our learning services. </p>
+        <p>This platform uses your English vocabulary to recommend texts that correspond to your level. Yet as you are
+        a new user we have no information about your vocabulary!</p>
+
+        <p>Vocabulometer offers you two options to solve this issue. Either solve a quiz that will determine your level,
+        or give your CEFR level or TOEIC / TOEFL / IELTS score if you passed any of these tests.</p>
+
+        <p>Please select one of the two options.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="onLogOut()">Log out</button>
+        <button type="button" class="btn btn-primary" (click)="onLevel()">Set a level</button>
+        <button type="button" class="btn btn-primary" (click)="onQuiz()">Start the quiz</button>
+      </div>
+    </div>
+  </div>
 </div>

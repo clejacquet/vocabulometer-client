@@ -29,3 +29,12 @@
 .dont-know-answer {
   font-style: italic;
 }
+
+#wrong-answers {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+#quiz-result > .submit-button {
+  text-align: center;
+}
