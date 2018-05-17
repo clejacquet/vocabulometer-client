@@ -11,6 +11,7 @@ import {Router} from '@angular/router';
   providers: [ QuizService ]
 })
 export class SetLevelComponent implements OnInit {
+  uniformScore: number;
 
   constructor(private element: ElementRef,
               private router: Router,
@@ -42,5 +43,4 @@ export class SetLevelComponent implements OnInit {
 
     });
   }
-
 }
