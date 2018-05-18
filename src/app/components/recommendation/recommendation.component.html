@@ -8,7 +8,7 @@
     <div class="row equal">
       <div class="col-md-4" *ngFor="let text of recommendedTexts">
         <div class="text-summary">
-          <a [routerLink]="['/text/', text._id]">{{text.title + ' (' + text.score.toFixed(2) + ')'}}</a>
+          <a [routerLink]="['/text/', text.uri]">{{text.title + ' (' + text.score.toFixed(2) + ')'}}</a>
         </div>
       </div>
     </div>
@@ -30,7 +30,7 @@
     <div class="row equal">
       <div class="col-md-4" *ngFor="let text of easyTexts">
         <div class="text-summary">
-          <a [routerLink]="['/text', text._id]">{{text.title}} ({{(text.score * 100).toFixed()}}%)</a>
+          <a [routerLink]="['/text', text.uri]">{{text.title}} ({{(text.score * 100).toFixed()}}%)</a>
         </div>
       </div>
     </div>
@@ -50,7 +50,7 @@
     <div class="row equal">
       <div class="col-md-4" *ngFor="let text of hardTexts">
         <div class="text-summary">
-          <a [routerLink]="['/text', text._id]">{{text.title}} ({{(text.score * 100).toFixed()}}%)</a>
+          <a [routerLink]="['/text', text.uri]">{{text.title}} ({{(text.score * 100).toFixed()}}%)</a>
         </div>
       </div>
     </div>

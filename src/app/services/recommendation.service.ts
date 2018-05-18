@@ -9,7 +9,7 @@ export class RecommendationService {
 
   public askRecommendations(limit, cb) {
     this.authHttp
-      .get(HostService.url('/api/users/current/recommend'), { limit: limit })
+      .get(HostService.url('/api/datasets/local/recommendation'), { recommender: 'review', limit: limit })
       .map((res: any) => res.json().texts)
       .toPromise()
       .then(texts => cb(null, texts))
@@ -18,7 +18,7 @@ export class RecommendationService {
 
   public askEasyTexts(limit, cb): void {
     this.authHttp
-      .get(HostService.url('/api/users/current/easy_texts'), { limit: limit })
+      .get(HostService.url('/api/datasets/local/recommendation'), { recommender: 'easy', limit: limit })
       .map(res => res.json())
       .toPromise()
       .then(res => cb(null, res.texts))
@@ -27,7 +27,7 @@ export class RecommendationService {
 
   public askHardTexts(limit, cb): void {
     this.authHttp
-      .get(HostService.url('/api/users/current/hard_texts'), { limit: limit })
+      .get(HostService.url('/api/datasets/local/recommendation'), { recommender: 'hard', limit: limit })
       .map(res => res.json())
       .toPromise()
       .then(res => cb(null, res.texts))
