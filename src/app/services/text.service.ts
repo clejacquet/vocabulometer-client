@@ -45,7 +45,7 @@ export class TextService {
   }
 
   setText(textId, text, cb) {
-    this.authHttp.put(HostService.url('/api/texts/' + textId + '/text'), { text: text })
+    this.authHttp.put(HostService.url('/api/texts/' + textId + '/content'), { text: text })
       .map((res: any) => res.json().status === 'success')
       .toPromise()
       .then(result => cb(null, result))
@@ -62,7 +62,7 @@ export class TextService {
 
   deleteText(textId, cb) {
     this.authHttp.delete(HostService.url('/api/texts/' + textId))
-      .map(() => true) // Assume that if there's no error, text is deleted TODO handle not existing texts
+      .map(() => true) // Assume that if there's no error, content is deleted TODO handle not existing texts
       .toPromise()
       .then(result => cb(null, result))
       .catch(err => cb(err));

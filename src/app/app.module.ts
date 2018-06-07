@@ -17,7 +17,7 @@ import { GraphComponent } from './components/graph/graph.component';
 import { LoaderComponent } from './components/loader/loader.component';
 import { RecommendationComponent } from './components/recommendation/recommendation.component';
 import { TextComponent } from './components/text/text.component';
-import { AdminComponent } from './components/admin/admin.component';
+import { DatabaseComponent } from './components/database/database.component';
 import { TextStructureComponent } from './components/text-structure/text-structure.component';
 import { HelpComponent } from './components/help/help.component';
 
@@ -33,6 +33,7 @@ import {enableProdMode} from '@angular/core';
 import {environment} from '../environments/environment';
 import { QuizComponent } from './components/quiz/quiz.component';
 import { SetLevelComponent } from './components/set-level/set-level.component';
+import {AdminComponent} from './components/admin/admin.component';
 
 if (environment.production) {
   enableProdMode();
@@ -50,14 +51,15 @@ if (environment.production) {
     NotFoundComponent,
     IndexComponent,
     GraphComponent,
-    AdminComponent,
+    DatabaseComponent,
     TextStructureComponent,
     HelpComponent,
     LoaderComponent,
     RecommendationComponent,
     TextComponent,
     QuizComponent,
-    SetLevelComponent
+    SetLevelComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,
@@ -70,8 +72,9 @@ if (environment.production) {
       { path: 'text/:id', component: TextComponent },
       { path: 'graph', component: GraphComponent },
       { path: 'admin', component: AdminComponent },
-      { path: 'admin/:id', component: AdminComponent },
-      { path: 'admin/texts/:id', component: TextStructureComponent },
+      { path: 'database', component: DatabaseComponent },
+      { path: 'database/:id', component: DatabaseComponent },
+      { path: 'database/texts/:id', component: TextStructureComponent },
       { path: 'recommendation', component: RecommendationComponent },
       { path: 'level', component: SetLevelComponent },
       { path: 'quiz', component: QuizComponent },

@@ -111,7 +111,7 @@ export class TextComponent implements OnInit, OnDestroy {
             .catch((err1) => console.log(err1));
         });
       } else {
-        // Loading the text
+        // Loading the content
         this.textService.getText(this.textId, (err, result) => {
           if (err) {
             return console.error(err);

@@ -47,11 +47,11 @@ export class QuizComponent implements OnInit {
         console.log('Words saved! You can check on Stats page');
       }
 
+      this.authService.invalidate();
+
       this.authService.info((err1, user: ParameterHandler<any>) => {
         if (err1) {
           console.error(err1);
-        } else {
-          user.value.hasVocabSaved = true;
         }
 
         this.router.navigate(['/']);

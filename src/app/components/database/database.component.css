@@ -1,0 +1,50 @@
+#admin-content table {
+  width: 100%;
+}
+
+#admin-content textarea {
+  resize: vertical;
+}
+
+#admin-content h1 {
+  text-align: center;
+  font-family: 'Raleway', sans-serif;
+  font-size: 3em;
+  font-weight: bold;
+}
+
+#admin-content h2 {
+  text-align: center;
+  font-family: 'Raleway', sans-serif;
+  font-size: 2em;
+}
+
+#add-text-form {
+  text-align: center;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.button-remove > img {
+  width: 14px;
+  height: 14px;
+}
+
+.button-settings > img {
+  width: 16px;
+  height: 16px;
+}
+
+.settings-buttons {
+  text-align: right;
+}
+
+.settings-buttons > button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+#admin-text-title {
+  margin-top: 50px;
+}

@@ -54,6 +54,10 @@ export class AuthService {
       })
   }
 
+  invalidate() {
+    delete AuthService.userHandler.value;
+  }
+
   logout(cb) {
     return this.authHttp.post(HostService.url('/api/users/auth/logout'))
       .toPromise()
@@ -69,5 +73,9 @@ export class AuthService {
         cb(null);
       })
       .catch(err => cb(err));
+  }
+
+  getToken() {
+    return localStorage.getItem('token');
   }
 }

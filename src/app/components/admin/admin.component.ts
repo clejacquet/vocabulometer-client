@@ -1,114 +1,68 @@
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import { TextService } from '../../services/text.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import { isNull } from 'util';
+import { Component, OnInit } from '@angular/core';
+import {AdminService} from '../../services/admin.service';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.css'],
-  providers: [ TextService ]
+  providers: [AdminService]
 })
-export class AdminComponent implements OnInit, OnDestroy {
-  texts: any[];
-  pageNumbers: number[];
+export class AdminComponent implements OnInit {
+  status: string;
+  authUrl: string;
+  filesToUpload: File[];
 
-  @ViewChild('titleinput')
-  private titleInput: ElementRef;
-
-  @ViewChild('textinput')
-  private textInput: ElementRef;
-
-  page: number;
-  lastPage: number;
-  private routeSub: any;
-
-  constructor(private textService: TextService,
-              private router: Router,
-              private route: ActivatedRoute) { }
-
-  private refreshTexts() {
-    this.textService.getTextsOnPage(this.page, (err, texts, lastPage) => {
-      if (err) {
-        return console.error(err);
-      }
-
-      this.lastPage = lastPage;
-      this.pageNumbers = this.computePageNumbers(lastPage);
-      this.texts = texts;
-    });
-  }
-
-  private computePageNumbers(lastPage) {
-    if (isNull(lastPage)) {
-      return [];
-    }
-
-    const pageNumbers = [];
-    for (let i = Math.max(0, this.page - 2) ; i <= Math.min(this.page + 2, lastPage); i++) {
-      pageNumbers.push(i);
-    }
-
-    return pageNumbers;
+  constructor(private admin: AdminService, private route: ActivatedRoute) {
   }
 
   ngOnInit() {
-    this.routeSub = this.route.params.subscribe(params => {
-      this.page = parseInt(params['id'], 10) - 1;
-
-      if (isNaN(this.page)) {
-        this.page = 0;
-      }
-
-      this.refreshTexts();
-    });
-  }
-
-  ngOnDestroy() {
-    this.routeSub.unsubscribe();
-  }
-
-  onSettingsClick(textId) {
-    this.router
-      .navigate(['/admin/texts/', textId])
-      .catch((err) => console.log(err));
-  }
-
-  onRemoveClick(textId) {
-    if (!confirm('Do you really want to delete this text?')) {
-      return;
-    }
-
-    this.textService.deleteText(textId, (err, status) => {
+    this.admin.youtubeState((err, status) => {
       if (err) {
         return console.error(err);
       }
 
-      if (status) {
-        this.refreshTexts();
+      if (status === 'down') {
+        this.route.queryParams.subscribe(params => {
+          const code = params['code'];
+
+          if (code) {
+            this.admin.launchYoutube(code, (err1, result) => {
+              if (err1) {
+                return console.error(err1);
+              }
+
+              this.status = result;
+            });
+          } else {
+            this.status = status;
+            this.admin.youtubeAuthUrl((err1, url) => {
+              if (err1) {
+                return console.error(err1);
+              }
+
+              this.authUrl = url;
+            })
+          }
+        });
+      } else {
+        this.status = status;
       }
     });
   }
 
-  onTextAdd() {
-    const title = this.titleInput.nativeElement.value;
-    const text = this.textInput.nativeElement.value;
+  fileChangeEvent(fileInput: any) {
+    this.filesToUpload = <Array<File>> fileInput.target.files;
+  }
 
-    this.textService.addText(title, text, (err) => {
+  upload() {
+    this.admin.credentials(this.filesToUpload[0], (err, status) => {
       if (err) {
-        console.error(err);
+        return console.error(err);
       }
 
-      this.refreshTexts();
-    });
+      this.status = status;
+    })
   }
 
-  onPageChange(page: number) {
-    if (page < 0 || page > this.lastPage) {
-      return;
-    }
-
-    this.page = page;
-    this.refreshTexts();
-  }
 }

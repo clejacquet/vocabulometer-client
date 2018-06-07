@@ -24,7 +24,7 @@ export class TextStructureComponent implements OnInit, OnDestroy {
     this.routeSub = this.route.params.subscribe(params => {
       this.textId = params['id'];
 
-      // Loading the text
+      // Loading the content
       this.textService.getText(this.textId, (err, result) => {
         if (err) {
           return console.error(err);
@@ -53,7 +53,7 @@ export class TextStructureComponent implements OnInit, OnDestroy {
         }
 
         if (result) {
-          alert('text saved');
+          alert('content saved');
         }
       });
     }

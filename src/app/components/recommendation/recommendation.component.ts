@@ -8,40 +8,84 @@ import { RecommendationService } from '../../services/recommendation.service';
   providers: [ RecommendationService ]
 })
 export class RecommendationComponent implements OnInit {
-  recommendedTexts: any[];
-  easyTexts: any[];
-  hardTexts: any[];
+  MODES = {
+    local: {
+      name: 'Text',
+      external: false,
+      produceLink: (uri) => ['/text', uri]
+    },
+    youtube: {
+      name: 'Youtube',
+      external: true,
+      produceLink: (uri) => uri
+    }
+  };
+
+  recommendedContent: any[];
+  easyContent: any[];
+  hardContent: any[];
+
+  mode: string;
 
   constructor(private recommendation: RecommendationService) { }
 
-  ngOnInit() {
-    this.recommendation.askRecommendations(6, (err, texts) => {
+  setMode(mode: string) {
+    if (this.mode !== mode) {
+      this.mode = mode;
+
+      this.refresh();
+    } else {
+      this.mode = mode;
+    }
+  }
+
+  getModeKeys() {
+    return Object.keys(this.MODES);
+  }
+
+  refresh() {
+    this.recommendedContent = null;
+    this.easyContent = null;
+    this.hardContent = null;
+
+
+    this.recommendation.askRecommendations(this.mode, 6, (err, content) => {
       if (err) {
         return console.error(err);
       }
 
-      if (texts) {
-        this.recommendedTexts = texts;
+      if (content) {
+        this.recommendedContent = content;
       } else {
-        console.log('No texts loaded from recommendation');
+        console.log('No content loaded from recommendation');
       }
     });
 
-    this.recommendation.askEasyTexts(6, (err, texts) => {
+    this.recommendation.askEasy(this.mode, 6, (err, content) => {
       if (err) {
         return console.error(err);
       }
 
-      this.easyTexts = texts;
+      this.easyContent = content;
     });
 
-    this.recommendation.askHardTexts(6, (err, texts) => {
+    this.recommendation.askHard(this.mode, 6, (err, content) => {
       if (err) {
         return console.error(err);
       }
 
-      this.hardTexts = texts;
+      this.hardContent = content;
     });
+  }
+
+  ngOnInit() {
+    this.mode = this.getModeKeys()[0];
+
+    this.refresh();
+  }
+
+  produceLink(uri) {
+    return this.MODES[this.mode].produceLink(uri);
   }
 
 }

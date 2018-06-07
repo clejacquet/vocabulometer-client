@@ -21,6 +21,16 @@ export class IndexComponent implements OnInit {
   username: string;
   password: string;
 
+  static showLevelModal(user) {
+    if (user.value.levels.length === 0) {
+      $('#myModal').modal({
+        show: true,
+        backdrop: 'static',
+        keyboard: false
+      });
+    }
+  }
+
   constructor(private router: Router,
               private auth: AuthService) { }
 
@@ -32,15 +42,7 @@ export class IndexComponent implements OnInit {
 
       this.userHandler = user;
 
-      console.log(user.value);
-
-      if (user.value.hasVocabSaved === false) {
-        $('#myModal').modal({
-          show: true,
-          backdrop: 'static',
-          keyboard: false
-        });
-      }
+      IndexComponent.showLevelModal(user);
     });
   }
 
@@ -73,16 +75,12 @@ export class IndexComponent implements OnInit {
       if (user) {
         this.userHandler = user;
 
-        if (user.value.hasVocabSaved === false) {
-          $('#myModal').modal({
-            show: true,
-            backdrop: 'static',
-            keyboard: false
-          });
-        }
+        IndexComponent.showLevelModal(user);
       } else {
         console.log('Auth failed');
       }
     });
   }
+
+
 }

@@ -1,21 +1,29 @@
 <div id="recommendation-section" class="container">
   <h1>Recommendations</h1>
+
+  <div class="btn-group" role="group" aria-label="Basic example">
+    <button type="button" *ngFor="let key of getModeKeys()" [class]="'btn btn-secondary ' + ((mode === key) ? 'content-active' : '')" (click)="setMode(key)">
+      {{MODES[key].name}}
+    </button>
+  </div>
+
   <hr>
 
   <h2>Revise your vocabulary</h2>
 
-  <div *ngIf="recommendedTexts; else recommendationLoader">
+  <div *ngIf="recommendedContent; else recommendationLoader">
     <div class="row equal">
-      <div class="col-md-4" *ngFor="let text of recommendedTexts">
+      <div class="col-md-4" *ngFor="let content of recommendedContent">
         <div class="text-summary">
-          <a [routerLink]="['/text/', text.uri]">{{text.title + ' (' + text.score.toFixed(2) + ')'}}</a>
+          <a [routerLink]="produceLink(content.uri)" target="_blank" *ngIf="!MODES[mode].external">{{content.title}} ({{content.score.toFixed(2)}})</a>
+          <a [href]="produceLink(content.uri)" target="_blank" *ngIf="MODES[mode].external">{{content.title}} ({{content.score.toFixed(2)}})</a>
         </div>
       </div>
     </div>
     <p>
-      * Those texts are supposed to be the best for helping you to revise your vocabulary. The number
-      shown in front of each title indicates how strongly fixed are the text words in your memory, based on your
-      previous readings.
+      * Those content are supposed to be the best for helping you to revise your vocabulary. The number
+      shown in front of each title indicates how strongly fixed are the content words in your memory, based on your
+      previous readings / watching.
     </p>
   </div>
   <ng-template #recommendationLoader>
@@ -26,19 +34,20 @@
   <hr>
 
   <h2>Easy texts for you</h2>
-  <div *ngIf="easyTexts; else easyTextsLoader">
+  <div *ngIf="easyContent; else easyContentLoader">
     <div class="row equal">
-      <div class="col-md-4" *ngFor="let text of easyTexts">
+      <div class="col-md-4" *ngFor="let content of easyContent">
         <div class="text-summary">
-          <a [routerLink]="['/text', text.uri]">{{text.title}} ({{(text.score * 100).toFixed()}}%)</a>
+          <a [routerLink]="produceLink(content.uri)" target="_blank" *ngIf="!MODES[mode].external">{{content.title}} ({{(content.score * 100).toFixed()}}%)</a>
+          <a [href]="produceLink(content.uri)" target="_blank" *ngIf="MODES[mode].external">{{content.title}} ({{(content.score * 100).toFixed()}}%)</a>
         </div>
       </div>
     </div>
     <p>
-      * A percentage of 50% means that you know 50% of the words used in the text
+      * A percentage of 50% means that you know 50% of the words used
     </p>
   </div>
-  <ng-template #easyTextsLoader>
+  <ng-template #easyContentLoader>
     <app-loader></app-loader>
     <p class="waiting-msg">Sorry, computing recommendations is a long task! Thank you for waiting!</p>
   </ng-template>
@@ -46,19 +55,20 @@
   <hr>
 
   <h2>Hard texts for you</h2>
-  <div *ngIf="hardTexts; else hardTextsLoader">
+  <div *ngIf="hardContent; else hardContentLoader">
     <div class="row equal">
-      <div class="col-md-4" *ngFor="let text of hardTexts">
+      <div class="col-md-4" *ngFor="let content of hardContent">
         <div class="text-summary">
-          <a [routerLink]="['/text', text.uri]">{{text.title}} ({{(text.score * 100).toFixed()}}%)</a>
+          <a [routerLink]="produceLink(content.uri)" target="_blank" *ngIf="!MODES[mode].external">{{content.title}} ({{(content.score * 100).toFixed()}}%)</a>
+          <a [href]="produceLink(content.uri)" target="_blank" *ngIf="MODES[mode].external">{{content.title}} ({{(content.score * 100).toFixed()}}%)</a>
         </div>
       </div>
     </div>
     <p>
-      * A percentage of 50% means that you know 50% of the words used in the text
+      * A percentage of 50% means that you know 50% of the words used
     </p>
   </div>
-  <ng-template #hardTextsLoader>
+  <ng-template #hardContentLoader>
     <app-loader></app-loader>
     <p class="waiting-msg">Sorry, computing recommendations is a long task! Thank you for waiting!</p>
   </ng-template>

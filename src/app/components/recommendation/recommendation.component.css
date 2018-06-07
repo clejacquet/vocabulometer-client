@@ -44,3 +44,13 @@
   display: -webkit-flex;
   flex-wrap: wrap;
 }
+
+.content-active {
+  color: #fff;
+  background-color: #545b62;
+  border-color: #4e555b;
+}
+
+.btn {
+  min-width: 80px;
+}

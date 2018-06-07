@@ -11,8 +11,6 @@ import {Router} from '@angular/router';
   providers: [ QuizService ]
 })
 export class SetLevelComponent implements OnInit {
-  uniformScore: number;
-
   constructor(private element: ElementRef,
               private router: Router,
               private quizService: QuizService,
@@ -22,7 +20,9 @@ export class SetLevelComponent implements OnInit {
   }
 
   onSave() {
-    this.quizService.saveResult(this.element.nativeElement.querySelector('#cefr-level').value, (err, success) => {
+    const level = this.element.nativeElement.querySelector('#cefr-level').value;
+
+    this.quizService.saveResult(level, (err, success) => {
       if (err) {
         return console.error(err);
       }
@@ -31,11 +31,11 @@ export class SetLevelComponent implements OnInit {
         console.log('Words saved! You can check on Stats page');
       }
 
+      this.authService.invalidate();
+
       this.authService.info((err1, user: ParameterHandler<any>) => {
         if (err1) {
           console.error(err1);
-        } else {
-          user.value.hasVocabSaved = true;
         }
 
         this.router.navigate(['/']);
