@@ -13,6 +13,5 @@ export class ReviewComponent implements OnInit {
   }
 
   onNext() {
-    console.log('wait!');
   }
 }
