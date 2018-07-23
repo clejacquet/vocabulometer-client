@@ -13,7 +13,6 @@ import { DebugComponent } from './components/debug/debug.component';
 import { GazeCursorComponent } from './components/gaze-cursor/gaze-cursor.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { IndexComponent } from './components/index/index.component';
-import { GraphComponent } from './components/graph/graph.component';
 import { LoaderComponent } from './components/loader/loader.component';
 import { RecommendationComponent } from './components/recommendation/recommendation.component';
 import { TextComponent } from './components/text/text.component';
@@ -34,6 +33,9 @@ import {environment} from '../environments/environment';
 import { QuizComponent } from './components/quiz/quiz.component';
 import { SetLevelComponent } from './components/set-level/set-level.component';
 import {AdminComponent} from './components/admin/admin.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { ToggleComponent } from './components/toggle/toggle.component';
+import { ReviewComponent } from './components/review/review.component';
 
 if (environment.production) {
   enableProdMode();
@@ -50,7 +52,6 @@ if (environment.production) {
     GazeCursorComponent,
     NotFoundComponent,
     IndexComponent,
-    GraphComponent,
     DatabaseComponent,
     TextStructureComponent,
     HelpComponent,
@@ -59,7 +60,10 @@ if (environment.production) {
     TextComponent,
     QuizComponent,
     SetLevelComponent,
-    AdminComponent
+    AdminComponent,
+    ProfileComponent,
+    ToggleComponent,
+    ReviewComponent
   ],
   imports: [
     BrowserModule,
@@ -68,13 +72,14 @@ if (environment.production) {
     FormsModule,
     RouterModule.forRoot([
       { path: '', component: IndexComponent },
+      { path: 'review', component: ReviewComponent },
       { path: 'text', component: TextComponent },
       { path: 'text/:id', component: TextComponent },
-      { path: 'graph', component: GraphComponent },
       { path: 'admin', component: AdminComponent },
       { path: 'database', component: DatabaseComponent },
       { path: 'database/:id', component: DatabaseComponent },
       { path: 'database/texts/:id', component: TextStructureComponent },
+      { path: 'profile', component: ProfileComponent },
       { path: 'recommendation', component: RecommendationComponent },
       { path: 'level', component: SetLevelComponent },
       { path: 'quiz', component: QuizComponent },

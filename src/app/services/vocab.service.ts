@@ -8,6 +8,7 @@ export class VocabService {
   constructor(private authHttp: AuthHttpService) {}
 
   saveWords(userId: string, words: string[]): Promise<boolean> {
+    console.log(words);
     return this.authHttp.post(HostService.url('/api/users/' + userId + '/word/'), {
       words: words
     })

@@ -1,18 +1,24 @@
 import { Injectable } from '@angular/core';
 import { Http, RequestOptions, Headers, URLSearchParams } from '@angular/http';
+import {LanguageService} from './language.service';
 
 @Injectable()
 export class AuthHttpService {
 
   constructor(private http: Http) {}
 
-  get(url, params = {}) {
+  get(url, params = {}, setLanguage = true) {
     const token = localStorage.getItem('token');
 
     const urlParams =  new URLSearchParams();
     Object.keys(params).forEach((key) => {
       urlParams.set(key, params[key]);
     });
+
+    // Language
+    if (setLanguage) {
+      urlParams.set('language', LanguageService.getCurrentLanguage());
+    }
 
     const options = new RequestOptions();
     options.params = urlParams;
@@ -26,8 +32,13 @@ export class AuthHttpService {
     return this.http.get(url, options);
   }
 
-  post(url, params = {}) {
+  post(url, params = {}, setLanguage = true) {
     const token = localStorage.getItem('token');
+
+    // Language
+    if (setLanguage) {
+      params['language'] = LanguageService.getCurrentLanguage();
+    }
 
     const options = new RequestOptions();
 
@@ -40,9 +51,14 @@ export class AuthHttpService {
     return this.http.post(url, params, options);
   }
 
-  put(url, params = {}) {
+  put(url, params = {}, setLanguage = true) {
     // TODO De-duplicate with POST
     const token = localStorage.getItem('token');
+
+    // Language
+    if (setLanguage) {
+      params['language'] = LanguageService.getCurrentLanguage();
+    }
 
     const options = new RequestOptions();
 
@@ -55,12 +71,20 @@ export class AuthHttpService {
     return this.http.put(url, params, options);
   }
 
-  delete(url, params = {}) {
+  delete(url, params = {}, setLanguage = true) {
     // TODO De-duplicate with GET
     const token = localStorage.getItem('token');
 
+    const urlParams = new URLSearchParams(Object.keys(params).map((key) => key + '=' + params[key]).join('&'));
+
+    // Language
+    if (setLanguage) {
+      urlParams.set('language', LanguageService.getCurrentLanguage());
+    }
+
+
     const options = new RequestOptions({
-      params: new URLSearchParams(Object.keys(params).map((key) => key + '=' + params[key]).join('&'))
+      params: urlParams
     });
 
     if (token) {

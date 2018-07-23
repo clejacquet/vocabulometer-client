@@ -30,16 +30,16 @@ export class QuizService {
 
   constructor(private authHttp: AuthHttpService) {}
 
-  public saveResult(result, cb) {
-    this.authHttp.post(HostService.url('/api/users/current/quiz_result'), { result: result })
-      .map((res: any) => res.json().status)
+  public saveResult(results, cb) {
+    this.authHttp.post(HostService.url('/api/users/current/word_result'), { results: results })
+      .map((res: any) => res.json().done)
       .toPromise()
-      .then(status => cb(null, status === 'success'))
+      .then(done => cb(undefined, done))
       .catch(err => cb(err));
   }
 
   public loadTest(cb: (err: any, quiz?: Question[]) => any) {
-    this.authHttp.get(HostService.url('/api/users/current/quiz'))
+    this.authHttp.get(HostService.url('/api/users/quiz'))
       .map((res: any) => res.json())
       .toPromise()
       .then(lists => {

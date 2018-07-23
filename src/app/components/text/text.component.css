@@ -1,5 +1,6 @@
 :host ::ng-deep .text-unread-word {
-  font-weight: bold;
+  /*font-weight: bold;*/
+  text-decoration: underline;
   color: black;
 }
 
@@ -8,7 +9,8 @@
 }
 
 :host ::ng-deep .text-read-word {
-  font-weight: bold;
+  /*font-weight: bold;*/
+  text-decoration: underline;
   color: red;
 }
 
@@ -17,7 +19,8 @@
 }
 
 :host ::ng-deep .text-saved-word {
-  font-weight: bold;
+  /*font-weight: bold;*/
+  text-decoration: underline;
   color: grey;
 }
 
@@ -55,14 +58,14 @@
 }
 
 .text {
-  font-family: 'Georgia', serif;
+  font-family: 'maboroshi', serif;
 }
 
 .text-title {
   display: block;
   margin-top: 70px;
   margin-bottom: 40px;
-  font-family: 'Georgia', serif;
+  font-family: 'maboroshi', serif;
   font-size: 3.5em;
   line-height: 1.1;
 }
@@ -152,4 +155,10 @@
 
 .closed-pane {
   width: 0;
+}
+
+#feedback-container {
+  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 80px;
 }

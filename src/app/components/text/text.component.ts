@@ -10,6 +10,14 @@ import {VocabService} from '../../services/vocab.service';
 import {ParserService} from '../../services/parser.service';
 import {TextService} from '../../services/text.service';
 import {ActivatedRoute, Router} from '@angular/router';
+import {FeedbackService} from '../../services/feedback.service';
+
+class FakeWindow extends Window {
+  public $;
+}
+
+const fwindow: FakeWindow = <FakeWindow> window;
+const $ = fwindow.$;
 
 class CustomParagraph {
   private count = 0;
@@ -53,7 +61,7 @@ const classPairs = [
   selector: 'app-text-test',
   templateUrl: './text.component.html',
   styleUrls: ['./text.component.css'],
-  providers: [TextService],
+  providers: [TextService, FeedbackService],
   animations: [
     trigger('widthTransition', [
       state('closed', style({
@@ -87,6 +95,7 @@ export class TextComponent implements OnInit, OnDestroy {
   constructor(private textService: TextService,
               private gazeService: GazeService,
               private vocabService: VocabService,
+              private feedbackService: FeedbackService,
               private route: ActivatedRoute,
               private router: Router) { }
 
@@ -125,6 +134,23 @@ export class TextComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.routeSub.unsubscribe();
+  }
+
+  showFeedbackPane() {
+    $('#myModal').modal({
+      show: true,
+      keyboard: true
+    });
+  }
+
+  onFeedback(feedback) {
+    this.feedbackService.saveFeedback(feedback, this.textId, 'local', (err) => {
+      if (err) {
+        console.error('Error while saving feedback');
+      }
+
+      $('#myModal').modal('hide');
+    });
   }
 
   private textCb(err, result) {
@@ -216,6 +242,8 @@ export class TextComponent implements OnInit, OnDestroy {
               elementWordsRead.forEach((element) => {
                 element.className = 'text-saved-word' + ((!this.debug.readWordsHandler) ? '-inactive' : '');
               });
+
+              // console.log(elementWordsRead.concat(elementWordsUnread).map(element => element.innerHTML));
 
               const toSaveWords = elementWordsRead
                 .concat(elementWordsUnread)

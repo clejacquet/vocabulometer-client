@@ -1,0 +1,34 @@
+<div id="profile-section" class="container">
+
+  <div id="profile-graphs" *ngIf="newRecentWords; else newRecentWordsLoader">
+    <div class="btn-group" role="group" aria-label="Basic example">
+      <button type="button" *ngFor="let key of getModeKeys()" [class]="'btn btn-secondary ' + ((mode === key) ? 'content-active' : '')" (click)="setMode(key)">
+        {{MODES[key].title}}
+      </button>
+    </div>
+  </div>
+  <ng-template #hardContentLoader>
+    <app-loader></app-loader>
+  </ng-template>
+
+  <div id="level-chart"></div>
+
+  <h2>New recently read words</h2>
+  <div *ngIf="newRecentWords; else newRecentWordsLoader">
+    <div id="recent-new-words-read">
+      <div >
+        <div class="row equal">
+          <div class="col-sm-3" *ngFor="let word of newRecentWords">
+            <div class="recent-word">
+              <span>{{word._id}}</span><br>
+              <span class="word-level">{{word.level}}</span><br>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #newRecentWordsLoader>
+    <app-loader></app-loader>
+  </ng-template>
+</div>

@@ -18,6 +18,15 @@ export class StatsService {
 
   constructor(private authHttp: AuthHttpService) {}
 
+  score(cb): void {
+    this.authHttp
+      .get(HostService.url('/api/users/current/score'))
+      .map(res => res.json())
+      .toPromise()
+      .then(res => cb(null, res.levels))
+      .catch(err => cb(err));
+  }
+
   wordsRead(limit, cb): void {
     this.authHttp
       .get(HostService.url('/api/users/current/stats/words_read'), { limit: limit })

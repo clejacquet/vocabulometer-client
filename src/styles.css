@@ -1,1 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+
+@font-face {
+  font-family: 'maboroshi';
+  src: url('/assets/fonts/jp_font.otf'); /* IE9 Compat Modes */
+}

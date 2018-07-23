@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { ParameterHandler } from './parameter-control';
 import { Router } from '@angular/router';
+import {LanguageService} from '../services/language.service';
 
 @Component({
   selector: 'app-root',
@@ -16,6 +17,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     AuthService.Init();
+    LanguageService.Init();
 
     this.auth.info((err, user) => {
       if (err) {

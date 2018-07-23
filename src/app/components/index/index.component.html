@@ -1,3 +1,12 @@
+<div id="language-toggle" class="container">
+  <app-toggle valueOff="english"
+              titleOff="English"
+              valueOn="japanese"
+              titleOn="Japanese"
+              (change)="setLanguage($event)"
+  ></app-toggle>
+</div>
+
 <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
   <h1 id="title" class="display-4">Train your English skills with Vocabulometer!</h1>
   <div id="help-link">
@@ -35,6 +44,11 @@
     <img class="lab-img" src="/assets/opu_logo.png">
     <img class="lab-img" src="/assets/bordeaux.png">
   </div>
+  <div class="img-list">
+    <img class="lab-img" src="/assets/labri_logo.jpg">
+    <img class="lab-img" src="/assets/cnrs_logo.png">
+    <img class="lab-img" src="/assets/inp_logo.png">
+  </div>
 
   <p>
     This project has been developed by a student from the Intelligent Media Processing laboratory, in the Osaka
@@ -52,21 +66,33 @@
       <div class="modal-header">
         <h5 class="modal-title">Welcome to Vocabulometer!</h5>
       </div>
-      <div class="modal-body">
-        <p>Hello! This is your first time in Vocabulometer, so we need to know a bit more about you before letting you
-          use our learning services. </p>
-        <p>This platform uses your English vocabulary to recommend texts that correspond to your level. Yet as you are
-        a new user we have no information about your vocabulary!</p>
 
-        <p>Vocabulometer offers you two options to solve this issue. Either solve a quiz that will determine your level,
-        or give your CEFR level or TOEIC / TOEFL / IELTS score if you passed any of these tests.</p>
+      <div id="myModal1">
+        <div class="modal-body">
+          <p>Which language do you want to excel at?</p>
 
-        <p>Please select one of the two options.</p>
+          <button class="language-button" (click)="onEnglishSelected()">English</button>
+          <button class="language-button" (click)="onJapaneseSelected()">Japanese</button>
+        </div>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="onLogOut()">Log out</button>
-        <button type="button" class="btn btn-primary" (click)="onLevel()">Set a level</button>
-        <button type="button" class="btn btn-primary" (click)="onQuiz()">Start the quiz</button>
+
+      <div id="myModal2">
+        <div class="modal-body">
+          <p>This is your first time in Vocabulometer with this language, so we need to know a bit more about you before letting you
+            use our learning services. </p>
+          <p>This platform uses your vocabulary to recommend texts that correspond to your level. Yet as you are
+            a new user we have no information about your vocabulary!</p>
+
+          <p>Vocabulometer offers you two options to solve this issue. Either solve a quiz that will determine your level,
+            or give your JLPT / CEFR level if you know about it.</p>
+
+          <p>Please select one of the two options.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="onLogOut()">Log out</button>
+          <button type="button" class="btn btn-primary" (click)="onLevel()">Set a level</button>
+          <button type="button" class="btn btn-primary" (click)="onQuiz()">Start the quiz</button>
+        </div>
       </div>
     </div>
   </div>

@@ -2,9 +2,9 @@
   <h5 class="my-0 mr-md-auto font-weight-normal">Vocabulometer</h5>
   <nav class="my-2 my-md-0 mr-md-3">
     <a class="p-2 text-dark" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >Home</a>
-    <a class="p-2 text-dark" routerLink="/graph" routerLinkActive="active" *ngIf="userHandler.value">Statistics</a>
+    <a class="p-2 text-dark" routerLink="/profile" routerLinkActive="active" *ngIf="userHandler.value">Profile</a>
+    <a class="p-2 text-dark" routerLink="/review" routerLinkActive="active" *ngIf="userHandler.value">Review</a>
     <a class="p-2 text-dark" routerLink="/recommendation" routerLinkActive="active" *ngIf="userHandler.value">Recommendations</a>
-    <a class="p-2 text-dark" routerLink="/database" routerLinkActive="active" *ngIf="userHandler.value">Texts</a>
     <a class="p-2 text-dark" routerLink="/help" routerLinkActive="active" *ngIf="userHandler.value">Help</a>
     <div class="p-2 text-dark log" *ngIf="userHandler.value">
       <div class="user-nav">

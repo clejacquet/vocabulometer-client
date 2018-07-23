@@ -18,7 +18,7 @@ export class QuizComponent implements OnInit {
   wrongAnswers: string[] = [];
   cefrLevel: string;
 
-  private givenAnswers: boolean[] = [];
+  private givenAnswers: any[] = [];
 
   constructor(private router: Router,
               private authService: AuthService,
@@ -38,13 +38,9 @@ export class QuizComponent implements OnInit {
   }
 
   saveResult() {
-    this.quizService.saveResult(this.cefrLevel, (err, success) => {
+    this.quizService.saveResult(this.givenAnswers, (err, success) => {
       if (err) {
         return console.error(err);
-      }
-
-      if (success) {
-        console.log('Words saved! You can check on Stats page');
       }
 
       this.authService.invalidate();
@@ -72,10 +68,13 @@ export class QuizComponent implements OnInit {
       this.wrongAnswers.push(this.currentQuestion.word);
     }
 
-    this.givenAnswers.push(result);
+    this.givenAnswers.push({
+      word: this.currentQuestion.word,
+      value: result
+    });
 
     if (this.currentQuestionId === this.quiz.length - 1) {
-      this.quizResult = this.givenAnswers.reduce((acc, cur) => acc + (cur ? 1 : 0), 0);
+      this.quizResult = this.givenAnswers.reduce((acc, cur) => acc + (cur.value ? 1 : 0), 0);
 
       const cefrScore = (this.quizResult / this.quiz.length) * 9000;
       if (cefrScore < 550) {

@@ -48,3 +48,28 @@
   border: solid 2px #d4d4d4;
   border-radius: 5px;
 }
+
+#language-toggle > * {
+  float: right;
+}
+
+#myModal1 > .modal-body {
+  text-align: center;
+}
+
+.language-button {
+  background: none;
+  width: 200px;
+  height: 100px;
+  font-size: 1.5em;
+  border-radius: 6px;
+  border: solid 1px #CCC;
+  box-shadow: 1px 1px #AAA;
+  margin-bottom: 10px;
+}
+
+.language-button:hover {
+  cursor: pointer;
+  background-color: #EEE;
+}
+

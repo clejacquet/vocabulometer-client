@@ -1,0 +1,60 @@
+.content-active {
+  color: #fff;
+  background-color: #545b62;
+  border-color: #4e555b;
+}
+
+#profile-section {
+  text-align: center;
+}
+
+#recent-new-words-read {
+  text-align: center;
+  margin-top: 32px;
+  margin-bottom: 32px;
+}
+
+.graph-div {
+  margin: auto;
+  width: 600px;
+  height: 400px;
+}
+
+.recent-word {
+  border: solid 1px #DDD;
+  margin-bottom: 5px;
+  border-radius: 3px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.recent-word > span:first-child {
+  font-size: 1.5em;
+  font-family: 'maboroshi', sans-serif;
+}
+
+.word-status {
+  font-size: 0.9em;
+  color: #AAA;
+}
+
+.word-level {
+  font-size: 0.9em;
+  color: #AAA;
+}
+
+.apprentice {
+  color: #009dff;
+}
+
+.guru {
+  color: #ff4000;
+}
+
+.master {
+  color: #ffb600
+}
+
+.enlightened {
+  color: #21d01b
+}
