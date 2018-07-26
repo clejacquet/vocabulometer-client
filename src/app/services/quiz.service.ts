@@ -43,7 +43,7 @@ export class QuizService {
       .map((res: any) => res.json())
       .toPromise()
       .then(lists => {
-        const questions = _.shuffle(_.flatten(lists.map(list => _.sample(list, 3)), 1));
+        const questions = _.shuffle(_.flatten(lists.map(list => _.sample(list, 30 / lists.length)), 1));
         cb(undefined, questions.map(item => new Question(item)))
       })
       .catch(err => cb(err));

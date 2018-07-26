@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { ParameterHandler } from './parameter-control';
 import { Router } from '@angular/router';
-import {LanguageService} from '../services/language.service';
+import { LanguageService } from '../services/language.service';
 
 @Component({
   selector: 'app-root',
@@ -35,5 +35,9 @@ export class AppComponent implements OnInit {
       }
       this.router.navigate(['/']);
     })
+  }
+
+  onUserClick(): void {
+    this.router.navigate(['/profile']);
   }
 }

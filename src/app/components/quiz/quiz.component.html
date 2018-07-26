@@ -1,10 +1,17 @@
 <div class="container" id="quiz-content" *ngIf="currentQuestion !== undefined">
-  <h2>English Vocabulary Test</h2>
+  <h2>{{language === 'english' ? 'English' : 'Japanese'}} Vocabulary Test</h2>
 
-  <p>
+  <p *ngIf="language === 'english'; else japanese_explanations">
     A quiz item involves a word in capital letters and a sentence to provide a context. Try to pick the
     correct meaning for the given word among the four possible options.
   </p>
+
+  <ng-template #japanese_explanations>
+    <p>
+      This quiz is a "fill the gap". Try to pick the word or expression among the four possible options
+      that matches the best the gap.
+    </p>
+  </ng-template>
 
   <p>
     The goal is not to get the highest score possible but to get the score that corresponds to your actual level.
@@ -32,8 +39,8 @@
 
   <div id="quiz-result" *ngIf="quizResult !== undefined">
     Result: {{quizResult}} / {{quiz.length}} correct answers <br>
-    You know approximately {{quizResult * (14000 / quiz.length)}} family words <br>
-    CEFR vocabulary level: {{cefrLevel}} <br>
+    <span *ngIf="language === 'english'">You know approximately {{quizResult * (14000 / quiz.length)}} family words</span> <br>
+    <span *ngIf="language === 'english'">CEFR vocabulary level: {{level}}</span> <br>
 
     <div class="submit-button">
       <button type="submit" class="btn btn-primary" (click)="saveResult()">Save and return to Home page</button>

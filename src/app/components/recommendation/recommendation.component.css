@@ -51,6 +51,10 @@
   border-color: #4e555b;
 }
 
+.dataset-icon {
+  height: 20px;
+}
+
 .btn {
   min-width: 80px;
 }

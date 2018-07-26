@@ -1,14 +1,14 @@
 <div class="header d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
-  <h5 class="my-0 mr-md-auto font-weight-normal">Vocabulometer</h5>
+  <h5 class="my-0 mr-md-auto font-weight-normal"><a class="p-2 text-dark" routerLink="/">Vocabulometer</a></h5>
   <nav class="my-2 my-md-0 mr-md-3">
-    <a class="p-2 text-dark" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >Home</a>
-    <a class="p-2 text-dark" routerLink="/profile" routerLinkActive="active" *ngIf="userHandler.value">Profile</a>
-    <a class="p-2 text-dark" routerLink="/review" routerLinkActive="active" *ngIf="userHandler.value">Review</a>
+    <!--<a class="p-2 text-dark" routerLink="/review" routerLinkActive="active" *ngIf="userHandler.value">Review</a>-->
     <a class="p-2 text-dark" routerLink="/recommendation" routerLinkActive="active" *ngIf="userHandler.value">Recommendations</a>
+    <span class="vertical-line"></span>
     <a class="p-2 text-dark" routerLink="/help" routerLinkActive="active" *ngIf="userHandler.value">Help</a>
+    <a class="p-2 text-dark" routerLink="/about" routerLinkActive="active" *ngIf="userHandler.value">About</a>
     <div class="p-2 text-dark log" *ngIf="userHandler.value">
-      <div class="user-nav">
-        <!--<img src="/assets/user.png" />-->
+      <div class="user-nav" (click)="onUserClick()">
+        <img src="/assets/user.png" />
         <span>{{userHandler.value.name}}</span>
         <button class="logout-button" (click)="onLogOut()">
           <img src="/assets/logout.png">

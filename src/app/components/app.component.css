@@ -7,6 +7,20 @@ html {
   }
 }
 
+h5 > a:hover {
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.vertical-line {
+  border-left: 1px solid #e1e1e1;
+  font-size: 1.8em;
+  position: relative;
+  top: 7px;
+  margin-left: 8px;
+  margin-right: 12px;
+}
+
 .header {
   position: relative;
   z-index: 3;
@@ -48,9 +62,18 @@ nav > a {
   background-color: #ececec;
 }
 
+.user-nav:hover {
+  background-color: #e2e2e2;
+  cursor: pointer;
+}
+
 .user-nav > span {
-  margin-left: 20px;
   font-weight: 500;
+}
+
+.user-nav img {
+  margin-left: 5px;
+  height: 42px;
 }
 
 .logout-button {

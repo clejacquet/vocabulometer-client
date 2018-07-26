@@ -11,6 +11,8 @@ export class SettingsComponent implements OnInit {
   lineSpaceValue = new ParameterRangeHandler(150, 100, 300, 10);
   fontSizeValue = new ParameterRangeHandler(1.5, 0.5, 10, 0.25);
 
+  private word: String;
+
   constructor() {
     this.controls = [
       new ParameterControl('Line Space', '%', this.lineSpaceValue),
@@ -19,5 +21,9 @@ export class SettingsComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  getWord() {
+    return this.word;
   }
 }

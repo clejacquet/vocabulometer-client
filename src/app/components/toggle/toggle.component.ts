@@ -28,10 +28,6 @@ export class ToggleComponent implements OnInit {
   }
 
   set(value) {
-    if (!value) {
-      this.el.nativeElement.querySelector('#togBtn').removeAttribute('checked');
-    } else {
-      this.el.nativeElement.querySelector('#togBtn').setAttribute('checked', '');
-    }
+    this.el.nativeElement.querySelector('#togBtn').checked = value;
   }
 }

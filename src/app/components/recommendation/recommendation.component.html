@@ -3,7 +3,13 @@
 
   <div class="btn-group" role="group" aria-label="Basic example">
     <button type="button" *ngFor="let key of getModeKeys()" [class]="'btn btn-secondary ' + ((mode === key) ? 'content-active' : '')" (click)="setMode(key)">
-      {{MODES[key].name}}
+      <span *ngIf="getModeObject(key).icon !== undefined; else textAsTitle">
+        <img class="dataset-icon" src="assets/{{getModeObject(key).icon}}" />
+      </span>
+      <ng-template #textAsTitle>
+        {{getModeObject(key).name}}
+      </ng-template>
+
     </button>
   </div>
 
@@ -15,8 +21,8 @@
     <div class="row equal">
       <div class="col-md-4" *ngFor="let content of recommendedContent">
         <div class="text-summary">
-          <a [routerLink]="produceLink(content.uri)" target="_blank" *ngIf="!MODES[mode].external">{{content.title}} ({{content.score.toFixed(2)}})</a>
-          <a [href]="produceLink(content.uri)" target="_blank" *ngIf="MODES[mode].external">{{content.title}} ({{content.score.toFixed(2)}})</a>
+          <a [routerLink]="produceLink(content.uri)" target="_blank" *ngIf="!getModeObject(mode).external">{{content.title}} ({{content.score.toFixed(2)}})</a>
+          <a [href]="produceLink(content.uri)" target="_blank" *ngIf="getModeObject(mode).external">{{content.title}} ({{content.score.toFixed(2)}})</a>
         </div>
       </div>
     </div>
@@ -38,8 +44,8 @@
     <div class="row equal">
       <div class="col-md-4" *ngFor="let content of easyContent">
         <div class="text-summary">
-          <a [routerLink]="produceLink(content.uri)" target="_blank" *ngIf="!MODES[mode].external">{{content.title}} ({{(content.score * 100).toFixed()}}%)</a>
-          <a [href]="produceLink(content.uri)" target="_blank" *ngIf="MODES[mode].external">{{content.title}} ({{(content.score * 100).toFixed()}}%)</a>
+          <a [routerLink]="produceLink(content.uri)" target="_blank" *ngIf="!getModeObject(mode).external">{{content.title}} ({{(content.score * 100).toFixed()}}%)</a>
+          <a [href]="produceLink(content.uri)" target="_blank" *ngIf="getModeObject(mode).external">{{content.title}} ({{(content.score * 100).toFixed()}}%)</a>
         </div>
       </div>
     </div>
@@ -59,8 +65,8 @@
     <div class="row equal">
       <div class="col-md-4" *ngFor="let content of hardContent">
         <div class="text-summary">
-          <a [routerLink]="produceLink(content.uri)" target="_blank" *ngIf="!MODES[mode].external">{{content.title}} ({{(content.score * 100).toFixed()}}%)</a>
-          <a [href]="produceLink(content.uri)" target="_blank" *ngIf="MODES[mode].external">{{content.title}} ({{(content.score * 100).toFixed()}}%)</a>
+          <a [routerLink]="produceLink(content.uri)" target="_blank" *ngIf="!getModeObject(mode).external">{{content.title}} ({{(content.score * 100).toFixed()}}%)</a>
+          <a [href]="produceLink(content.uri)" target="_blank" *ngIf="getModeObject(mode).external">{{content.title}} ({{(content.score * 100).toFixed()}}%)</a>
         </div>
       </div>
     </div>

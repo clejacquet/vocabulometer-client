@@ -3,6 +3,7 @@ import {Question, QuizService} from '../../services/quiz.service';
 import {Router} from '@angular/router';
 import {AuthService} from '../../services/auth.service';
 import {ParameterHandler} from '../parameter-control';
+import {LanguageService} from '../../services/language.service';
 
 @Component({
   selector: 'app-quiz',
@@ -16,7 +17,8 @@ export class QuizComponent implements OnInit {
   quiz: Question[];
   quizResult: number;
   wrongAnswers: string[] = [];
-  cefrLevel: string;
+  level: string;
+  language: string;
 
   private givenAnswers: any[] = [];
 
@@ -26,6 +28,8 @@ export class QuizComponent implements OnInit {
               private elem: ElementRef) { }
 
   ngOnInit() {
+    this.language = LanguageService.getCurrentLanguage();
+
     this.quizService.loadTest((err, quiz) => {
       if (err) {
         return console.error(err);
@@ -76,21 +80,23 @@ export class QuizComponent implements OnInit {
     if (this.currentQuestionId === this.quiz.length - 1) {
       this.quizResult = this.givenAnswers.reduce((acc, cur) => acc + (cur.value ? 1 : 0), 0);
 
-      const cefrScore = (this.quizResult / this.quiz.length) * 9000;
-      if (cefrScore < 550) {
-        this.cefrLevel = 'Z';
-      } else if (cefrScore < 1650) {
-        this.cefrLevel = 'A1';
-      } else if (cefrScore < 2950) {
-        this.cefrLevel = 'A2';
-      } else if (cefrScore < 4250) {
-        this.cefrLevel = 'B1';
-      } else if (cefrScore < 5650) {
-        this.cefrLevel = 'B2';
-      } else if (cefrScore < 7750) {
-        this.cefrLevel = 'C1';
-      } else {
-        this.cefrLevel = 'C2';
+      if (this.language === 'english') {
+        const score = (this.quizResult / this.quiz.length) * 9000;
+        if (score < 550) {
+          this.level = 'Z';
+        } else if (score < 1650) {
+          this.level = 'A1';
+        } else if (score < 2950) {
+          this.level = 'A2';
+        } else if (score < 4250) {
+          this.level = 'B1';
+        } else if (score < 5650) {
+          this.level = 'B2';
+        } else if (score < 7750) {
+          this.level = 'C1';
+        } else {
+          this.level = 'C2';
+        }
       }
     } else {
       this.currentQuestionId += 1;

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RecommendationService } from '../../services/recommendation.service';
+import {LanguageService} from '../../services/language.service';
 
 @Component({
   selector: 'app-recommendation',
@@ -9,15 +10,27 @@ import { RecommendationService } from '../../services/recommendation.service';
 })
 export class RecommendationComponent implements OnInit {
   MODES = {
-    local: {
-      name: 'Text',
-      external: false,
-      produceLink: (uri) => ['/text', uri]
+    english: {
+      local: {
+        name: 'Text',
+        icon: 'text-icon.png',
+        external: false,
+        produceLink: (uri) => ['/text', uri]
+      },
+      youtube: {
+        name: 'Youtube',
+        icon: 'yt.png',
+        external: true,
+        produceLink: (uri) => uri
+      }
     },
-    youtube: {
-      name: 'Youtube',
-      external: true,
-      produceLink: (uri) => uri
+    japanese: {
+      local: {
+        name: 'Text',
+        icon: 'text-icon.png',
+        external: false,
+        produceLink: (uri) => ['/text', uri]
+      },
     }
   };
 
@@ -40,7 +53,11 @@ export class RecommendationComponent implements OnInit {
   }
 
   getModeKeys() {
-    return Object.keys(this.MODES);
+    return Object.keys(this.MODES[LanguageService.getCurrentLanguage()]);
+  }
+
+  getModeObject(key) {
+    return this.MODES[LanguageService.getCurrentLanguage()][key];
   }
 
   refresh() {
@@ -85,7 +102,7 @@ export class RecommendationComponent implements OnInit {
   }
 
   produceLink(uri) {
-    return this.MODES[this.mode].produceLink(uri);
+    return this.getModeObject(this.mode).produceLink(uri);
   }
 
 }

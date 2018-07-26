@@ -28,11 +28,22 @@ export class IndexComponent implements OnInit {
 
   private modalId = 0;
 
+  static saveLanguage(language) {
+    LanguageService.set(language);
+    window.localStorage.setItem('language', language);
+  }
+
   constructor(private router: Router,
               private auth: AuthService) { }
 
   ngOnInit(): void {
     this.initToggle();
+
+    $('#myModal').modal({
+      show: false,
+      backdrop: 'static',
+      keyboard: false
+    });
 
     this.auth.info((err, user: ParameterHandler<any>) => {
       if (err) {
@@ -41,26 +52,29 @@ export class IndexComponent implements OnInit {
 
       this.userHandler = user;
 
-      this.showLevelModal(user);
-    });
-  }
-
-  showLevelModal(user) {
-    const language = LanguageService.getCurrentLanguage();
-
-    if ((user.value.isNewEn && language === 'english') || (user.value.isNewJp && language === 'japanese')) {
-      if (!(user.value.isNewEn && user.value.isNewJp)) {
+      if (user.value.isNewEn && user.value.isNewJp) {
+        this.modalId = 0;
+      } else {
         this.modalId = 1;
       }
 
-      this.showLevelModalPage();
+      this.showLevelModal(user, LanguageService.getCurrentLanguage());
+    });
+  }
 
-      $('#myModal').modal({
-        show: true,
-        backdrop: 'static',
-        keyboard: false
-      });
+  showLevelModal(user, language) {
+    const modalElem = $('#myModal');
+
+    if (this.modalId === 1) {
+      if ((language === 'english' && !user.value.isNewEn) || (language === 'japanese' && !user.value.isNewJp)) {
+        modalElem.modal('hide');
+        return;
+      }
     }
+
+    this.showLevelModalPage();
+
+    modalElem.modal('show');
   }
 
   showLevelModalPage() {
@@ -73,27 +87,28 @@ export class IndexComponent implements OnInit {
 
   onEnglishSelected() {
     this.setLanguage('english');
-    this.modalId++;
-    this.showLevelModalPage();
+    this.modalId = 1;
+    this.showLevelModal(this.userHandler, 'english');
   }
 
   onJapaneseSelected() {
     this.setLanguage('japanese');
-    this.modalId++;
-    this.showLevelModalPage();
+    this.modalId = 1;
+    this.showLevelModal(this.userHandler, 'japanese');
   }
 
-  setLanguage(language) {
+  onLanguageChange(language) {
     if (language instanceof Event) {
       return;
     }
 
-    this.toggle.set(language === 'japanese');
-    LanguageService.set(language);
-    window.localStorage.setItem('language', language);
+    IndexComponent.saveLanguage(language);
+    this.showLevelModal(this.userHandler, language);
+  }
 
-    this.modalId = 1;
-    this.showLevelModal(this.userHandler);
+  setLanguage(language) {
+    this.toggle.set(language === 'japanese');
+    IndexComponent.saveLanguage(language);
   }
 
   initToggle() {
@@ -105,6 +120,11 @@ export class IndexComponent implements OnInit {
   onLevel() {
     $('#myModal').modal('hide');
     this.router.navigate(['level']);
+  }
+
+  onReturnToLanguageChoice() {
+    this.modalId = 0;
+    this.showLevelModalPage();
   }
 
   onQuiz() {
@@ -129,10 +149,18 @@ export class IndexComponent implements OnInit {
         return console.error(err);
       }
 
+      console.log(user);
+
       if (user) {
         this.userHandler = user;
 
-        this.showLevelModal(user);
+        if (user.value.isNewEn && user.value.isNewJp) {
+          this.modalId = 0;
+        } else {
+          this.modalId = 1;
+        }
+
+        this.showLevelModal(user, LanguageService.getCurrentLanguage());
       } else {
         console.log('Auth failed');
       }

@@ -36,6 +36,9 @@ import {AdminComponent} from './components/admin/admin.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { ToggleComponent } from './components/toggle/toggle.component';
 import { ReviewComponent } from './components/review/review.component';
+import { AboutComponent } from './components/about/about.component';
+import { ProfileReadingComponent } from './components/profile-reading/profile-reading.component';
+import { ProfileReviewComponent } from './components/profile-review/profile-review.component';
 
 if (environment.production) {
   enableProdMode();
@@ -63,7 +66,10 @@ if (environment.production) {
     AdminComponent,
     ProfileComponent,
     ToggleComponent,
-    ReviewComponent
+    ReviewComponent,
+    AboutComponent,
+    ProfileReadingComponent,
+    ProfileReviewComponent
   ],
   imports: [
     BrowserModule,
@@ -72,6 +78,7 @@ if (environment.production) {
     FormsModule,
     RouterModule.forRoot([
       { path: '', component: IndexComponent },
+      { path: 'about', component: AboutComponent },
       { path: 'review', component: ReviewComponent },
       { path: 'text', component: TextComponent },
       { path: 'text/:id', component: TextComponent },

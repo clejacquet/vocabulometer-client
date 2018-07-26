@@ -55,7 +55,7 @@ export class AuthService {
   }
 
   invalidate() {
-    delete AuthService.userHandler.value;
+    AuthService.userHandler.value = null;
   }
 
   logout(cb) {
@@ -72,7 +72,10 @@ export class AuthService {
 
         cb(null);
       })
-      .catch(err => cb(err));
+      .catch(err => {
+        AuthService.userHandler.value = null;
+        cb(err);
+      });
   }
 
   getToken() {
