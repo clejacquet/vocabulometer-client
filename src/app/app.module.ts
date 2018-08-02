@@ -39,6 +39,7 @@ import { ReviewComponent } from './components/review/review.component';
 import { AboutComponent } from './components/about/about.component';
 import { ProfileReadingComponent } from './components/profile-reading/profile-reading.component';
 import { ProfileReviewComponent } from './components/profile-review/profile-review.component';
+import { MangaComponent } from './components/manga/manga.component';
 
 if (environment.production) {
   enableProdMode();
@@ -69,7 +70,8 @@ if (environment.production) {
     ReviewComponent,
     AboutComponent,
     ProfileReadingComponent,
-    ProfileReviewComponent
+    ProfileReviewComponent,
+    MangaComponent
   ],
   imports: [
     BrowserModule,
@@ -79,6 +81,7 @@ if (environment.production) {
     RouterModule.forRoot([
       { path: '', component: IndexComponent },
       { path: 'about', component: AboutComponent },
+      { path: 'manga', component: MangaComponent },
       { path: 'review', component: ReviewComponent },
       { path: 'text', component: TextComponent },
       { path: 'text/:id', component: TextComponent },
