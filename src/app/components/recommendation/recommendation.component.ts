@@ -31,6 +31,11 @@ export class RecommendationComponent implements OnInit {
         external: false,
         produceLink: (uri) => ['/text', uri]
       },
+      manga: {
+        name: 'Manga',
+        external: true,
+        produceLink: (uri) => uri
+      }
     }
   };
 

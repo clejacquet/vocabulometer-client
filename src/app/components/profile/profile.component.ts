@@ -14,12 +14,13 @@ declare const google: any;
 })
 export class ProfileComponent implements OnInit {
   MODES = {
-    reading: 'Reading Profile',
     review: 'Review Profile',
+    reading: 'Reading Profile'
   };
 
-  @ViewChild(ProfileReadingComponent) reading: ProfileReadingComponent;
+
   @ViewChild(ProfileReviewComponent) review: ProfileReviewComponent;
+  @ViewChild(ProfileReadingComponent) reading: ProfileReadingComponent;
 
   mode: String;
 
@@ -34,6 +35,9 @@ export class ProfileComponent implements OnInit {
   setMode(mode) {
     this.mode = mode;
 
+    if (mode === 'review') {
+      this.review.refresh();
+    }
     if (mode === 'reading') {
       this.reading.refresh();
     }

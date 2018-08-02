@@ -22,36 +22,8 @@ export class ProfileReadingComponent implements OnInit {
   levels: any[];
 
   MODES = {
-    level: {
-      title: 'Global Progress',
-      data: () => {
-        {
-          return google.visualization.arrayToDataTable([
-            ['Level', 'Apprentice', 'Guru', 'Master', 'Enlightened' ]
-          ].concat(this.levels.map(level => [
-            level.title,
-            level.score.apprentice,
-            level.score.guru,
-            level.score.master,
-            level.score.enlightened
-          ])));
-        }
-      },
-      options: {
-        isStacked: true,
-        title: '',
-        width: '100%',
-        height: 500,
-        vAxis: {
-          viewWindowMode: 'explicit',
-          viewWindow: {
-            min: 0
-          }
-        }
-      }
-    },
     known: {
-      title: 'Known Words',
+      title: 'Known Words by Reading',
       data: () => {
         {
           return google.visualization.arrayToDataTable([
@@ -126,7 +98,7 @@ export class ProfileReadingComponent implements OnInit {
 
   draw() {
     this.chartDone = true;
-    this.chart = new google.visualization.ColumnChart(document.getElementById('level-chart'));
+    this.chart = new google.visualization.ColumnChart(document.getElementById('level-chart-reading'));
     this.chart.draw(this.data, this.getOptions());
   }
 

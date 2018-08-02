@@ -5,6 +5,11 @@ export class LanguageService {
 
   private static language = 'english';
 
+  private static languageReferences = {
+    english: '10-levels',
+    japanese: 'JLPT'
+  };
+
   static Init() {
     const language = window.localStorage.getItem('language');
     if (language) {
@@ -19,5 +24,9 @@ export class LanguageService {
 
   static getCurrentLanguage(): string {
     return this.language;
+  }
+
+  static getLanguageReference(): string {
+    return this.languageReferences[this.language];
   }
 }

@@ -54,6 +54,15 @@ export class StatsService {
       .catch(err => cb(err));
   }
 
+  lastReviews(limit, cb): void {
+    this.authHttp
+      .get(HostService.url('/api/users/current/stats/last_reviews'), { limit: limit })
+      .map(res => res.json())
+      .toPromise()
+      .then(res => cb(null, res.words))
+      .catch(err => cb(err));
+  }
+
   lastWeek(daysValues): any[] {
     return Array(14).fill(0).map((val, i) => {
       const dayTarget = StatsService.toDayDate(StatsService.dateOffset(Date.now(), -i));

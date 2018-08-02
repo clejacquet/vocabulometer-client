@@ -1,3 +1,28 @@
-<p>
-  Profile for reviews coming soon!
-</p>
+<div id="profile-graphs" *ngIf="levels; else loader">
+  <div class="btn-group" role="group" aria-label="Basic example">
+    <button type="button" *ngFor="let key of getModeKeys()" [class]="'btn btn-secondary ' + ((mode === key) ? 'content-active' : '')" (click)="setMode(key)">
+      {{MODES[key].title}}
+    </button>
+  </div>
+</div>
+
+<div id="level-chart-review"></div>
+
+<h2>Recently Reviewed Words</h2>
+<div id="last-reviews" *ngIf="lastReviews; else loader">
+  <div>
+    <div class="row equal">
+      <div class="col-sm-3" *ngFor="let word of lastReviews">
+        <div class="review-word">
+          <span>{{word.word}}</span><br>
+          <span class="word-level">{{word.level}}</span><br>
+          <span class="word-status {{statusToClass(word.status)}}">{{word.status}}</span><br>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #loader>
+  <app-loader></app-loader>
+</ng-template>

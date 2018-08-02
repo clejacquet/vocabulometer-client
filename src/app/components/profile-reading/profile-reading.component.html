@@ -9,12 +9,12 @@
   <app-loader></app-loader>
 </ng-template>
 
-<div id="level-chart"></div>
+<div id="level-chart-reading"></div>
 
-<h2>New recently read words</h2>
+<h2>New Recently Read Words</h2>
 <div *ngIf="newRecentWords; else newRecentWordsLoader">
   <div id="recent-new-words-read">
-    <div >
+    <div>
       <div class="row equal">
         <div class="col-sm-3" *ngFor="let word of newRecentWords">
           <div class="recent-word">

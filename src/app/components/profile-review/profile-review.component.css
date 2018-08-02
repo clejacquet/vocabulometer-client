@@ -1,0 +1,55 @@
+.content-active {
+  color: #fff;
+  background-color: #545b62;
+  border-color: #4e555b;
+}
+
+.review-word {
+  border: solid 1px #DDD;
+  margin-bottom: 5px;
+  border-radius: 3px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.review-word > span:first-child {
+  font-size: 1.5em;
+  font-family: 'maboroshi', sans-serif;
+}
+
+#last-reviews {
+  text-align: center;
+  margin-top: 32px;
+  margin-bottom: 32px;
+}
+
+
+
+.word-status {
+  font-size: 0.9em;
+}
+
+.word-level {
+  font-size: 0.9em;
+  color: #AAA;
+}
+
+.apprentice {
+  color: #dd0093;
+}
+
+.guru {
+  color: #882d9e;
+}
+
+.master {
+  color: #294ddb;
+}
+
+.enlightened {
+  color: #0093dd;
+}
+
+.unknown {
+  color: #AAA;
+}
