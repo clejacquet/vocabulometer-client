@@ -1,0 +1,55 @@
+.manga-recommendation {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.score-bar {
+    width: 6px;
+    height: 100px;
+    display: flex;
+    flex-direction: column-reverse;
+    margin-right: 4px;
+}
+
+.score-bar .level-0 {
+    background-color: #333333;
+}
+
+.score-bar .level-1 {
+    background-color: #3498DB;
+}
+
+.score-bar .level-2 {
+    background-color: #2FCC71;
+}
+
+
+.score-bar .level-3 {
+    background-color: #F1C40F;
+}
+
+
+.score-bar .level-4 {
+    background-color: #E67E23;
+}
+
+
+.score-bar .level-5 {
+    background-color: #C0392B;
+}
+
+.manga-cover-container {
+    margin-right: 10px;
+    max-width: 72px;
+    overflow: hidden;
+}
+
+.manga-cover-container img {
+    height: 100px;
+    /* width: 80px; */
+}
+
+.manga-recommendation .title {
+    line-height: 1;
+}
