@@ -14,23 +14,23 @@ export class SynQuizzComponent implements OnInit {
     private user_id: string;
     private user_lv: number;
     private word_id: number;
-    private learningArray: string[] = [];          // contains the words to learn
+    learningArray: string[] = [];          // contains the words to learn
     private learningArrayLength = 10;              // defines the number of words in a quizz
-    private learningArrayFeedback: string[] = [];  // contains the words where the user failed the quizz
+    learningArrayFeedback: string[] = [];  // contains the words where the user failed the quizz
     private indexFailList: number[] = [];          // retrieve the indexes of the failed words to fill learningArrayFeedback
-    private lg_src: string;
-    private word: string;
+    lg_src: string;
+    word: string;
     private synArray: string[] = [];               // will contain th synonym plus 3 random words
     private rightAnswer: string;
     private userAnswer: string;
-    private answer1: string;
-    private answer2: string;
-    private answer3: string;
-    private answer4: string;
-    private score: number;
-    private index: number;
-    private quizzStart: boolean;                   // used in the html to dispay/hide tags
-    private quizzFinish: boolean;                  // used in the html to dispay/hide tags
+    answer1: string;
+    answer2: string;
+    answer3: string;
+    answer4: string;
+     score: number;
+     index: number;
+     quizzStart: boolean;                   // used in the html to dispay/hide tags
+    quizzFinish: boolean;                  // used in the html to dispay/hide tags
 
 
     @ViewChild(WordsComponent) words: WordsComponent;

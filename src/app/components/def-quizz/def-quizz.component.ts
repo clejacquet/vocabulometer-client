@@ -16,17 +16,19 @@ export class DefQuizzComponent implements OnInit {
   private learningArray: string[] = [];          // contains the words to learn
   private learningArrayLength = 10;       // defines the number of words in a quizz
   private learningArrayTmp: string[] = [];
-  private word: string;
+  word: string;
   private defArray: object = {};               // will contain th synonym plus 3 random words
   private userAnswerVoc: string;
   private userAnswerDef: string;
-  private score: number;
+  score: number;
   private current_score: number;
-  private index: number;
-  private quizzStart: boolean;                   // used in the html to dispay/hide tags
-  private quizzFinish: boolean;                  // used in the html to dispay/hide tags
-  private wordList: string[] = [];
-  private defList: string[] = [];
+  index: number;
+  quizzStart: boolean;                   // used in the html to dispay/hide tags
+  quizzFinish: boolean;                  // used in the html to dispay/hide tags
+  wordList: string[] = [];
+  defList: string[] = [];
+  lg_src = 'English';
+  lg_dst = 'French';
 
 
 
