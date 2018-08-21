@@ -30,12 +30,21 @@ export class GazeService implements GazeSourceTarget {
   private VARIANCE_THRESHOLD = 50;
   private FIXATION_MIN_DURATION = 100; // minimum duration of a fixation in milliseconds
 
-  private gazeSourceEmitters: GazeSourceEmitter[] = [
-    new GazeRemoteSourceEmitter(HostService.urlGaze('/signalr')),
-    new GazeMouseSourceEmitter()
+  private gazeSourceEmitters: any[] = [
+    {
+      emitter: new GazeRemoteSourceEmitter(HostService.urlGaze('/signalr')),
+      readingDetection: true,
+      postFiltering: false
+    },
+    {
+      emitter: new GazeMouseSourceEmitter(),
+      readingDetection: false,
+      postFiltering: true
+    }
   ];
 
   private usedProviderHandler: ParameterHandler<boolean>;
+  private readingDetectionHandler: ParameterHandler<boolean>;
 
   // Detects eyes blinking
   // Returns :
@@ -61,23 +70,26 @@ export class GazeService implements GazeSourceTarget {
     return [x, y];
   }
 
-  start(usedProviderHandler: ParameterHandler<boolean>): void {
+  start(usedProviderHandler: ParameterHandler<boolean>, readingDetectionHandler: ParameterHandler<boolean>): void {
     this.usedProviderHandler = usedProviderHandler;
+    this.readingDetectionHandler = readingDetectionHandler;
 
     this.gazeSourceEmitters.forEach((gse) => {
-      gse.start(this);
+      gse.emitter.start(this);
     });
   }
 
   onMessage(emitter: GazeSourceEmitter, msg: any, cb: Function): void {
-    if (this.gazeSourceEmitters[(this.usedProviderHandler.value) ? 1 : 0] === emitter) {
-      this.update(msg.scope, msg.type, msg.lx, msg.ly, msg.rx, msg.ry, cb);
+    const emitterItem = this.gazeSourceEmitters[(this.usedProviderHandler.value) ? 1 : 0];
+
+    if (emitterItem.emitter === emitter) {
+        this.update(msg, emitterItem.readingDetection, emitterItem.postFiltering, cb);
     }
   }
 
   subscribe(cb: Function): void {
     this.gazeSourceEmitters.forEach((gse) => {
-      gse.subscribe(cb);
+      gse.emitter.subscribe(cb);
     })
   }
 
@@ -87,47 +99,61 @@ export class GazeService implements GazeSourceTarget {
     return [(x - window.screenX) / window.devicePixelRatio, (y - yoffset - window.screenY) / window.devicePixelRatio];
   }
 
-  private update(scope: string, type: string, leftX: number, leftY: number, rightX: number, rightY: number, cb: Function): void {
-    if (type === 'fixation') {
-      if (scope === 'screen') {
-        [leftX, leftY] = this.screenToWindow(leftX, leftY);
+  private update(gazeData: any, readingDetectionActivated: boolean, postFiltering: boolean, cb: Function): void {
+    let [leftX, leftY, rightX, rightY] = [gazeData.lx, gazeData.ly, gazeData.rx, gazeData.ly];
+
+    if (gazeData.scope === 'screen') {
+      [leftX, leftY] = this.screenToWindow(leftX, leftY);
+      [rightX, rightY] = this.screenToWindow(rightX, rightY);
+    }
+
+    if (gazeData.type === 'fixation') {
+      let isReading = gazeData.isReading;
+      if (readingDetectionActivated === false || this.readingDetectionHandler.value === false) {
+        isReading = true;
       }
 
-      console.log(leftX + ' / ' + leftY);
-
-      return cb({
+      cb({
         type: 'fixation',
+        isReading: isReading,
         x: leftX,
         y: leftY
       });
-    }
+    } else {
+      if (postFiltering === true) {
+        const blinkValue = GazeService.eyeBlink(
+          gazeData.leftX,
+          gazeData.leftY,
+          gazeData.rightX,
+          gazeData.rightY);
 
-    const blinkValue = GazeService.eyeBlink(leftX, leftY, rightX, rightY);
+        // Filtering eyes blinking
+        if (blinkValue !== 1) { // no both eyes blinking (in this case, we do nothing)
+          if (blinkValue !== 0) { // no blinking
 
-    // Filtering eyes blinking
-    if (blinkValue !== 1) { // no both eyes blinking (in this case, we do nothing)
-      if (blinkValue !== 0) {// no blinking
+            if (blinkValue === 2) { // left eye
+              leftX = rightX;
+              leftY = rightY;
+            }
+            if (blinkValue === 3) { // right eye
+              rightX = leftX;
+              rightY = leftY;
+            }
+          }
 
-        if (blinkValue === 2) {// left eye
-          leftX = rightX;
-          leftY = rightY;
+          this.filterFixationFromGaze(leftX, leftY, rightX, rightY, cb);
         }
-        if (blinkValue === 3) {// right eye
-          rightX = leftX;
-          rightY = leftY;
-        }
+      } else {
+        cb({
+          type: 'position',
+          x: leftX,
+          y: leftY
+        });
       }
-
-      if (scope === 'screen') {
-        [leftX, leftY] = this.screenToWindow(leftX, leftY);
-        [rightX, rightY] = this.screenToWindow(rightX, rightY);
-      }
-
-      this.addNewCoordinates(leftX, leftY, rightX, rightY, cb);
     }
   }
 
-  private addNewCoordinates(leftX, leftY, rightX, rightY, cb): void {
+  private filterFixationFromGaze(leftX, leftY, rightX, rightY, cb): void {
     const old_mean_x = this.mean_x;
     const old_mean_y = this.mean_y;
 
@@ -153,7 +179,8 @@ export class GazeService implements GazeSourceTarget {
           x: old_mean_x,
           y: old_mean_y,
           var_x: old_var1,
-          var_y: old_var2
+          var_y: old_var2,
+          isReading: true
         });
       }
 

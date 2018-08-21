@@ -100,7 +100,7 @@ export class TextComponent implements OnInit, OnDestroy {
               private router: Router) { }
 
   ngOnInit() {
-    this.gazeService.start(this.debug.mouseModeHandler);
+    this.gazeService.start(this.debug.mouseModeHandler, this.debug.readingDetectionHandler);
     this.gazeCursor.handler = this.debug.reticleHandler;
 
     this.paneOffset = TextComponent.computeTop();
@@ -198,6 +198,11 @@ export class TextComponent implements OnInit, OnDestroy {
 
       this.gazeService.subscribe((coords) => {
         if (coords.type === 'fixation') {
+          // console.log(coords);
+          if (!coords.isReading || coords.isReading === false) {
+            return;
+          }
+
           const circle = new Circle(coords.x, coords.y, GazeCursorComponent.GazeCursorRadius);
 
           const collided_paragraphs = paragraphs.filter((paragraph) => {

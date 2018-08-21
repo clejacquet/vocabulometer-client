@@ -21,14 +21,15 @@ export class GazeRemoteSourceEmitter extends GazeSourceEmitter {
           this.notify(res);
         });
       },
-      'onFixation': (x, y) => {
+      'onFixation': (x, y, isReading) => {
         target.onMessage(this, {
           scope: 'screen',
           type: 'fixation',
           lx: x,
           ly: y,
           rx: x,
-          ry: y
+          ry: y,
+          isReading: isReading
         }, (res) => {
           this.notify(res);
         });
