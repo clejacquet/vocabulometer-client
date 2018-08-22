@@ -81,9 +81,8 @@ export class GazeService implements GazeSourceTarget {
 
   onMessage(emitter: GazeSourceEmitter, msg: any, cb: Function): void {
     const emitterItem = this.gazeSourceEmitters[(this.usedProviderHandler.value) ? 1 : 0];
-
     if (emitterItem.emitter === emitter) {
-        this.update(msg, emitterItem.readingDetection, emitterItem.postFiltering, cb);
+      this.update(msg, emitterItem.readingDetection, emitterItem.postFiltering, cb);
     }
   }
 
@@ -99,7 +98,7 @@ export class GazeService implements GazeSourceTarget {
     return [(x - window.screenX) / window.devicePixelRatio, (y - yoffset - window.screenY) / window.devicePixelRatio];
   }
 
-  private update(gazeData: any, readingDetectionActivated: boolean, postFiltering: boolean, cb: Function): void {
+  private update(gazeData: any, readingDetectionPossible: boolean, postFiltering: boolean, cb: Function): void {
     let [leftX, leftY, rightX, rightY] = [gazeData.lx, gazeData.ly, gazeData.rx, gazeData.ly];
 
     if (gazeData.scope === 'screen') {
@@ -108,42 +107,38 @@ export class GazeService implements GazeSourceTarget {
     }
 
     if (gazeData.type === 'fixation') {
+      console.log(gazeData.isReading);
+
       let isReading = gazeData.isReading;
-      if (readingDetectionActivated === false || this.readingDetectionHandler.value === false) {
+      if (readingDetectionPossible === false || this.readingDetectionHandler.value === false) {
         isReading = true;
       }
-
       cb({
         type: 'fixation',
         isReading: isReading,
         x: leftX,
         y: leftY
       });
-    } else {
+    }
+    else {
       if (postFiltering === true) {
-        const blinkValue = GazeService.eyeBlink(
-          gazeData.leftX,
-          gazeData.leftY,
-          gazeData.rightX,
-          gazeData.rightY);
-
+        let blinkValue = GazeService.eyeBlink(gazeData.leftX, gazeData.leftY, gazeData.rightX, gazeData.rightY);
         // Filtering eyes blinking
-        if (blinkValue !== 1) { // no both eyes blinking (in this case, we do nothing)
-          if (blinkValue !== 0) { // no blinking
-
-            if (blinkValue === 2) { // left eye
+        if (blinkValue !== 1) {
+          if (blinkValue !== 0) {
+            if (blinkValue === 2) {
               leftX = rightX;
               leftY = rightY;
             }
-            if (blinkValue === 3) { // right eye
+            if (blinkValue === 3) {
               rightX = leftX;
               rightY = leftY;
             }
           }
-
           this.filterFixationFromGaze(leftX, leftY, rightX, rightY, cb);
         }
-      } else {
+      }
+      else {
         cb({
           type: 'position',
           x: leftX,

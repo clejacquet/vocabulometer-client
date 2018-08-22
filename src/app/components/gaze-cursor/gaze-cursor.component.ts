@@ -23,13 +23,14 @@ export class GazeCursorComponent implements AfterViewInit {
 
     this.gazeService.subscribe((coords) => {
       if (coords.type === 'fixation') {
-        // console.log('is reading: ' + coords.isReading);
         if (coords.isReading) {
           this.circleEl.style.backgroundColor = GazeCursorComponent.ReadingColor;
         } else {
           this.circleEl.style.backgroundColor = GazeCursorComponent.NotReadingColor;
         }
-      } else if (coords.type === 'position') {
+      }
+
+      if (coords.type === 'position') {
         this.circleEl.style.left = (coords.x - GazeCursorComponent.GazeCursorRadius + window.pageXOffset) + 'px';
         this.circleEl.style.top = (coords.y - GazeCursorComponent.GazeCursorRadius + window.pageYOffset) + 'px';
         this.circleEl.style.borderRadius = GazeCursorComponent.GazeCursorRadius + 'px';

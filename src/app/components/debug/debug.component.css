@@ -29,6 +29,14 @@
   margin-right: 5px;
 }
 
+.mouse-mode-img {
+  background: #515151 url('/assets/mouse.png') no-repeat 50% 22%;
+}
+
+.reading-detection-img {
+  background: #515151 url('/assets/eye.png') no-repeat 50% 22%;
+}
+
 .debug-button-text {
   display: block;
   width: 100%;
@@ -36,22 +44,6 @@
   border-radius: 3px;
   border: 1px solid #212121;
   background-color: #515151;
-}
-
-.debug-button-img {
-  display: block;
-  width: 100%;
-  height: 120px;
-  border-radius: 3px;
-  border: 1px solid #212121;
-}
-
-.mouse-mode-img {
-  background: #515151 url("/assets/mouse.png") no-repeat 50% 22%;
-}
-
-.reading-detection-img {
-  background: #515151 url("/assets/eye.png") no-repeat 50% 22%;
 }
 
 .debug-button-text-title {
@@ -63,6 +55,14 @@
   font-size: 1em;
 }
 
+.debug-button-img {
+  display: block;
+  width: 100%;
+  height: 120px;
+  border-radius: 3px;
+  border: 1px solid #212121;
+}
+
 .debug-button-img-title {
   color: #e4e4e4;
   position: relative;
@@ -72,7 +72,7 @@
   font-size: 1em;
 }
 
-.debug-button input {
+.debug-button > input {
   display: none;
 }
 

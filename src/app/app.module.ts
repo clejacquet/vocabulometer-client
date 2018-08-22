@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './components/app.component';
@@ -28,7 +27,6 @@ import { ParserService } from './services/parser.service';
 import { AuthService } from './services/auth.service';
 import { HostService } from './services/host.service';
 import { AuthHttpService } from './services/auth-http.service';
-import { WordService } from './services/word.service';
 
 import {enableProdMode} from '@angular/core';
 import {environment} from '../environments/environment';
@@ -41,12 +39,13 @@ import { ReviewComponent } from './components/review/review.component';
 import { AboutComponent } from './components/about/about.component';
 import { ProfileReadingComponent } from './components/profile-reading/profile-reading.component';
 import { ProfileReviewComponent } from './components/profile-review/profile-review.component';
-import { MangaComponent } from './components/manga/manga.component';
-import { QuizzComponent } from './components/quizz/quizz.component';
-import { WordsComponent } from './components/words/words.component';
-import { SynQuizzComponent } from './components/syn-quizz/syn-quizz.component';
-import { DefQuizzComponent } from './components/def-quizz/def-quizz.component';
-import { SrsComponent } from './components/srs/srs.component';
+import {HttpClientModule} from '@angular/common/http';
+import {SrsComponent} from './components/srs/srs.component';
+import {MangaComponent} from './components/manga/manga.component';
+import {QuizzComponent} from './components/quizz/quizz.component';
+import {DefQuizzComponent} from './components/def-quizz/def-quizz.component';
+import {SynQuizzComponent} from './components/syn-quizz/syn-quizz.component';
+import {WordsComponent} from './components/words/words.component';
 
 if (environment.production) {
   enableProdMode();
@@ -78,12 +77,12 @@ if (environment.production) {
     AboutComponent,
     ProfileReadingComponent,
     ProfileReviewComponent,
-    MangaComponent,
+    SrsComponent,
     QuizzComponent,
-    WordsComponent,
-    SynQuizzComponent,
     DefQuizzComponent,
-    SrsComponent
+    SynQuizzComponent,
+    WordsComponent,
+    MangaComponent
   ],
   imports: [
     BrowserModule,
@@ -94,9 +93,8 @@ if (environment.production) {
     RouterModule.forRoot([
       { path: '', component: IndexComponent },
       { path: 'about', component: AboutComponent },
-      { path: 'manga', component: MangaComponent },
       { path: 'srs', component: SrsComponent },
-      { path: 'review', component: ReviewComponent },
+      { path: 'manga', component: MangaComponent },
       { path: 'text', component: TextComponent },
       { path: 'text/:id', component: TextComponent },
       { path: 'admin', component: AdminComponent },
@@ -121,8 +119,7 @@ if (environment.production) {
     ParserService,
     AuthService,
     HostService,
-    AuthHttpService,
-    WordService
+    AuthHttpService
   ]
 })
 export class AppModule { }

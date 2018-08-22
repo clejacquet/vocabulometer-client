@@ -198,8 +198,7 @@ export class TextComponent implements OnInit, OnDestroy {
 
       this.gazeService.subscribe((coords) => {
         if (coords.type === 'fixation') {
-          // console.log(coords);
-          if (!coords.isReading || coords.isReading === false) {
+          if (coords.isReading === false) {
             return;
           }
 

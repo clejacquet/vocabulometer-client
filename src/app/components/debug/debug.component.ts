@@ -18,7 +18,7 @@ export class DebugComponent implements OnInit {
   constructor() {
     this.reticleHandler = ParameterHandler.buildDefault(false);
     this.mouseModeHandler = ParameterHandler.buildDefault(false);
-    this.readingDetectionHandler = ParameterHandler.buildDefault(false);
+    this.readingDetectionHandler = ParameterHandler.buildDefault(true);
 
     this.readWordsHandler = false;
   }
