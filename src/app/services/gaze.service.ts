@@ -107,8 +107,6 @@ export class GazeService implements GazeSourceTarget {
     }
 
     if (gazeData.type === 'fixation') {
-      console.log(gazeData.isReading);
-
       let isReading = gazeData.isReading;
       if (readingDetectionPossible === false || this.readingDetectionHandler.value === false) {
         isReading = true;
