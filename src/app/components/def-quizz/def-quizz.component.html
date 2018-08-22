@@ -1,0 +1,58 @@
+<app-words></app-words>
+
+  <div class="border container">
+
+    <button class="btn-volume" type="button" onclick="document.getElementById('audio').play();">
+      <div class="audioDiv volume"></div>
+    </button>
+      <span *ngIf="quizzStart" class="score">{{score}}/{{index-1}}</span>
+        <button type="button" class="btn btn-next" *ngIf="quizzStart" (click)="nextQuizz()" >Next</button>
+        <button type="button" class="btn btn-start" *ngIf="!quizzStart" (click)="nextQuizz()" >Start Quizz</button>
+
+            <div class="row column  primary">
+              <div class="row-label w3-badge w3-jumbo w3-padding-large w3-red">{{lg_src}}</div>
+              <div class="row-value">
+                <div class="primary-value" lang="ja">
+                {{word}}
+                </div>
+              </div>
+            </div>
+            <div class="row column  secondary">
+              <div class="row-label">{{lg_dst}}</div>
+              <div class="row-value">
+                <div class="primary-value" lang="en">
+                  <div class="quizz-start" *ngIf="!quizzStart">Get the words to learn, and then press Start to begin the word quizz. Once you matched every words, press Next.</div>
+                </div>
+              </div>
+            </div>
+            <div class="row column first-audio">
+
+
+
+
+                  <span *ngIf='quizzStart' class="voc">
+                    <div class="quizz-start" *ngIf="quizzFinish">End of the Quizz. Congratulations</div>
+
+                    <ul>
+                      <li *ngFor='let word of wordList' class="li-voc">
+                        <span class="s1" type="text" *ngIf="quizzStart"><button class="a1" (click)="getClickVoc($event)">{{word}}</button></span>
+                      </li>
+                    </ul>
+                  </span>
+
+
+                  <span class="primary-value def">
+                    <ul>
+                      <li *ngFor='let word of defList' class="li-def">
+                        <span class="s1" type="text" *ngIf="quizzStart"><button class="a1" (click)="getClickDef($event)">{{word}}</button></span>
+                      </li>
+                    </ul>
+                  </span>
+
+
+
+
+
+
+            </div>
+        </div>

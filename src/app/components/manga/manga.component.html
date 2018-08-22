@@ -1,0 +1,89 @@
+<div id="recommendation-section" class="container">
+  <h1>Manga Recommendations</h1>
+
+  <h2>Intensive Reading</h2>
+
+  <div *ngIf="intensiveContent; else intensiveContentLoader">
+    <div class="row equal">
+      <div class="col-md-4 mb-2" *ngFor="let content of intensiveContent">
+        <div class="manga-recommendation">
+          <!--<a [routerLink]="produceLink(content.uri)" target="_blank" *ngIf="!getModeObject(mode).external">{{content.title}} ({{content.score.toFixed(2)}})</a>
+          <a [href]="produceLink(content.uri)" target="_blank" *ngIf="getModeObject(mode).external">{{content.title}} ({{content.score.toFixed(2)}})</a>-->
+          <div class="score-bar">
+            <div class="level-0" [style.height]=" content.counts[0] * 100 + '%'"></div>
+            <div class="level-1" [style.height]=" content.counts[1] * 100 + '%'"></div>
+            <div class="level-2" [style.height]=" content.counts[2] * 100 + '%'"></div>
+            <div class="level-3" [style.height]=" content.counts[3] * 100 + '%'"></div>
+            <div class="level-4" [style.height]=" content.counts[4] * 100 + '%'"></div>
+            <div class="level-5" [style.height]=" content.counts[5] * 100 + '%'"></div>
+          </div>
+          <div class="manga-cover-container">
+            <a href="{{content.uri}}" title="Read {{content.title}}" target="_blank">
+              <img src="{{content.img}}" alt="{{content.title}}" />
+            </a>
+          </div>
+          <div class="title">
+            <p>
+              <a href="{{content.uri}}" title="Read {{content.title}}" target="_blank">{{content.title}}
+                <br /> {{content.titleOriginal}}
+              </a>
+            </p>
+            <p class="copyright">
+              <small>&copy; {{content.copyright}}</small>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p>
+    * TODO: Intensive Reading explanation.
+  </p>
+  <ng-template #intensiveContentLoader>
+    <app-loader></app-loader>
+    <p class="waiting-msg">Sorry, computing recommendations is a long task! Thank you for waiting!</p>
+  </ng-template>
+
+  <h2>Extensive Reading</h2>
+
+  <div *ngIf="extensiveContent; else extensiveContentLoader">
+    <div class="row equal">
+      <div class="col-md-4 mb-2" *ngFor="let content of extensiveContent">
+        <div class="manga-recommendation">
+          <!--<a [routerLink]="produceLink(content.uri)" target="_blank" *ngIf="!getModeObject(mode).external">{{content.title}} ({{content.score.toFixed(2)}})</a>
+            <a [href]="produceLink(content.uri)" target="_blank" *ngIf="getModeObject(mode).external">{{content.title}} ({{content.score.toFixed(2)}})</a>-->
+          <div class="score-bar">
+            <div class="level-0" [style.height]=" content.counts[0] * 100 + '%'"></div>
+            <div class="level-1" [style.height]=" content.counts[1] * 100 + '%'"></div>
+            <div class="level-2" [style.height]=" content.counts[2] * 100 + '%'"></div>
+            <div class="level-3" [style.height]=" content.counts[3] * 100 + '%'"></div>
+            <div class="level-4" [style.height]=" content.counts[4] * 100 + '%'"></div>
+            <div class="level-5" [style.height]=" content.counts[5] * 100 + '%'"></div>
+          </div>
+          <div class="manga-cover-container">
+            <a href="{{content.uri}}" title="Read {{content.title}}" target="_blank">
+              <img src="{{content.img}}" alt="{{content.title}}" />
+            </a>
+          </div>
+          <div class="title">
+            <p>
+              <a href="{{content.uri}}" title="Read {{content.title}}" target="_blank">{{content.title}}
+                <br /> {{content.titleOriginal}}
+              </a>
+            </p>
+            <p class="copyright">
+              <small>&copy; {{content.copyright}}</small>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p>
+    * TODO: Extensive Reading explanation.
+  </p>
+  <ng-template #extensiveContentLoader>
+    <app-loader></app-loader>
+    <p class="waiting-msg">Sorry, computing recommendations is a long task! Thank you for waiting!</p>
+  </ng-template>
+</div>

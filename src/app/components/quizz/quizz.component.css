@@ -1,0 +1,164 @@
+.container {
+  height: 180px;
+  width: 500px;
+  background-color: #C0C0C0;
+}
+
+.border {
+  border-width:5px;
+  border-style:groove;
+  border-color:#808080BB;
+  border-radius: 8px;
+
+ }
+
+.row-label {
+   text-align: left;
+   font-weight: bold;
+   color:black;
+   text-transform: capitalize;
+
+}
+
+.btn-start {
+  position: relative;
+  margin-left: 75%;
+  margin-top: -30%;
+  border: 1px solid green;
+  background-color: #606B8B;
+  color:black;
+  border-radius: 15px;
+  box-shadow: 0 3px #999;
+}
+
+.btn-start:hover {
+    background-color: #32CD32;
+    color: white;
+}
+
+.btn-start:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(1px);
+}
+
+.btn-next {
+  position: relative;
+  margin-left: 80%;
+  margin-top: -40%;
+  border: 1px solid green;
+  background-color: #606B8B;
+  color:black;
+  border-radius: 15px;
+  box-shadow: 0 3px #999;
+}
+
+.btn-next:hover {
+    background-color: #32CD32;
+    color: white;
+}
+
+.btn-next:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(1px);
+}
+
+.primary-value {
+  text-align: center;
+  font-weight: bold;
+  color:DarkGreen;
+}
+
+.score {
+  color:firebrick;
+  font-weight:bold;
+  text-align:center;
+  background-blend-mode: hard-light;
+  border-radius: 15px;
+  margin-left: 40%;
+
+}
+
+
+
+.volume {
+  width: 20px; height: 20px;
+  background: url('/assets/css_sprites.png') -286px -10px;
+}
+
+.btn-volume {
+  background-color: #FFFFFF;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 3px #999;
+  margin-top: 2px;
+  margin-left: 2px;
+}
+
+.btn-volume:hover {
+    background-color: #32CD32; /* Green */
+    color: white;
+}
+
+.btn-volume:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(2px);
+}
+
+.quizz-start {
+  margin-left: 100px;
+  margin-right: 50px;
+  max-width: 300px;
+  text-align: center;
+  color: #000000AA
+}
+
+
+
+.words {
+  margin: 0 0 2em 0;
+  list-style-type: none;
+  padding: 0;
+  width: 15em;
+}
+.words li {
+  cursor: pointer;
+  position: relative;
+  left: 0;
+  background-color: #EEE;
+  margin: .5em;
+  padding: .3em 0;
+  height: 2.1em;
+  border-radius: 4px;
+}
+
+
+
+
+.words li:hover {
+  color: #607D8B;
+  background-color: #DDD;
+  left: .1em;
+}
+.words .text {
+  position: relative;
+  top: -3px;
+}
+.words .badge {
+  display: inline-block;
+  font-size: medium;
+  color: white;
+  padding: 0.8em 0.7em 0 0.7em;
+  background-color: #607D8B;
+  line-height: 1em;
+  position: relative;
+  left: -1px;
+  top: -4px;
+  height: 1.8em;
+  margin-right: .8em;
+  border-radius: 4px 0 0 4px;
+}

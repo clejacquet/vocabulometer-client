@@ -1,0 +1,29 @@
+<h2>1st Step</h2>
+<p> Read the following list and then fill the quizz form.<br/>
+  You can hide the vocabulary when passing the test with the "hide" button.
+</p>
+
+
+
+<div>
+  <input type="text" (keyup)="onNameKeyUp($event)" placeholder="user id">
+  <input type="text" (keyup)="onWordKeyUp($event)" placeholder="word">
+  <button (click)="getWordsToLearn()">Get Words to learn</button>
+</div>
+  <button (click)="readWord()">read word</button>
+  <button (click)="translateWord()">translate Word</button>
+  <button (click)="getSynonym('pretty')">Get Synonym</button>
+
+<h2>Vocabulary List</h2>
+<ul class="words">
+  <div *ngIf="checkHide()">
+    <li *ngFor="let word of learningArray | slice:0:learningArray.length/2; let i = index" >
+      <span class="badge">{{learningArray[i]}} :</span><span class="trad"> {{learningArray[i+learningArray.length/2]}}  </span>
+    </li>
+  </div>
+
+<button name="button" (click)="hideList()">Hide</button>
+<button (click)="getSrsSize()">Get SRS size</button><p>{{this.srsSize}}</p>
+</ul>
+
+<h2>Quizz Test</h2>

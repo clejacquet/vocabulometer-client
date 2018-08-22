@@ -12,11 +12,13 @@ export class DebugComponent implements OnInit {
 
   reticleHandler: ParameterHandler<boolean>;
   mouseModeHandler: ParameterHandler<boolean>;
+  readingDetectionHandler: ParameterHandler<boolean>;
   readWordsHandler: boolean;
 
   constructor() {
     this.reticleHandler = ParameterHandler.buildDefault(false);
     this.mouseModeHandler = ParameterHandler.buildDefault(false);
+    this.readingDetectionHandler = ParameterHandler.buildDefault(true);
 
     this.readWordsHandler = false;
   }

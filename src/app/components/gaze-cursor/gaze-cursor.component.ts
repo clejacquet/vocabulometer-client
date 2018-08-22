@@ -9,6 +9,8 @@ import { GazeService } from '../../services/gaze.service';
 })
 export class GazeCursorComponent implements AfterViewInit {
   static readonly GazeCursorRadius = 41;
+  static readonly ReadingColor = 'rgba(255, 2, 2, 0.5)';
+  static readonly NotReadingColor = 'rgba(64, 64, 64, 0.5)';
 
   handler: ParameterHandler<boolean>;
 
@@ -20,6 +22,14 @@ export class GazeCursorComponent implements AfterViewInit {
     this.circleEl = this.el.nativeElement.firstChild;
 
     this.gazeService.subscribe((coords) => {
+      if (coords.type === 'fixation') {
+        if (coords.isReading) {
+          this.circleEl.style.backgroundColor = GazeCursorComponent.ReadingColor;
+        } else {
+          this.circleEl.style.backgroundColor = GazeCursorComponent.NotReadingColor;
+        }
+      }
+
       if (coords.type === 'position') {
         this.circleEl.style.left = (coords.x - GazeCursorComponent.GazeCursorRadius + window.pageXOffset) + 'px';
         this.circleEl.style.top = (coords.y - GazeCursorComponent.GazeCursorRadius + window.pageYOffset) + 'px';

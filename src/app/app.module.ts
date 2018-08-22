@@ -39,6 +39,13 @@ import { ReviewComponent } from './components/review/review.component';
 import { AboutComponent } from './components/about/about.component';
 import { ProfileReadingComponent } from './components/profile-reading/profile-reading.component';
 import { ProfileReviewComponent } from './components/profile-review/profile-review.component';
+import {HttpClientModule} from '@angular/common/http';
+import {SrsComponent} from './components/srs/srs.component';
+import {MangaComponent} from './components/manga/manga.component';
+import {QuizzComponent} from './components/quizz/quizz.component';
+import {DefQuizzComponent} from './components/def-quizz/def-quizz.component';
+import {SynQuizzComponent} from './components/syn-quizz/syn-quizz.component';
+import {WordsComponent} from './components/words/words.component';
 
 if (environment.production) {
   enableProdMode();
@@ -69,17 +76,25 @@ if (environment.production) {
     ReviewComponent,
     AboutComponent,
     ProfileReadingComponent,
-    ProfileReviewComponent
+    ProfileReviewComponent,
+    SrsComponent,
+    QuizzComponent,
+    DefQuizzComponent,
+    SynQuizzComponent,
+    WordsComponent,
+    MangaComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     HttpModule,
+    HttpClientModule,
     FormsModule,
     RouterModule.forRoot([
       { path: '', component: IndexComponent },
       { path: 'about', component: AboutComponent },
-      { path: 'review', component: ReviewComponent },
+      { path: 'srs', component: SrsComponent },
+      { path: 'manga', component: MangaComponent },
       { path: 'text', component: TextComponent },
       { path: 'text/:id', component: TextComponent },
       { path: 'admin', component: AdminComponent },

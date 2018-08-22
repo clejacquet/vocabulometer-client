@@ -1,0 +1,50 @@
+<app-words></app-words>
+
+
+  <div class="border container">
+    <button class="btn-volume" type="button" onclick="document.getElementById('audio').play();">
+      <div class="audioDiv volume"></div>
+    </button>
+      <span *ngIf="quizzStart" class="score">{{score}}/{{index-1}}</span>
+        <button type="button" class="btn btn-next" *ngIf="quizzStart" (click)="nextQuizz()" >Next</button>
+        <button type="button" class="btn btn-start" *ngIf="!quizzStart" (click)="nextQuizz()" >Start Quizz</button>
+
+            <div class="row column  primary">
+              <div class="row-label w3-badge w3-jumbo w3-padding-large w3-red">{{lg_src}}</div>
+              <div class="row-value">
+                <div class="primary-value" lang="ja">
+                {{word}}
+                </div>
+              </div>
+            </div>
+            <div class="row column secondary">
+              <div class="row-value">
+                <div class="primary-value rdmSpan" lang="en">
+                  <div class="quizz-start" *ngIf="!quizzStart">Get the words to learn, and then press Start to begin the synonym quizz</div>
+                  <span class="s1" type="text" *ngIf="quizzStart"><button class="a1" (click)="getClick($event)">{{answer1}}</button></span>
+                  <span class="s2" type="text" *ngIf="quizzStart"><button class="a2" (click)="getClick($event)">{{answer2}}</button></span> <br/>
+                  <span class="s3" type="text" *ngIf="quizzStart"><button class="a3" (click)="getClick($event)">{{answer3}}</button></span>
+                  <span class="s4" type="text" *ngIf="quizzStart"><button class="a4" (click)="getClick($event)">{{answer4}}</button></span>
+
+                </div>
+              </div>
+            </div>
+            <div class="row column first-audio">
+              <div class="row-value">
+                <div class="primary-value">
+                </div>
+              </div>
+            </div>
+
+        </div>
+        <div>
+
+        <ul class="words">
+          <div *ngIf="quizzFinish">
+            <h2> You failed the Quizz for the following words : </h2>
+            <li *ngFor="let word of learningArrayFeedback | slice:0:learningArrayFeedback.length/2; let i = index" >
+              <span class="badge">{{learningArrayFeedback[i]}} :</span><span class="trad"> {{learningArrayFeedback[i+learningArrayFeedback.length/2]}}  </span>
+            </li>
+          </div>
+        </ul>
+      </div>

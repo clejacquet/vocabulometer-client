@@ -1,19 +1,56 @@
 <div [ngClass]="paneClasses">
   <div>
-    <label class="title-text"> RETICULE VISIBLE <input type="checkbox" [(ngModel)]="reticleHandler.value" name="reticule-visible"/></label>
-    <label class="title-text"> SHOWING READ WORDS <input type="checkbox" [ngModel]="readWordsHandler" (ngModelChange)="readModeChanged()" name="read-words-visible"/></label>
+    <label class="debug-button">
+      <input name="reticule-visible" type="checkbox" [(ngModel)]="reticleHandler.value">
+      <span class="debug-button-text">
+      <span class="debug-button-text-title">
+        Reticule {{(reticleHandler.value) ? 'Visible' : 'Hidden'}}
+      </span>
+    </span>
+    </label>
+    <label class="debug-button">
+      <input name="read-words-visible" type="checkbox" [ngModel]="readWordsHandler" (ngModelChange)="readModeChanged()">
+      <span class="debug-button-text">
+      <span class="debug-button-text-title">
+        Read Words {{(readWordsHandler) ? 'Visible' : 'Hidden'}}
+      </span>
+    </span>
+    </label>
   </div>
 
   <div>
-    <label class="debug-mouse-mode-button">
-      <input type="checkbox" [(ngModel)]="mouseModeHandler.value" />
-      <span class="debug-mouse-mode-button-img">
-        <span class="debug-mouse-mode-button-title">
-          Mouse Mode {{(mouseModeHandler.value) ? 'Active' : 'Inactive'}}
+    <label class="debug-button">
+      <input type="checkbox" [(ngModel)]="mouseModeHandler.value">
+      <span class="debug-button-img mouse-mode-img">
+        <span class="debug-button-img-title">
+          Mouse Mode <br> {{(mouseModeHandler.value) ? 'Active' : 'Inactive'}}
+        </span>
+      </span>
+    </label>
+    <label class="debug-button">
+      <input type="checkbox" [(ngModel)]="readingDetectionHandler.value">
+      <span class="debug-button-img reading-detection-img">
+        <span class="debug-button-img-title">
+          Reading Detection <br> {{(readingDetectionHandler.value) ? 'Active' : 'Inactive'}}
         </span>
       </span>
     </label>
   </div>
+  <!--<div>-->
+    <!--<label class="title-text"> RETICULE VISIBLE <input type="checkbox" [(ngModel)]="reticleHandler.value" name="reticule-visible"/></label>-->
+    <!--<label class="title-text"> SHOWING READ WORDS <input type="checkbox" [ngModel]="readWordsHandler" (ngModelChange)="readModeChanged()" name="read-words-visible"/></label>-->
+  <!--</div>-->
+
+  <!--<div>-->
+    <!--<label class="debug-mouse-mode-button">-->
+      <!--<input type="checkbox" [(ngModel)]="mouseModeHandler.value" />-->
+      <!--<span class="debug-mouse-mode-button-img">-->
+        <!--<span class="debug-mouse-mode-button-title">-->
+          <!--Mouse Mode {{(mouseModeHandler.value) ? 'Active' : 'Inactive'}}-->
+        <!--</span>-->
+      <!--</span>-->
+    <!--</label>-->
+  <!--</div>-->
 </div>
 
 <!--<button class="pane-toggle-button">-->
