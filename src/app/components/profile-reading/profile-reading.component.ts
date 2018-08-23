@@ -52,12 +52,27 @@ export class ProfileReadingComponent implements OnInit {
       title: 'Words Read / day',
       data: () => {
         {
-          const data = google.visualization.arrayToDataTable([
-            ['Days', 'Read' ]
+          const dataArray: any[] = [
+            ['Days', 'Read' ],
           ].concat(this.wordsRead.map(day => [
             new Date(day._id),
             day.count
-          ])));
+          ]).filter(item => {
+            return (item[0] > ProfileReadingComponent.substractDaysToDate(new Date(), 15));
+          }));
+
+          const stubs = [
+            [ProfileReadingComponent.substractDaysToDate(new Date(), 15), 0],
+            [new Date(), 0]
+          ].filter((stub: any) => {
+            return dataArray.slice(1).find(((item: any) =>
+                Math.floor(item[0].getTime() / (1000 * 60 * 60 * 24)) ===
+                Math.floor(stub[0].getTime() / (1000 * 60 * 60 * 24)))) === undefined
+          });
+
+          const result = dataArray.concat(stubs);
+
+          const data = google.visualization.arrayToDataTable(result);
 
           const formatter_short = new google.visualization.DateFormat({formatType: 'short'});
           formatter_short.format(data, 0);
@@ -65,17 +80,40 @@ export class ProfileReadingComponent implements OnInit {
           return data;
         }
       },
+      options: {
+        width: '100%',
+        height: 500,
+        hAxis: {
+          viewWindowMode: 'explicit',
+          format: 'MM/dd/yyyy'
+        }
+      }
     },
     newRead: {
       title: 'New Words Read / day',
       data: () => {
         {
-          const data = google.visualization.arrayToDataTable([
-            ['Days', 'Newly Read' ]
+          const dataArray: any[] = [
+            ['Days', 'Read' ],
           ].concat(this.newWordsRead.map(day => [
             new Date(day._id),
             day.count
-          ])));
+          ]).filter(item => {
+            return (item[0] > ProfileReadingComponent.substractDaysToDate(new Date(), 15));
+          }));
+
+          const stubs = [
+            [ProfileReadingComponent.substractDaysToDate(new Date(), 15), 0],
+            [new Date(), 0]
+          ].filter((stub: any) => {
+            return dataArray.slice(1).find(((item: any) =>
+              Math.floor(item[0].getTime() / (1000 * 60 * 60 * 24)) ===
+              Math.floor(stub[0].getTime() / (1000 * 60 * 60 * 24)))) === undefined
+          });
+
+          const result = dataArray.concat(stubs);
+
+          const data = google.visualization.arrayToDataTable(result);
 
           const formatter_short = new google.visualization.DateFormat({formatType: 'short'});
           formatter_short.format(data, 0);
@@ -83,10 +121,24 @@ export class ProfileReadingComponent implements OnInit {
           return data;
         }
       },
+      options: {
+        width: '100%',
+        height: 500,
+        hAxis: {
+          viewWindowMode: 'explicit',
+          format: 'MM/dd/yyyy'
+        }
+      }
     },
   };
 
   mode: string;
+
+  private static substractDaysToDate(date: Date, daysCount: number) {
+    let time = date.getTime();
+    time -= daysCount * 24 * 60 * 60 * 1000;
+    return new Date(time);
+  }
 
   private static getMixColor(color1, color2, blendFactor) {
     return color1.map((_, i) => Math.floor(color1[i] * blendFactor + color2[i] * (1 - blendFactor)));
