@@ -9,7 +9,10 @@
   <app-loader></app-loader>
 </ng-template>
 
-<div id="level-chart-reading"></div>
+<div>
+  <span id="chart-message" *ngIf="MODES[mode] && MODES[mode].message !== undefined">{{MODES[mode].message}}</span>
+  <div id="level-chart-reading"></div>
+</div>
 
 <h2>New Recently Read Words</h2>
 <div *ngIf="newRecentWords; else newRecentWordsLoader">

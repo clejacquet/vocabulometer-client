@@ -8,6 +8,10 @@
   text-align: center;
 }
 
+#profile-graphs {
+  margin-bottom: 20px;
+}
+
 #recent-new-words-read {
   text-align: center;
   margin-top: 32px;

@@ -24,6 +24,8 @@ export class ProfileReadingComponent implements OnInit {
   MODES = {
     known: {
       title: 'Known Words by Reading',
+      message: "Here are displayed the count of words you now know per level, only based on your reading activity. A word is said known " +
+      "after you read them more than 12 times, according to Paul Nation's studies",
       data: () => {
         {
           return google.visualization.arrayToDataTable([
@@ -50,6 +52,7 @@ export class ProfileReadingComponent implements OnInit {
     },
     read: {
       title: 'Words Read / day',
+      message: "Here are displayed the count of words you read each day",
       data: () => {
         {
           const dataArray: any[] = [
@@ -91,6 +94,7 @@ export class ProfileReadingComponent implements OnInit {
     },
     newRead: {
       title: 'New Words Read / day',
+      message: "Here are displayed the count of words you read for the first time each day",
       data: () => {
         {
           const dataArray: any[] = [
